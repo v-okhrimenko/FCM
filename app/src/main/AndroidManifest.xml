@@ -17,37 +17,37 @@
         android:roundIcon="@mipmap/my_app_ico_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".jobRewiev.ForSmenaJobRewiew_new" />
+        <activity android:name=".jobreview.ForSmenaJobReview" />
         <activity
-            android:name=".Add_shift_rate"
+            android:name=".AddShiftRate"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".Add_hour_rate"
+            android:name=".AddHourRate"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".Add_fixed_rate"
+            android:name=".AddFixedRate"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".OldNoFinishActivity" />
-        <activity android:name=".jobRewiev.ForHourJobRewiev" />
-        <activity android:name=".jobRewiev.FixedJobRewiev" />
+        <activity android:name=".jobreview.ForHourJobReview" />
+        <activity android:name=".jobreview.FixedJobReview" />
         <activity android:name=".AddJobActivity_new" />
         <activity
-            android:name=".alarm_activity"
+            android:name=".AlarmActivity"
             android:noHistory="true"
             android:showOnLockScreen="true"
             android:turnScreenOn="true" />
         <activity
-            android:name=".Statistic_activity"
+            android:name=".StatisticActivity"
             android:noHistory="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Settings_activity"
+            android:name=".SettingsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".No_pay_activity"
+            android:name=".NoPayActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Calendar_main_activity"
+            android:name=".CalendarMainActivity"
             android:screenOrientation="portrait" />
 
         <receiver
@@ -55,7 +55,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".Add_work_template_activity"
+            android:name=".AddTemplateActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden"/>
 

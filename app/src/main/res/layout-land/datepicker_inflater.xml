@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="500dp">
 
-        <com.example.fcm.MyCalendar.DatePicker
+        <com.example.fcm.mycalendar.DatePicker
             android:id="@+id/CustomCalendarView"
             android:layout_width="match_parent"
             android:layout_height="500dp"

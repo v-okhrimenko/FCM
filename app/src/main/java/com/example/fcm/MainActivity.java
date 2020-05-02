@@ -781,7 +781,7 @@ public class MainActivity extends AppCompatActivity {
 
                 System.out.println( "TRYUU" );
 
-                startActivity(new Intent(MainActivity.this, Calendar_main_activity.class));
+                startActivity(new Intent(MainActivity.this, CalendarMainActivity.class));
                 overridePendingTransition(0, 0);
                 finish();
             } else {
@@ -909,7 +909,7 @@ public class MainActivity extends AppCompatActivity {
                             if (emailVerified==true) {
 
 
-                                startActivity(new Intent(MainActivity.this, Calendar_main_activity.class));
+                                startActivity(new Intent(MainActivity.this, CalendarMainActivity.class));
                                 overridePendingTransition(0, 0);
                                 finish();
                                 //dialog_1.dismiss();

@@ -2,7 +2,7 @@ package com.example.fcm;
 
 import com.example.fcm.helper.Helper;
 import com.example.fcm.interf.Fdb_interface;
-import com.example.fcm.models.Main_work_new;
+import com.example.fcm.models.MainWork;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -48,7 +48,7 @@ public class FireBase_db implements Fdb_interface {
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 
                         for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                            Main_work_new main_work = documentSnapshot.toObject( Main_work_new.class );
+                            MainWork main_work = documentSnapshot.toObject( MainWork.class );
                             allSumm.add( main_work.getZarabotanoFinal() );
                             sum_noPay = sum_noPay+main_work.getZarabotanoFinal();
                         }

@@ -24,13 +24,13 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.fcm.adapter.Calendar_Work_rv;
+import com.example.fcm.recycleviewadapter.CalendarWorkRv;
 import com.example.fcm.helper.Helper;
-import com.example.fcm.jobRewiev.FixedJobRewiev;
-import com.example.fcm.jobRewiev.ForHourJobRewiev;
-import com.example.fcm.jobRewiev.ForSmenaJobRewiew_new;
-import com.example.fcm.models.InfoToFs;
-import com.example.fcm.models.Main_work_new;
+import com.example.fcm.jobreview.FixedJobReview;
+import com.example.fcm.jobreview.ForHourJobReview;
+import com.example.fcm.jobreview.ForSmenaJobReview;
+import com.example.fcm.models.UserInfoToFirestore;
+import com.example.fcm.models.MainWork;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -71,7 +71,7 @@ public class OldNoFinishActivity extends AppCompatActivity {
 
     DocumentSnapshot ds;
 
-    public static Calendar_Work_rv adapter;
+    public static CalendarWorkRv adapter;
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
@@ -126,8 +126,8 @@ public class OldNoFinishActivity extends AppCompatActivity {
 
                     case  R.id.statistika:
                         item.setChecked( true );
-                        startActivity(new Intent( OldNoFinishActivity.this, Statistic_activity.class));
-                        //customType(Calendar_main_activity.this,"fadein-to-fadeout");
+                        startActivity(new Intent( OldNoFinishActivity.this, StatisticActivity.class));
+                        //customType(CalendarMainActivity.this,"fadein-to-fadeout");
                         overridePendingTransition(0, 0);
                         finish();
                         return true;
@@ -139,16 +139,16 @@ public class OldNoFinishActivity extends AppCompatActivity {
 
                     case  R.id.nastroiki:
                         item.setChecked( true );
-                        startActivity(new Intent( OldNoFinishActivity.this, Settings_activity.class));
-                        //customType(Calendar_main_activity.this,"fadein-to-fadeout");
+                        startActivity(new Intent( OldNoFinishActivity.this, SettingsActivity.class));
+                        //customType(CalendarMainActivity.this,"fadein-to-fadeout");
                         overridePendingTransition(0, 0);
                         finish();
                         return true;
 
                     case  R.id.not_pay:
                         item.setChecked( true );
-                        startActivity(new Intent( OldNoFinishActivity.this, No_pay_activity.class));
-                        //customType(Calendar_main_activity.this,"fadein-to-fadeout");
+                        startActivity(new Intent( OldNoFinishActivity.this, NoPayActivity.class));
+                        //customType(CalendarMainActivity.this,"fadein-to-fadeout");
                         overridePendingTransition(0, 0);
                         finish();
                         return true;
@@ -156,8 +156,8 @@ public class OldNoFinishActivity extends AppCompatActivity {
 
                     case R.id.calendar_work:
                         item.setChecked(true);
-                        startActivity(new Intent( OldNoFinishActivity.this, Calendar_main_activity.class));
-                        //customType(Calendar_main_activity.this,"fadein-to-fadeout");
+                        startActivity(new Intent( OldNoFinishActivity.this, CalendarMainActivity.class));
+                        //customType(CalendarMainActivity.this,"fadein-to-fadeout");
                         overridePendingTransition(0, 0);
                         finish();
                         return true;
@@ -166,15 +166,15 @@ public class OldNoFinishActivity extends AppCompatActivity {
                     case R.id.new_work:
                         item.setChecked(true);
                         startActivity(new Intent( OldNoFinishActivity.this, AddJobActivity_new.class));
-                        //customType(Calendar_main_activity.this,"fadein-to-fadeout");
+                        //customType(CalendarMainActivity.this,"fadein-to-fadeout");
                         overridePendingTransition(0, 0);
                         finish();
                         return true;
 
                     case R.id.add_job:
                         item.setChecked(true);
-                        startActivity(new Intent( OldNoFinishActivity.this, Add_work_template_activity.class));
-//                        customType(Calendar_main_activity.this,"fadein-to-fadeout");
+                        startActivity(new Intent( OldNoFinishActivity.this, AddTemplateActivity.class));
+//                        customType(CalendarMainActivity.this,"fadein-to-fadeout");
                         overridePendingTransition(0, 0);
                         finish();
                         return true;
@@ -183,7 +183,7 @@ public class OldNoFinishActivity extends AppCompatActivity {
                         item.setChecked(true);
                         FirebaseAuth.getInstance().signOut();
                         startActivity(new Intent( OldNoFinishActivity.this, MainActivity.class));
-//                        customType(Calendar_main_activity.this,"fadein-to-fadeout");
+//                        customType(CalendarMainActivity.this,"fadein-to-fadeout");
                         overridePendingTransition(0, 0);
                         finish();
                 }
@@ -232,7 +232,7 @@ public class OldNoFinishActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(View v) {
                                     dialog.dismiss();
-                                    startActivity(new Intent( OldNoFinishActivity.this, Calendar_main_activity.class));
+                                    startActivity(new Intent( OldNoFinishActivity.this, CalendarMainActivity.class));
                                     overridePendingTransition(0, 0);
                                     finish();
 
@@ -309,17 +309,17 @@ public class OldNoFinishActivity extends AppCompatActivity {
                                            @Override
                                            public void onSuccess(DocumentSnapshot documentSnapshot) {
 
-                                               InfoToFs infoToFs = documentSnapshot.toObject( InfoToFs.class );
+                                               UserInfoToFirestore userInfoToFirestore = documentSnapshot.toObject( UserInfoToFirestore.class );
                                                try {
-                                                   if(infoToFs.getNickname() == null || infoToFs.getNickname()=="") {
+                                                   if(userInfoToFirestore.getNickname() == null || userInfoToFirestore.getNickname()=="") {
                                                        navUsername.setText(auth.getCurrentUser().getEmail());
 
                                                    } else {
-                                                       navUsername.setText( infoToFs.getNickname());
+                                                       navUsername.setText( userInfoToFirestore.getNickname());
                                                    }
 
-                                                   if(infoToFs.getImg() != null){
-                                                       final Uri myUri = Uri.parse( infoToFs.getImg() );
+                                                   if(userInfoToFirestore.getImg() != null){
+                                                       final Uri myUri = Uri.parse( userInfoToFirestore.getImg() );
                                                        Picasso.with( OldNoFinishActivity.this ).load( myUri ).into( avatar );
 
                                                    } else {
@@ -327,11 +327,11 @@ public class OldNoFinishActivity extends AppCompatActivity {
                                                    }
 
                                                }catch (Exception e) {
-                                                   InfoToFs infoToFs1 = new InfoToFs();
-                                                   infoToFs1.setNickname( "" );
-                                                   infoToFs1.setMelody( "" );
+                                                   UserInfoToFirestore userInfoToFirestore1 = new UserInfoToFirestore();
+                                                   userInfoToFirestore1.setNickname( "" );
+                                                   userInfoToFirestore1.setMelody( "" );
 
-                                                   noteRef_data.set( infoToFs1 );
+                                                   noteRef_data.set( userInfoToFirestore1 );
                                                }
                                            }
                                        }
@@ -358,7 +358,7 @@ public class OldNoFinishActivity extends AppCompatActivity {
                             noPayEvents.setText( String.valueOf( queryDocumentSnapshots.size() ) );
 
                             for(QueryDocumentSnapshot documentSnapshot: queryDocumentSnapshots) {
-                                Main_work_new main_work = documentSnapshot.toObject( Main_work_new.class );
+                                MainWork main_work = documentSnapshot.toObject( MainWork.class );
                                 allSumm.add( main_work.getZarabotanoFinal() );
                             }
                             sum_noPay=0;
@@ -413,10 +413,10 @@ public class OldNoFinishActivity extends AppCompatActivity {
 
         //Query query2 = noteRef_addWork_Full.whereLessThanOrEqualTo( "date", date_ok  ).orderBy( "date", Query.Direction.ASCENDING );
 
-        FirestoreRecyclerOptions<Main_work_new> options = new FirestoreRecyclerOptions.Builder<Main_work_new>()
-                .setQuery(query, Main_work_new.class)
+        FirestoreRecyclerOptions<MainWork> options = new FirestoreRecyclerOptions.Builder<MainWork>()
+                .setQuery(query, MainWork.class)
                 .build();
-        adapter = new Calendar_Work_rv( options );
+        adapter = new CalendarWorkRv( options );
         adapter.startListening();
         //howMany++;
         //System.out.println(howMany);
@@ -428,12 +428,12 @@ public class OldNoFinishActivity extends AppCompatActivity {
         recyclerView.getAdapter().notifyDataSetChanged();
 
         //recyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener( new Calendar_Work_rv.onItemClickListener() {
+        adapter.setOnItemClickListener( new CalendarWorkRv.onItemClickListener() {
 
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
 
-                Main_work_new main_work = documentSnapshot.toObject( Main_work_new.class );
+                MainWork main_work = documentSnapshot.toObject( MainWork.class );
                 System.out.println(main_work.getUniqId());
 //todo
 
@@ -477,7 +477,7 @@ public class OldNoFinishActivity extends AppCompatActivity {
                 String jobType = main_work.getTempalte_type();
                 switch (jobType){
                     case "fixed":
-                        Intent intent = new Intent(OldNoFinishActivity.this, FixedJobRewiev.class);
+                        Intent intent = new Intent(OldNoFinishActivity.this, FixedJobReview.class);
                         intent.putExtra("uid", uid);
                         intent.putExtra("name", name);
                         intent.putExtra("price", priceFix );
@@ -493,7 +493,7 @@ public class OldNoFinishActivity extends AppCompatActivity {
 
                     case "for smena":
 
-                        Intent intent_forSmena = new Intent(OldNoFinishActivity.this, ForSmenaJobRewiew_new.class);
+                        Intent intent_forSmena = new Intent(OldNoFinishActivity.this, ForSmenaJobReview.class);
 
                         intent_forSmena.putExtra("uid", uid);
                         intent_forSmena.putExtra("name", name);
@@ -518,7 +518,7 @@ public class OldNoFinishActivity extends AppCompatActivity {
                         break;
                     case "for hour":
 
-                        Intent intent_forHour = new Intent(OldNoFinishActivity.this, ForHourJobRewiev.class);
+                        Intent intent_forHour = new Intent(OldNoFinishActivity.this, ForHourJobReview.class);
 
                         intent_forHour.putExtra("uid", uid);
                         intent_forHour.putExtra("name", name);
@@ -578,8 +578,8 @@ public class OldNoFinishActivity extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK ) {
-            startActivity(new Intent( OldNoFinishActivity.this, Calendar_main_activity.class));
-            //customType(No_pay_activity.this,"fadein-to-fadeout");
+            startActivity(new Intent( OldNoFinishActivity.this, CalendarMainActivity.class));
+            //customType(NoPayActivity.this,"fadein-to-fadeout");
             overridePendingTransition(0, 0);
             finish();
             return true;

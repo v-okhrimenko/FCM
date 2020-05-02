@@ -29,9 +29,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fcm.MyValueFormatter;
 import com.example.fcm.R;
-import com.example.fcm.adapter.Statistica_noPay_rv;
+import com.example.fcm.recycleviewadapter.StatisticaNoPayRv;
 import com.example.fcm.helper.Helper;
-import com.example.fcm.models.Main_work_new;
+import com.example.fcm.models.MainWork;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -325,10 +325,10 @@ public class DashboardFragment extends Fragment {
         Query query = noteRef_addWork_Full.whereEqualTo( "status", false ).whereGreaterThanOrEqualTo( "date", date_start ).whereLessThanOrEqualTo( "date", date_end ).orderBy( "date", Query.Direction.DESCENDING );
 
 
-        FirestoreRecyclerOptions<Main_work_new> options = new FirestoreRecyclerOptions.Builder<Main_work_new>()
-                .setQuery(query, Main_work_new.class)
+        FirestoreRecyclerOptions<MainWork> options = new FirestoreRecyclerOptions.Builder<MainWork>()
+                .setQuery(query, MainWork.class)
                 .build();
-        Statistica_noPay_rv adapter = new Statistica_noPay_rv( options );
+        StatisticaNoPayRv adapter = new StatisticaNoPayRv( options );
         rv.setHasFixedSize( true );
         rv.setLayoutManager( new LinearLayoutManager( getContext()) );
         rv.setAdapter( adapter );
@@ -396,7 +396,7 @@ public class DashboardFragment extends Fragment {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         for(QueryDocumentSnapshot documentSnapshot: queryDocumentSnapshots) {
-                            Main_work_new main_work = documentSnapshot.toObject( Main_work_new.class );
+                            MainWork main_work = documentSnapshot.toObject( MainWork.class );
                             if(main_work.getStatus().equals( false )){
                                 float n = main_work.getZarabotanoFinal();
 
@@ -512,7 +512,7 @@ public class DashboardFragment extends Fragment {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         for(QueryDocumentSnapshot documentSnapshot: queryDocumentSnapshots){
-                            Main_work_new main_work = documentSnapshot.toObject( Main_work_new.class );
+                            MainWork main_work = documentSnapshot.toObject( MainWork.class );
                             Locale locale = Resources.getSystem().getConfiguration().locale;
 
                             if ((locale.toLanguageTag().equals(  "ru-RU"  )) || (locale.toLanguageTag().equals(  "ru-UA"  )) ){
@@ -619,7 +619,7 @@ public class DashboardFragment extends Fragment {
                                                        @Override
                                                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                                                            for(QueryDocumentSnapshot documentSnapshot: queryDocumentSnapshots) {
-                                                               Main_work_new main_work = documentSnapshot.toObject( Main_work_new.class );
+                                                               MainWork main_work = documentSnapshot.toObject( MainWork.class );
 //                                System.out.println(main_work.getPrice()+"   "+main_work.getDate().getMonth());
                                                                monthPay.add(main_work.getZarabotanoFinal());
                                                                dayOnWorkYear.add(Float.valueOf( main_work.getZarabotanoFinal() ));
@@ -811,7 +811,7 @@ public class DashboardFragment extends Fragment {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         for(QueryDocumentSnapshot documentSnapshot: queryDocumentSnapshots){
-                            Main_work_new main_work = documentSnapshot.toObject( Main_work_new.class );
+                            MainWork main_work = documentSnapshot.toObject( MainWork.class );
 
                             if(!year_to_choose.contains( (main_work.getDate().getYear())+1900 )){
                                 year_to_choose.add((main_work.getDate().getYear())+1900);

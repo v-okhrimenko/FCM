@@ -23,12 +23,12 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.fcm.Calendar_main_activity;
+import com.example.fcm.CalendarMainActivity;
 import com.example.fcm.NumberPicker;
 import com.example.fcm.R;
-import com.example.fcm.adapter.statistica_rv;
+import com.example.fcm.recycleviewadapter.StatisticaRv;
 import com.example.fcm.helper.Helper;
-import com.example.fcm.models.Main_work_new;
+import com.example.fcm.models.MainWork;
 import com.example.fcm.statistic_ui.statistic_year.DashboardFragment;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -74,7 +74,7 @@ public class HomeFragment extends Fragment {
     String datachek_1, datachek_2;
     Date date_start, date_end;
 
-    private statistica_rv adapter;
+    private StatisticaRv adapter;
 
     //Года в пикер
     private Integer min_year;
@@ -268,7 +268,7 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         for(QueryDocumentSnapshot documentSnapshot: queryDocumentSnapshots){
-                            Main_work_new main_work = documentSnapshot.toObject( Main_work_new.class );
+                            MainWork main_work = documentSnapshot.toObject( MainWork.class );
                             check.add(main_work.getZarabotanoFinal());
 
                         }
@@ -342,7 +342,7 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         for(QueryDocumentSnapshot documentSnapshot: queryDocumentSnapshots) {
-                            Main_work_new main_work = documentSnapshot.toObject( Main_work_new.class );
+                            MainWork main_work = documentSnapshot.toObject( MainWork.class );
 
                             if(main_work.getStatus()==true){
                                 allSumm.add( main_work.getZarabotanoFinal());
@@ -523,7 +523,7 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         for(QueryDocumentSnapshot documentSnapshot: queryDocumentSnapshots) {
-                            Main_work_new main_work = documentSnapshot.toObject( Main_work_new.class );
+                            MainWork main_work = documentSnapshot.toObject( MainWork.class );
 
 
 
@@ -577,10 +577,10 @@ public class HomeFragment extends Fragment {
     private void rv2(Date date_start, Date date_end) {
 
         Query query = noteRef_addWork_Full.whereGreaterThanOrEqualTo( "date", date_start ).whereLessThanOrEqualTo( "date", date_end ).orderBy( "date", Query.Direction.ASCENDING );
-        FirestoreRecyclerOptions<Main_work_new> options = new FirestoreRecyclerOptions.Builder<Main_work_new>()
-                .setQuery(query, Main_work_new.class)
+        FirestoreRecyclerOptions<MainWork> options = new FirestoreRecyclerOptions.Builder<MainWork>()
+                .setQuery(query, MainWork.class)
                 .build();
-        adapter = new statistica_rv( options );
+        adapter = new StatisticaRv( options );
         RecyclerView recyclerView = (RecyclerView) root.findViewById(R.id.month_year_rv_id);
         recyclerView.setHasFixedSize( true );
         recyclerView.setLayoutManager( new LinearLayoutManager( getContext() ) );
@@ -615,14 +615,14 @@ public class HomeFragment extends Fragment {
 //                        String id___ = adapter.get_id( position );
 //                        System.out.println("id1: " + id___ );
 //                        alarmManager = (AlarmManager) getBaseContext().getSystemService(ALARM_SERVICE);
-//                        Intent my_intent = new Intent(Calendar_main_activity.this, AlarmResiver.class);
+//                        Intent my_intent = new Intent(CalendarMainActivity.this, AlarmResiver.class);
 //                        my_intent.putExtra( "jobId", id___);
 //                        Integer uniqId = adapter.getItem( position ).getUniqId();
-//                        pendingIntent = pendingIntent.getBroadcast( Calendar_main_activity.this, uniqId, my_intent, PendingIntent.FLAG_UPDATE_CURRENT );
+//                        pendingIntent = pendingIntent.getBroadcast( CalendarMainActivity.this, uniqId, my_intent, PendingIntent.FLAG_UPDATE_CURRENT );
 ////                                alarmManager.set(AlarmManager.RTC_WAKEUP, c1.getTimeInMillis(), pendingIntent);
 //                        alarmManager.cancel(pendingIntent);
 ////
-//                        Toast.makeText( Calendar_main_activity.this,getString( R.string.AlarmCancel ),Toast.LENGTH_SHORT ).show();
+//                        Toast.makeText( CalendarMainActivity.this,getString( R.string.AlarmCancel ),Toast.LENGTH_SHORT ).show();
                         adapter.notifyDataSetChanged();
                         recyclerView.setAdapter(adapter);
 
@@ -693,7 +693,7 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         for(QueryDocumentSnapshot documentSnapshot: queryDocumentSnapshots) {
-                            Main_work_new main_work = documentSnapshot.toObject( Main_work_new.class );
+                            MainWork main_work = documentSnapshot.toObject( MainWork.class );
                             allSumm.add( main_work.getZarabotanoFinal());
 
                         }
@@ -727,7 +727,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void undo(int position) {
-        Main_work_new main_work = new Main_work_new();
+        MainWork main_work = new MainWork();
         main_work.setName(name_ud);
         main_work.setZarabotanoFinal(price_ud);
         main_work.setDiscription(desc_ud);
@@ -855,7 +855,7 @@ public class HomeFragment extends Fragment {
 
 
 
-                            Main_work_new main_work = documentSnapshot.toObject( Main_work_new.class );
+                            MainWork main_work = documentSnapshot.toObject( MainWork.class );
 
                             //System.out.println( "___" + main_work.getDate() );
 
@@ -895,7 +895,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                startActivity(new Intent( getContext(), Calendar_main_activity.class));
+                startActivity(new Intent( getContext(), CalendarMainActivity.class));
                 dialog.dismiss();
                 getActivity().getFragmentManager().popBackStack();
 

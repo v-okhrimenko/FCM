@@ -7,7 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.example.fcm.helper.Helper;
-import com.example.fcm.models.Main_work_new;
+import com.example.fcm.models.MainWork;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -57,7 +57,7 @@ public class StartActivityOnBootReciver extends BroadcastReceiver {
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 
                 for (QueryDocumentSnapshot ds:queryDocumentSnapshots){
-                    Main_work_new main_work = ds.toObject( Main_work_new.class );
+                    MainWork main_work = ds.toObject( MainWork.class );
                     request++;
 
                     if (main_work.getAlarm1()==null){

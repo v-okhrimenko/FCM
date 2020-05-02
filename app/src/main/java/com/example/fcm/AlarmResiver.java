@@ -13,7 +13,7 @@ public class AlarmResiver extends BroadcastReceiver {
         String message = intent.getStringExtra( "jobId" );
 //        System.out.println( "JobId   "+message );
 
-        Intent scheduledIntent = new Intent(context, alarm_activity.class);
+        Intent scheduledIntent = new Intent(context, AlarmActivity.class);
 
         scheduledIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         scheduledIntent.putExtra( "jobId", message );

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
 
     android:background="#D6D6D6"
-    tools:context=".jobRewiev.FixedJobRewiev">
+    tools:context=".jobreview.FixedJobReview">
 
     <LinearLayout
         android:id="@+id/linearLayout12"

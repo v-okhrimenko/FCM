@@ -8,7 +8,7 @@
     android:layout_width="match_parent"
     android:background="#D2FFFFFF"
     android:layout_height="match_parent"
-    tools:context=".Calendar_main_activity"
+    tools:context=".CalendarMainActivity"
     android:id="@+id/Drawer_layo"
     android:fitsSystemWindows="true">
 
@@ -18,7 +18,7 @@
         android:layout_height="match_parent"
         android:background="#FFFFFF">
 
-        <com.example.fcm.MyCalendar.CalendarView
+        <com.example.fcm.mycalendar.CalendarView
             android:id="@+id/mainCalendarView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-        </com.example.fcm.MyCalendar.CalendarView>
+        </com.example.fcm.mycalendar.CalendarView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_template"
