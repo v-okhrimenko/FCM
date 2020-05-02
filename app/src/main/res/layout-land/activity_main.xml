@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootelement"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    tools:context=".MainActivity"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <TextView
+        android:id="@+id/prog_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="sans-serif-condensed"
+        android:text="@string/freelance_cameraman"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/botom_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:text="@string/botton_label"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+
+        android:layout_marginTop="24dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/prog_name">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="422dp"
+            android:layout_height="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:textColorHint="#FFFFFF"
+            app:hintTextColor="#FFFFFF">
+
+            <com.google.android.material.textfield.TextInputEditText
+
+                android:id="@+id/signInEmail"
+                android:layout_width="408dp"
+                android:layout_height="49dp"
+                android:focusable="auto"
+                android:hint="@string/signIn_string"
+                android:inputType="textEmailAddress"
+                android:textColor="#FFFFFF" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="422dp"
+            android:layout_height="match_parent"
+            android:textColorHint="#FFFFFF"
+            app:endIconMode="password_toggle"
+            app:hintTextColor="#FFFFFF">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/signInPass"
+                android:layout_width="408dp"
+                android:layout_height="49dp"
+                android:focusable="auto"
+                android:hint="@string/enter_you_password_field"
+                android:inputType="textPassword"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#FFFFFF" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--        <EditText-->
+        <!--            android:id="@+id/signInPass"-->
+
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+
+
+        <!--            android:ems="10"-->
+        <!--            android:inputType="textPassword" />-->
+
+        <!--        <android.support.design.widget.TextInputLayout-->
+        <!--            android:id="@+id/etPasswordLayout"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginBottom="@dimen/login_spacing_bottom"-->
+        <!--            app:passwordToggleEnabled="true">-->
+
+        <!--            <android.support.design.widget.TextInputEditText-->
+        <!--                android:id="@+id/etPassword"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:hint="@string/fragment_login_password_hint"-->
+        <!--                android:inputType="textPassword" />-->
+        <!--        </android.support.design.widget.TextInputLayout>-->
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout6"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.14"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+
+        <Button
+            android:id="@+id/btn_enter"
+            android:layout_width="408dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="6dp"
+            android:layout_weight="1"
+            android:backgroundTint="#438D25"
+            android:text="@string/btn_enter"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/btnlostpass"
+            style="@android:style/Widget.DeviceDefault.Button.Borderless.Small"
+            android:layout_width="274dp"
+            android:layout_height="wrap_content"
+            android:text="@string/lost_pass"
+            android:textColor="#D67979"
+            android:textSize="14sp"
+            android:textStyle="normal|bold" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_registration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="47dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="32dp"
+        android:layout_weight="1"
+        android:backgroundTint="#A3B84141"
+        android:text="@string/btn_registration"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/botom_text"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout6"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout6"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout6" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.fcm">
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.google.android.apps.photos.permission.GOOGLE_PHOTOS" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/my_app_ico"
+        android:label="TimeCheck"
+        android:roundIcon="@mipmap/my_app_ico_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".jobRewiev.ForSmenaJobRewiew_new" />
+        <activity
+            android:name=".Add_shift_rate"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".Add_hour_rate"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".Add_fixed_rate"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity android:name=".OldNoFinishActivity" />
+        <activity android:name=".jobRewiev.ForHourJobRewiev" />
+        <activity android:name=".jobRewiev.FixedJobRewiev" />
+        <activity android:name=".AddJobActivity_new" />
+        <activity
+            android:name=".alarm_activity"
+            android:noHistory="true"
+            android:showOnLockScreen="true"
+            android:turnScreenOn="true" />
+        <activity
+            android:name=".Statistic_activity"
+            android:noHistory="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Settings_activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".No_pay_activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Calendar_main_activity"
+            android:screenOrientation="portrait" />
+
+        <receiver
+            android:name=".AlarmResiver"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".Add_work_template_activity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <receiver android:name=".StartActivityOnBootReciver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+            </intent-filter>
+        </receiver>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+    </application>
+
+</manifest>

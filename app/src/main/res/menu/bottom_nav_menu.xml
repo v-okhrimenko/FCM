@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_month"
+        android:icon="@drawable/timecheck_month"
+        android:title="@string/month" />
+
+
+    <item
+        android:id="@+id/navigation_year"
+        android:icon="@drawable/timecheck_year"
+        android:title="@string/year" />
+
+    <item
+        android:id="@+id/navigation_projects"
+
+        android:icon="@drawable/templates"
+        android:iconTint="@color/today"
+        android:title="@string/projects" />
+
+</menu>

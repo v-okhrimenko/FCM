@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <item
+            android:id="@+id/calendar_work"
+            android:title="@string/Calendar_menu"
+            android:icon="@drawable/timecheck_year"
+
+            />
+
+        <item
+            android:id="@+id/need_finish"
+            android:icon="@drawable/ic_infoalert"
+            app:actionViewClass="android.widget.TextView"
+            android:title="@string/Need_finish"
+
+            />
+
+        <item
+            android:id="@+id/not_pay"
+            app:actionViewClass="android.widget.TextView"
+            android:title="@string/no_pay_menu"
+            android:icon="@drawable/no_money"/>
+
+        <item
+            android:id="@+id/new_work"
+            android:title="@string/add_job_menu"
+            android:icon="@drawable/add_new_job"/>
+
+        <item
+            android:id="@+id/add_job"
+            android:title="@string/add_template_menu"
+            android:icon="@drawable/templates"/>
+
+
+        <item
+            android:id="@+id/statistika"
+            android:title="@string/statistics_menu"
+            android:icon="@drawable/statistika_24dp"/>
+
+
+        <item
+            android:id="@+id/nastroiki"
+            android:title="@string/Settings_menu"
+            android:icon="@drawable/settings_24dp"/>
+
+
+        <item
+            android:id="@+id/exit_to_login"
+            android:title="@string/logout_meno"
+            android:icon="@drawable/exit"/>
+
+
+
+</menu>

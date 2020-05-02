@@ -1,0 +1,222 @@
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddJobActivity"
+    android:id="@+id/Drawer_layo"
+    android:background="#E9E5E5"
+    android:fitsSystemWindows="true"
+    >
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="0dp"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_image_nastroiki"
+                android:layout_width="105dp"
+                android:layout_height="105dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/ic_account_circle_black_200dp"
+                app:civ_border_color="#FFFFFF"
+                app:civ_border_width="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/btn_clear_all_data_from_firestore"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/button_ok_blue_ripple"
+                android:backgroundTint="#E53935"
+                android:text="@string/clear_base"
+                android:textColor="#FFFFFF"
+                app:layout_constraintEnd_toEndOf="@+id/btn_change_pass"
+                app:layout_constraintStart_toStartOf="@+id/btn_change_pass"
+                app:layout_constraintTop_toBottomOf="@+id/btn_change_pass" />
+
+            <Button
+                android:id="@+id/btn_change_pass"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button_ok_blue_ripple"
+                android:text="@string/change_pass"
+                android:textColor="#FFFFFF"
+                app:layout_constraintEnd_toEndOf="@+id/btn_melody"
+                app:layout_constraintStart_toStartOf="@+id/btn_melody"
+                app:layout_constraintTop_toBottomOf="@+id/btn_melody" />
+
+            <Button
+                android:id="@+id/textView_change_avatar"
+                style="@style/TextAppearance.MaterialComponents.Button"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="60dp"
+                android:layout_marginRight="16dp"
+                android:background="@drawable/button_ok_blue_ripple"
+                android:clickable="true"
+                android:paddingStart="10dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="10dp"
+                android:text="@string/Change_avatar"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/customAvatarName" />
+
+            <Button
+                android:id="@+id/btn_melody"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button_ok_blue_ripple"
+                android:paddingLeft="10dp"
+                android:paddingTop="10dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="10dp"
+                android:text="@string/reminder_ringtone"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@+id/btn_CustomName"
+                app:layout_constraintStart_toStartOf="@+id/btn_CustomName"
+                app:layout_constraintTop_toBottomOf="@+id/btn_CustomName" />
+
+            <Button
+                android:id="@+id/btn_CustomName"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button_ok_blue_ripple"
+                android:paddingLeft="10dp"
+                android:paddingTop="10dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="10dp"
+                android:text="@string/enter_a_nickname"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@+id/textView_change_avatar"
+                app:layout_constraintStart_toStartOf="@+id/textView_change_avatar"
+                app:layout_constraintTop_toBottomOf="@+id/textView_change_avatar" />
+
+            <TextView
+                android:id="@+id/tv_alarmName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="#1E88E5"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="@+id/textView24"
+                app:layout_constraintTop_toBottomOf="@+id/textView24" />
+
+            <TextView
+                android:id="@+id/textView17"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="TimeCheck"
+                android:textSize="42sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView19"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Settings_menu"
+                android:textColor="#1E88E5"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/textView17"
+                app:layout_constraintTop_toTopOf="@+id/guideline9" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="58dp" />
+
+            <ImageButton
+                android:id="@+id/ib_play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:background="@color/clear"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_alarmName"
+                app:layout_constraintStart_toEndOf="@+id/tv_alarmName"
+                app:layout_constraintTop_toTopOf="@+id/tv_alarmName" />
+
+            <TextView
+                android:id="@+id/tvAvatarName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="t.shevchenko@gmail.com"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/textView17"
+                app:layout_constraintTop_toTopOf="@+id/textView17" />
+
+            <TextView
+                android:id="@+id/customAvatarName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textAlignment="center"
+                android:textColor="#585656"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/profile_image_nastroiki"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/profile_image_nastroiki"
+                app:layout_constraintTop_toBottomOf="@+id/profile_image_nastroiki" />
+
+            <TextView
+                android:id="@+id/textView24"
+                android:layout_width="134dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/selected_melody"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/btn_change_pass"
+                app:layout_constraintTop_toBottomOf="@+id/textView19" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </LinearLayout>
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/navigationView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="#2A3553"
+            app:headerLayout="@layout/header_layout"
+            app:itemIconTint="#ffffff"
+            app:itemTextColor="#ffffff"
+            app:menu="@menu/drawer_menu" />
+
+
+</androidx.drawerlayout.widget.DrawerLayout>

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootelement"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/textView44"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="TimeCheck"
+        android:textSize="42sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <Button
+        android:id="@+id/btn_enter"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="16dp"
+        android:layout_weight="1"
+        android:background="@drawable/button_ok_blue_ripple"
+        android:backgroundTint="#43A047"
+        android:gravity="center"
+        android:text="@string/btn_enter"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="16dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView44">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="#1E88E5"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:textColorHint="#1E88E5"
+            app:hintTextColor="#1E88E5"
+            app:passwordToggleTint="#1E88E5">
+
+            <com.google.android.material.textfield.TextInputEditText
+
+                android:id="@+id/signInEmail"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:focusable="auto"
+                android:hint="@string/signIn_string"
+                android:inputType="textEmailAddress"
+                android:textColor="#606060"
+                android:textColorHighlight="#1E88E5"
+                android:textColorLink="#1E88E5"
+                android:textStyle="bold" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:backgroundTint="#1E88E5"
+            android:textColorHint="#1E88E5"
+            app:boxStrokeColor="#00FFFFFF"
+            app:endIconMode="password_toggle"
+            app:endIconTint="#1E88E5"
+            app:hintTextColor="#1E88E5"
+            app:passwordToggleTint="#1E88E5"
+            app:startIconTint="#1E88E5">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/signInPass"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:focusable="auto"
+                android:hint="@string/enter_you_password_field"
+                android:inputType="textPassword"
+                android:textColor="#606060"
+                android:textColorHint="@color/white"
+                android:textStyle="bold" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!--        <EditText-->
+        <!--            android:id="@+id/signInPass"-->
+
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+
+
+        <!--            android:ems="10"-->
+        <!--            android:inputType="textPassword" />-->
+
+        <!--        <android.support.design.widget.TextInputLayout-->
+        <!--            android:id="@+id/etPasswordLayout"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginBottom="@dimen/login_spacing_bottom"-->
+        <!--            app:passwordToggleEnabled="true">-->
+
+        <!--            <android.support.design.widget.TextInputEditText-->
+        <!--                android:id="@+id/etPassword"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:hint="@string/fragment_login_password_hint"-->
+        <!--                android:inputType="textPassword" />-->
+        <!--        </android.support.design.widget.TextInputLayout>-->
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/botom_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="2dp"
+            android:text="@string/sign_in_or_reg"
+            android:textAllCaps="true"
+            android:textColor="@color/text_gray"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/textView45"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:clickable="true"
+            android:text="@string/Sign_up"
+            android:textAllCaps="true"
+            android:textColor="@color/red_lite"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_problem_enter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/lost_pass"
+        android:textColor="@color/red_lite"
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toEndOf="@+id/btn_enter"
+        app:layout_constraintTop_toBottomOf="@+id/btn_enter" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

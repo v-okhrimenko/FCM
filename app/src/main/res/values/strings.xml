@@ -1,0 +1,256 @@
+<resources>
+    <string name="app_name">FCM</string>
+    <string name="freelance_cameraman">Freelance Cameraman</string>
+    <string name="botton_label">Sign in or</string>
+    <string name="btn_enter">Sign in</string>
+    <string name="btn_registration">Registration</string>
+    <string name="set_mail_alert">"Please, add "</string>
+    <string name="enter_you_password_field">Enter you password</string>
+    <string name="signIn_string">E-mail</string>
+    <string name="lost_pass">forgot password</string>
+    <string name="Job_name_string">Job name</string>
+    <string name="job_price_string">Job price</string>
+    <string name="job_add_string">Add job</string>
+    <string name="job_name_string">Name</string>
+    <string name="job_price_id">Price</string>
+    <string name="add_string">Add</string>
+    <string name="cancel_string">CANCEL</string>
+    <string name="delete">Delete</string>
+
+
+    <string name="material_calendar_monday">M</string>
+    <string name="material_calendar_tuesday">T</string>
+    <string name="material_calendar_wednesday">W</string>
+    <string name="material_calendar_thursday">T</string>
+    <string name="material_calendar_friday">F</string>
+    <string name="material_calendar_saturday">S</string>
+    <string name="material_calendar_sunday">S</string>
+
+    <string name="December">December</string>
+    <string name="January">January</string>
+    <string name="February">February</string>
+    <string name="March">March</string>
+    <string name="April">April</string>
+    <string name="May">May</string>
+    <string name="June">June</string>
+    <string name="July">July</string>
+    <string name="August">August</string>
+    <string name="September">September</string>
+    <string name="October">October</string>
+    <string name="November">November</string>
+
+
+    <string name="UNDO">UNDO</string>
+    <string name="Itemdeleted">Item deleted</string>
+    <string name="Itempayd">Item Paid successfully</string>
+
+
+    <array name="material_calendar_months_array">
+        <item>@string/January</item>
+        <item>@string/February</item>
+        <item>@string/March</item>
+        <item>@string/April</item>
+        <item>@string/May</item>
+        <item>@string/June</item>
+        <item>@string/July</item>
+        <item>@string/August</item>
+        <item>@string/September</item>
+        <item>@string/October</item>
+        <item>@string/November</item>
+        <item>@string/December</item>
+
+    </array>
+
+    <string name="material_calendar_today_button"> </string>
+    <string name="material_calendar_positive_button">OK</string>
+    <string name="material_calendar_negative_button">Cancel</string>
+    <string name="description">Description</string>
+    <string name="payd_ChBox">Paid</string>
+    <string name="Calendar_menu">Calendar</string>
+    <string name="no_pay_menu">Not paid</string>
+    <string name="add_job_menu">New work</string>
+    <string name="add_template_menu">Templates</string>
+    <string name="statistics_menu">Statistics</string>
+    <string name="Settings_menu">Settings</string>
+    <string name="logout_meno">Log out</string>
+    <string name="ne_oplacheno_summa">Total not paid</string>
+    <string name="UNDO_PAY">Undo PAY</string>
+    <string name="Change_avatar">Change avatar</string>
+    <string name="needPermission">you must provide permissions to access files</string>
+    <string name="avatarAddd">Your avatar is save</string>
+    <string name="avatarNoAdd">Your avatar is not save</string>
+    <string name="title_activity_statistica">StatisticaActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="zarabotano">Earned</string>
+    <string name="oplacheno">Paid out</string>
+    <string name="neoplacheno">Not paid</string>
+    <string name="сhoose_year">Сhoose year</string>
+    <string name="cancel">Cancel</string>
+    <string name="month">Мonth</string>
+    <string name="year">Year</string>
+    <string name="projects">Projects</string>
+    <string name="сhoose_month_and_year">Choose month and year</string>
+    <string name="total_earned">Total earned</string>
+    <string name="days_worked">Days worked</string>
+    <string name="Earned_for_the_year">Earned for the year</string>
+    <string name="Payout">Payout</string>
+    <string name="Not_paid">Not paid</string>
+    <string name="Days_worked">Days worked</string>
+    <string name="Maximum_days">Maximum days</string>
+    <string name="Minimum_days">Minimum days</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="year_data_not_avialable">Data for this year is not yet available.</string>
+    <string name="month_data_not_avialable">So far, there is nothing ...</string>
+    <string name="off">OFF</string>
+    <string name="set">SET</string>
+    <string name="set_a_reminder">Set a reminder</string>
+    <string name="set_time">Set time</string>
+    <string name="AlarmNoSet">Reminder not set</string>
+    <string name="AlarmCancel">Reminder canceled</string>
+    <string name="AlarmSetTo">The alarm is set to:</string>
+    <string name="Choose_date">Choose a date</string>
+    <string name="polya_ne_zapolneny">Fill in all the fields and select a date, or several dates ...</string>
+    <string name="MO">MO</string>
+    <string name="TU">TU</string>
+    <string name="WE">WE</string>
+    <string name="TH">TH</string>
+    <string name="FR">FR</string>
+    <string name="SA">SA</string>
+    <string name="SU">SU</string>
+    <string name="no_avatar_name">Fill name field</string>
+    <string name="enter_a_nickname">Nickname</string>
+    <string name="reminder_ringtone">Choose a reminder ringtone</string>
+    <string name="selected_melody">Selected melody</string>
+    <string name="no_statistick_alert">Statistics are not yet available. Add events to generate data.</string>
+    <string name="new_password_confirm">New password confirm</string>
+    <string name="new_password">New password</string>
+    <string name="change_pass">Change password</string>
+    <string name="old_pass">Current password</string>
+    <string name="somsing_wrong">Something went wrong. Please try again later</string>
+    <string name="password_successfully_modified">Password Successfully Modified</string>
+    <string name="authentication_failed">Authentication Failed</string>
+    <string name="six_charester">At least 6 characters</string>
+    <string name="enter_current_password">Enter current password</string>
+    <string name="enter_new_password">confirm new password</string>
+    <string name="confirm_delete_info">Are you sure you want to delete all entries in the database? After deletion, all your data (except for the account and avatar) will be deleted without the possibility of recovery!</string>
+    <string name="I_agree">I agree</string>
+    <string name="delete_account">Clear database</string>
+    <string name="clear_base">clear base</string>
+    <string name="clear">clear</string>
+    <string name="database_cleared">Database cleared</string>
+    <string name="Congratulations">Congratulations!</string>
+    <string name="no_no_pay_info">At the moment, everyone has paid you. Come back later.</string>
+    <string name="select">Select</string>
+    <string name="Statistics">Statistics</string>
+    <string name="add_name_of_job">add job name</string>
+    <string name="saved_successfully">saved successfully</string>
+    <string name="Your_email">Your email</string>
+    <string name="Enter_your_password">Enter your password</string>
+    <string name="repeat_password">Retype your password</string>
+    <string name="email_is_not_correct">Email is not correct</string>
+    <string name="Passwords_do_not_match">Passwords do not match</string>
+    <string name="no_spase_us_in_password">Do not use spaces</string>
+    <string name="user_add_mail_send">User added successfully. Activation letter sent to your e-mail</string>
+    <string name="User_with_such_an_email_exists">User with this E-mail already exists!</string>
+    <string name="avatar_add">Avatar saved successfully</string>
+    <string name="Enter_your_email_and_password">Enter your e-mail and password</string>
+    <string name="send">Send</string>
+    <string name="resend_activation">resend activation?</string>
+    <string name="enter_">Enter...</string>
+    <string name="new_pass_send">New password has been sent to you mail</string>
+    <string name="email_with_a_activation_sent_email">E-mail with a activation link was sent to your e-mail</string>
+    <string name="sign_in_or_reg">Sign in or</string>
+    <string name="Sign_up">sign up</string>
+    <string name="Submit">Submit</string>
+    <string name="Send_new_password">Send new password</string>
+    <string name="No_such_account">This account does not exist</string>
+    <string name="Password_reset_link_sent">Password reset link sent to your email</string>
+    <string name="In_the_process">In the process...</string>
+    <string name="Not_activated_title">Need activation</string>
+    <string name="need_activation_text">To enter, you need to activate your account. Earlier a letter was sent to your mail with a link for activation. If you have not received the letter, you can request an activation letter again</string>
+    <string name="_Continue">Сontinue</string>
+
+    <string-array name="currency">
+        <item>грн</item>
+        <item>usd</item>
+        <item>eur</item>
+        <item>руб</item>
+    </string-array>
+    <string name="for_hour">hourly rate</string>
+    <string name="posmennyu_rate">shift rate</string>
+    <string name="fixed_rate">fixed rate</string>
+    <string name="hour_txt">hour</string>
+    <string name="add_new_template">Add new template</string>
+    <string name="Currency">Currency</string>
+    <string name="Duration">Duration</string>
+    <string name="Overtime_for_hour">Overtime (% for hour)</string>
+    <string name="overtime_discription">% of the cost of shift work</string>
+    <string name="hourly_tarif">Hourly (cost per hour)</string>
+    <string name="Fixed_cos_">Fixed (cost)</string>
+    <string name="Shift_cost_per_shift">Shift (cost per shift)</string>
+    <string name="template_name_is_presetnt">This name is already used in templates. All data of an existing template (including template type) will be replaced with the current data! Update present template data or change name?</string>
+    <string name="update">update</string>
+    <string name="сhange_name">Change name</string>
+    <string name="Edit_template">Edit template</string>
+    <string name="Add_a_date">Add a date</string>
+    <string name="No_Dates_sekected">No dates were selected for the event. Add one or more dates!</string>
+    <string name="hour_stoimost">Cost per hour</string>
+    <string name="Start">Start</string>
+    <string name="Stop">Stop</string>
+    <string name="Start_time">Start time</string>
+    <string name="End_time">End time</string>
+    <string name="Set_your_start_time">Set your start time</string>
+    <string name="Set_your_end_time">Set your end time</string>
+    <string name="Hours">Hours</string>
+    <string name="Minutes">Minutes</string>
+    <string name="Seconds">Seconds</string>
+    <string name="Need_finish">Incomplete events</string>
+    <string name="no_correct_end_time">The end time of an event cannot be earlier than the start time. Set the correct time!</string>
+    <string name="no_correct_start_time">The start time of an event cannot be later than the end time. Set the correct time!</string>
+    <string name="Incorrect_time">Incorrect time</string>
+    <string name="Rounding_minutes">Rounding minutes</string>
+    <string name="how_many_minutes">how many minutes</string>
+    <string name="Delete_start_time">Delete start time?</string>
+    <string name="Delete_start_time_txt">By deleting the start time, you will also delete the end time (if set). Are you sure you want to delete the start time?</string>
+    <string name="Shift_cost">Shift cost</string>
+    <string name="Rounding">Rounding</string>
+    <string name="Rounded_info_shapka">Specify up to how many minutes to round off an incomplete hour (from 0 to 59)</string>
+    <string name="Rounded_info_bl1">If you specify 0, then rounding will occur up to an hour, that is, no matter how long you work for more than 1 minute, it will be rounded up to 60 minutes (full hour)</string>
+    <string name="Rounded_info_bl2">If you specify 1, then every minute worked in an hour will be considered (actually a per-minute payment)</string>
+    <string name="Rounded_info_bl3">For example, rounding is 30 minutes, and it was worked out for 14 minutes - then the result will be rounded to 0. And if it is worked for 15 minutes, then it will be rounded up to 30 minutes</string>
+    <string name="Rounded_info_bl4">25 minutes -> 30; 44 minutes -> 30; 45 minutes -> 60</string>
+    <string name="Half_shft_less_txt">Half shifts less</string>
+    <string name="hours_small_caps">hours</string>
+    <string name="save_template">Save template</string>
+    <string name="Templates">Templates</string>
+    <string name="overtime">Overtime</string>
+    <string name="H">hr</string>
+    <string name="M">m</string>
+    <string name="left">Left</string>
+    <string name="otrabotano">Contributed</string>
+    <string name="Duration_of_half_shift_is_incorrect">Half shift</string>
+    <string name="Duration_half_shift_txt">The duration of half a shift cannot be longer than the duration of the shift</string>
+    <string name="Half_shift_is_null">Indicate less how many hours worked will be considered half shift</string>
+    <string name="overtime_info_shapka1">Enter % of the cost of the shift</string>
+    <string name="overtime_info_txt1">The cost of each subsequent hour after the end of the hours in the shift will be calculated based on % of the cost of the shift</string>
+    <string name="overtime_info_txt2">If you specify% - 0, overtime will not be considered</string>
+    <string name="for_example">For example:</string>
+    <string name="overtime_info_txt3">After 10 hours (at 18-00) you will earn 100. At the end of all work, + 3 hours and 45 minutes of overtime (21-45). Overtime hours cost 5 (5% of 100). 3 hours of overtime multiplied by 5 = 15. There is still 45 minutes left (depending on rounding) - let\'s say we round up to 1 minute. The cost of a minute is 5/60 = 0.08. The remaining minutes (45 times 0.08 = 3.6). Total: earned 118.60 (100 + 15 + 3.60)</string>
+    <string name="overtime_info_txt4">The calculations are approximate, a slight error in copecks is possible</string>
+    <string name="overtime_info_txt5">The cost of a shift is 100. The duration of a shift is 10 hours, overtime 5%. Rounding is 1 minute. Start of work at 08-00, ending at 21-45</string>
+    <string name="template_name_already_exits_txt">This name is already used in templates. Choose a different name.</string>
+    <string name="rate_opysanie_hour">The cost of an hour is taken into account. Possibility to set rounding (for incomplete hour)</string>
+    <string name="rate_opysnie_fixed">Fixed cost of work is taken into account regardless of the time spent</string>
+    <string name="rate_opysanie_shift">The cost and duration of the shift are taken into account. The ability to set the percentage of processing (% of the cost of a shift), set the time for half a shift. It is also possible to set the rounding of an incomplete hour</string>
+    <string name="No_templates">No templates</string>
+    <string name="No_templates_txt">You have not added any templates at this time. You can add a template in the menu - Templates, or when creating an event, specify \"Save as template\"</string>
+    <string name="Incomplete_events">Incomplete events</string>
+    <string name="Incompleate_events_txt">You currently do not have any unfinished events</string>
+
+
+</resources>
+

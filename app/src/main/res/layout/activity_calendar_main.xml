@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="#D2FFFFFF"
+    android:layout_height="match_parent"
+    tools:context=".Calendar_main_activity"
+    android:id="@+id/Drawer_layo"
+    android:fitsSystemWindows="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF">
+
+        <com.example.fcm.MyCalendar.CalendarView
+            android:id="@+id/mainCalendarView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </com.example.fcm.MyCalendar.CalendarView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_template"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginBottom="16dp"
+            android:background="#FFFFFF"
+            android:clickable="true"
+            android:elevation="10dp"
+            app:backgroundTint="#C0CA33"
+            app:elevation="10dp"
+            app:fabSize="mini"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/fab4"
+            app:layout_constraintStart_toStartOf="@+id/fab4"
+            app:layout_constraintTop_toTopOf="@+id/fab4"
+            app:maxImageSize="20dp"
+            app:srcCompat="@drawable/templates" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginBottom="16dp"
+            android:background="#FFFFFF"
+            android:clickable="true"
+            android:elevation="10dp"
+            app:backgroundTint="#FF1560A1"
+            app:elevation="10dp"
+            app:fabSize="mini"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/fab4"
+            app:layout_constraintStart_toStartOf="@+id/fab4"
+            app:layout_constraintTop_toTopOf="@+id/fab4"
+            app:maxImageSize="20dp"
+            app:srcCompat="@drawable/infinity" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:background="#FFFFFF"
+            android:clickable="true"
+            android:elevation="10dp"
+            app:backgroundTint="#FF1560A1"
+            app:elevation="10dp"
+            app:fabSize="mini"
+            app:layout_constraintBottom_toBottomOf="@+id/fab1"
+            app:layout_constraintEnd_toEndOf="@+id/fab1"
+            app:layout_constraintStart_toStartOf="@+id/fab1"
+            app:layout_constraintTop_toTopOf="@+id/fab1"
+            app:maxImageSize="20dp"
+            app:srcCompat="@drawable/for_hour_fill" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:background="#FFFFFF"
+            android:clickable="true"
+            android:elevation="10dp"
+            app:backgroundTint="#1560A1"
+            app:elevation="10dp"
+            app:fabSize="mini"
+            app:layout_constraintEnd_toEndOf="@+id/fab4"
+            app:layout_constraintStart_toStartOf="@+id/fab4"
+            app:layout_constraintTop_toTopOf="@+id/fab2"
+            app:maxImageSize="20dp"
+            app:srcCompat="@drawable/shift_rate" />
+
+        <TextView
+            android:id="@+id/tv_template_test"
+            android:layout_width="95dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:alpha="0"
+            android:background="@drawable/bg_popup"
+            android:elevation="10dp"
+            android:gravity="center"
+            android:paddingLeft="8dp"
+            android:paddingTop="1dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="1dp"
+            android:text="@string/Templates"
+            android:textAlignment="center"
+            android:textColor="#149B17"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/fab1"
+            app:layout_constraintEnd_toStartOf="@+id/fab1"
+            app:layout_constraintTop_toTopOf="@+id/fab1" />
+
+        <TextView
+            android:id="@+id/tv_fixed_test"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:alpha="0"
+            android:background="@drawable/bg_popup"
+            android:backgroundTint="#1560A1"
+            android:cursorVisible="true"
+            android:elevation="10dp"
+            android:gravity="center"
+            android:paddingLeft="8dp"
+            android:paddingTop="1dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="1dp"
+            android:text="@string/fixed_rate"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/fab1"
+            app:layout_constraintEnd_toStartOf="@+id/fab1"
+            app:layout_constraintTop_toTopOf="@+id/fab1" />
+
+        <TextView
+            android:id="@+id/tv_hour_test"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:alpha="0"
+            android:background="@drawable/bg_popup"
+            android:backgroundTint="#1560A1"
+            android:elevation="10dp"
+            android:gravity="center"
+            android:paddingLeft="8dp"
+            android:paddingTop="1dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="1dp"
+            android:text="@string/for_hour"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/fab1"
+            app:layout_constraintEnd_toStartOf="@+id/fab1"
+            app:layout_constraintTop_toTopOf="@+id/fab1" />
+
+        <TextView
+            android:id="@+id/tv_smena_test"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:alpha="0"
+            android:background="@drawable/bg_popup"
+            android:backgroundTint="#FF1560A1"
+            android:elevation="10dp"
+            android:gravity="center"
+            android:paddingLeft="8dp"
+            android:paddingTop="1dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="1dp"
+            android:text="@string/posmennyu_rate"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/fab1"
+            app:layout_constraintEnd_toStartOf="@+id/fab1"
+            app:layout_constraintTop_toTopOf="@+id/fab1" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginEnd="2dp"
+            android:layout_marginBottom="16dp"
+            android:background="#FFFFFF"
+            android:clickable="true"
+            android:elevation="20dp"
+            app:backgroundTint="#1E88E5"
+            app:elevation="20dp"
+            app:fabSize="normal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/mainCalendarView"
+            app:maxImageSize="20dp"
+            app:srcCompat="@drawable/plus" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/main_work_rv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="8dp"
+            android:layout_weight="5"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            android:scrollbarStyle="insideInset"
+            android:scrollbars="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mainCalendarView">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_black_test"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0"
+            android:background="#6B000000"
+            android:clickable="true"
+            android:elevation="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/navigationView"
+        android:layout_gravity="start"
+        app:menu="@menu/drawer_menu"
+        android:background="#2A3553"
+        app:headerLayout="@layout/header_layout"
+        app:itemTextColor="#ffffff"
+        app:itemIconTint="#ffffff"
+        />
+
+
+
+</androidx.drawerlayout.widget.DrawerLayout>

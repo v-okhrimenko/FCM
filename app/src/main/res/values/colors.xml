@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<!--    <color name="colorPrimary">#008577</color>-->
+<!--    <color name="colorPrimaryDark">#00574B</color>-->
+<!--    <color name="colorAccent">#D81B60</color>-->
+
+
+    <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorPrimaryDark">#388E3C</color>
+    <color name="colorPrimaryLight">#C8E6C9</color>
+    <color name="colorAccent">#1E88E5</color>
+    <color name="colorPrimaryText">#212121</color>
+    <color name="colorSecondaryText">#757575</color>
+    <color name="colorIcons">#FFFFFF</color>
+    <color name="colorDivider">#BDBDBD</color>
+    <color name="black_effective">#2a2a2a</color>
+    <color name="black_effective_light">#6A2A2A2A</color>
+    <color name="black_effective_100">#3D3D3D</color>
+    <color name="red">#FF0000</color>
+    <color name="red_lite">#92C43434</color>
+    <color name="red_50">#BE4545</color>
+    <color name="green_lite">#5AA535</color>
+    <color name="yellow_lite">#A3C9B656</color>
+    <color name="green_olive">#A6CF45</color>
+    <color name="white">#FFFFFF</color>
+    <color name="prozrachniy">#6BFFFFFF</color>
+    <color name="clear">#00FFFFFF</color>
+    <color name="text_gray">#646464</color>
+
+
+    <color name="today">#4b82ff</color>
+    <color name="greyed_out">#c7c7c7</color>
+
+    <color name="summer">#44eebd82</color>
+    <color name="fall">#44d8d27e</color>
+    <color name="winter">#44a1c1da</color>
+    <color name="spring">#448da64b</color>
+
+
+    <color name="black">#020202</color>
+    <color name="blue_lite">#1E88E5</color>
+    <color name="blue">#14419B</color>
+    <color name="grey">#777777</color>
+
+
+    <color name="alert_bottom">#DD7D7A</color>
+
+
+</resources>

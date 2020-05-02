@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "534928408785",
+    "firebase_url": "https://freelancecameraman-69e9a.firebaseio.com",
+    "project_id": "freelancecameraman-69e9a",
+    "storage_bucket": "freelancecameraman-69e9a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:534928408785:android:2443c788edeb09806905f0",
+        "android_client_info": {
+          "package_name": "com.example.fcm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "534928408785-ibt725e707mvi2ru117jur474nhg0n75.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fcm",
+            "certificate_hash": "386c6d8108206b01b0cbbffb2740347207ff9859"
+          }
+        },
+        {
+          "client_id": "534928408785-8iv4jskreiabmsp10sf5rrubo5s1gqdd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8MHLogeHIisiskTd0zbpxNJWqzn1B24s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "534928408785-8iv4jskreiabmsp10sf5rrubo5s1gqdd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

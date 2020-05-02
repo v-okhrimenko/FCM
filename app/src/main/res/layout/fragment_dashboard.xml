@@ -1,0 +1,605 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="10dp"
+        app:cardCornerRadius="25dp"
+        app:cardElevation="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_year_stat_select_id">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="#FFFFFF">
+
+            <TextView
+                android:id="@+id/textView34"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/Earned_for_the_year"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvZarabotanoZaGod"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="0"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textView34"
+                app:layout_constraintStart_toEndOf="@+id/textView34" />
+
+            <TextView
+                android:id="@+id/textView35"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Payout"
+                app:layout_constraintStart_toStartOf="@+id/textView34"
+                app:layout_constraintTop_toBottomOf="@+id/textView34" />
+
+            <TextView
+                android:id="@+id/tvViplachenoZaGod"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textView35"
+                app:layout_constraintStart_toStartOf="@+id/tvZarabotanoZaGod" />
+
+            <TextView
+                android:id="@+id/textView36"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Not_paid"
+                app:layout_constraintStart_toStartOf="@+id/textView35"
+                app:layout_constraintTop_toBottomOf="@+id/textView35" />
+
+            <TextView
+                android:id="@+id/tvNeViplachenoZaGod"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="#B4E53935"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textView36"
+                app:layout_constraintStart_toStartOf="@+id/tvViplachenoZaGod" />
+
+            <TextView
+                android:id="@+id/textView37"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Days_worked"
+                app:layout_constraintStart_toStartOf="@+id/textView36"
+                app:layout_constraintTop_toBottomOf="@+id/textView36" />
+
+            <TextView
+                android:id="@+id/tvDneyOtrabotanoZaGod"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textView37"
+                app:layout_constraintStart_toStartOf="@+id/tvNeViplachenoZaGod" />
+
+            <TextView
+                android:id="@+id/textView38"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Maximum_days"
+
+                app:layout_constraintStart_toStartOf="@+id/textView37"
+                app:layout_constraintTop_toBottomOf="@+id/textView37" />
+
+            <TextView
+                android:id="@+id/tvMaxDneyOtrabotanoZaGod"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textView38"
+                app:layout_constraintStart_toStartOf="@+id/tvDneyOtrabotanoZaGod" />
+
+            <TextView
+                android:id="@+id/textView39"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="("
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvMaxDneyOtrabotanoZaGod"
+                app:layout_constraintStart_toEndOf="@+id/tvMaxDneyOtrabotanoZaGod" />
+
+            <TextView
+                android:id="@+id/tvMaxMonthName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textView38"
+                app:layout_constraintStart_toEndOf="@+id/textView39" />
+
+            <TextView
+                android:id="@+id/textView40"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="1dp"
+                android:text=")"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvMaxMonthName"
+                app:layout_constraintStart_toEndOf="@+id/tvMaxMonthName" />
+
+            <TextView
+                android:id="@+id/textView43"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=")"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvMinMonthName"
+                app:layout_constraintStart_toEndOf="@+id/tvMinMonthName" />
+
+            <TextView
+                android:id="@+id/textView41"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Minimum_days"
+                app:layout_constraintStart_toStartOf="@+id/textView38"
+                app:layout_constraintTop_toBottomOf="@+id/textView38" />
+
+            <TextView
+                android:id="@+id/tvMinDneyOtrabotanoZaGod"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textView41"
+                app:layout_constraintStart_toStartOf="@+id/tvMaxDneyOtrabotanoZaGod" />
+
+            <TextView
+                android:id="@+id/textView42"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="("
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvMinDneyOtrabotanoZaGod"
+                app:layout_constraintStart_toStartOf="@+id/textView39" />
+
+            <TextView
+                android:id="@+id/tvMinMonthName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textView42"
+                app:layout_constraintStart_toEndOf="@+id/textView42" />
+
+            <ImageButton
+                android:id="@+id/ibNoPAyaAlert"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerInParent="false"
+                android:layout_centerHorizontal="false"
+                android:layout_centerVertical="false"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="2dp"
+                android:background="@color/clear"
+                android:src="@drawable/ic_infoalert"
+                app:layout_constraintBottom_toBottomOf="@+id/tvNeViplachenoZaGod"
+                app:layout_constraintStart_toEndOf="@+id/tvNeViplachenoZaGod"
+                app:layout_constraintTop_toBottomOf="@+id/tvViplachenoZaGod"
+                tools:src="@drawable/ic_infoalert" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/piechart"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView4">
+
+    </com.github.mikephil.charting.charts.PieChart>
+
+    <TextView
+        android:id="@+id/text_view_year_stat_select_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textSize="35sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginRight="5dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text=""
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@android:color/white"
+        android:textSize="12dp" />
+
+
+    <TextView
+        android:id="@+id/textView_tvneoplacheno"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:alpha="0"
+        android:clickable="true"
+        android:gravity="center"
+        android:text="НЕОПЛАЧЕНО"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_tvAllZarabotano"
+        app:layout_constraintEnd_toEndOf="@+id/textView_tvAllZarabotano"
+        app:layout_constraintStart_toStartOf="@+id/textView_tvAllZarabotano"
+        app:layout_constraintTop_toTopOf="@+id/textView_tvAllZarabotano" />
+
+    <TextView
+        android:id="@+id/textView_tvAllZarabotano"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:gravity="center"
+        android:text="ВСЕГО ЗАРАБОТАНО"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/piechart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/piechart" />
+
+    <TextView
+        android:id="@+id/textView_oplacheno2Circle"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:alpha="0"
+        android:clickable="true"
+        android:gravity="center"
+        android:text="ОПЛАЧЕНО"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_tvAllZarabotano"
+        app:layout_constraintEnd_toEndOf="@+id/textView_tvAllZarabotano"
+        app:layout_constraintStart_toStartOf="@+id/textView_tvAllZarabotano"
+        app:layout_constraintTop_toTopOf="@+id/textView_tvAllZarabotano" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/consLay_neoplacheno"
+        android:layout_width="115dp"
+        android:layout_height="115dp"
+        android:alpha="0"
+        android:background="#00FFFFFF"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_tvneoplacheno"
+        app:layout_constraintEnd_toEndOf="@+id/textView_tvneoplacheno"
+        app:layout_constraintStart_toStartOf="@+id/textView_tvneoplacheno"
+        app:layout_constraintTop_toTopOf="@+id/textView_tvneoplacheno">
+
+        <TextView
+            android:id="@+id/textView20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/neoplacheno"
+            android:textAllCaps="true"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.29000002" />
+
+        <TextView
+            android:id="@+id/textViewNeoplacheno_in_circle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="#E00D0D"
+            android:textSize="23sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/textView20"
+            app:layout_constraintStart_toStartOf="@+id/textView20"
+            app:layout_constraintTop_toBottomOf="@+id/textView20" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constLay_zarabotano"
+        android:layout_width="115dp"
+        android:layout_height="115dp"
+        android:alpha="0"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_tvneoplacheno"
+        app:layout_constraintEnd_toEndOf="@+id/textView_tvneoplacheno"
+        app:layout_constraintStart_toStartOf="@+id/textView_tvneoplacheno"
+        app:layout_constraintTop_toTopOf="@+id/textView_tvneoplacheno">
+
+        <TextView
+            android:id="@+id/textView18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/zarabotano"
+            android:textAllCaps="true"
+            android:textColor="#5F5C5C"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.29000002" />
+
+        <TextView
+            android:id="@+id/textViewZarabotano_in_circle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="#1B7C1B"
+            android:textSize="23sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/textView18"
+            app:layout_constraintStart_toStartOf="@+id/textView18"
+            app:layout_constraintTop_toBottomOf="@+id/textView18" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constLay_oplacheno"
+        android:layout_width="115dp"
+        android:layout_height="115dp"
+        android:alpha="0"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_tvneoplacheno"
+        app:layout_constraintEnd_toEndOf="@+id/textView_tvneoplacheno"
+        app:layout_constraintStart_toStartOf="@+id/textView_tvneoplacheno"
+        app:layout_constraintTop_toTopOf="@+id/textView_tvneoplacheno">
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/oplacheno"
+            android:textAllCaps="true"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.29000002" />
+
+        <TextView
+            android:id="@+id/textViewsumma_oplachenogo_in_circle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="#497B2A"
+            android:textSize="23sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/textView12"
+            app:layout_constraintStart_toStartOf="@+id/textView12"
+            app:layout_constraintTop_toBottomOf="@+id/textView12" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/button_yearSelect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:elevation="0dp"
+        android:src="@drawable/calendarchoose2"
+        app:backgroundTint="#1E88E5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:maxImageSize="25dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+<!--<TextView-->
+<!--android:id="@+id/textView15"-->
+<!--android:layout_width="wrap_content"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_marginStart="15dp"-->
+<!--android:layout_marginTop="8dp"-->
+<!--android:text="@string/Earned_for_the_year"-->
+<!--app:layout_constraintStart_toStartOf="parent"-->
+<!--app:layout_constraintTop_toBottomOf="@+id/piechart" />-->
+
+<!--<TextView-->
+<!--android:id="@+id/textView17"-->
+<!--android:layout_width="wrap_content"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_marginTop="8dp"-->
+<!--android:text="@string/Payout"-->
+<!--app:layout_constraintStart_toStartOf="@+id/textView15"-->
+<!--app:layout_constraintTop_toBottomOf="@+id/textView15" />-->
+
+<!--<TextView-->
+<!--android:id="@+id/textView19"-->
+<!--android:layout_width="wrap_content"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_marginTop="8dp"-->
+<!--android:text="@string/Not_paid"-->
+<!--app:layout_constraintStart_toStartOf="@+id/textView17"-->
+<!--app:layout_constraintTop_toBottomOf="@+id/textView17" />-->
+
+<!--<ImageButton-->
+<!--android:id="@+id/ibNoPAyaAlert"-->
+<!--android:layout_width="25dp"-->
+<!--android:layout_height="25dp"-->
+<!--android:layout_centerInParent="false"-->
+<!--android:layout_centerHorizontal="false"-->
+<!--android:layout_centerVertical="false"-->
+<!--android:layout_marginStart="16dp"-->
+<!--android:background="@color/clear"-->
+<!--android:src="@drawable/ic_infoalert"-->
+<!--app:layout_constraintBottom_toBottomOf="@+id/textView19"-->
+<!--app:layout_constraintStart_toEndOf="@+id/tvNeViplachenoZaGod"-->
+<!--app:layout_constraintTop_toTopOf="@+id/textView19"-->
+<!--tools:src="@drawable/ic_infoalert" />-->
+
+<!--<TextView-->
+<!--android:id="@+id/textView21"-->
+<!--android:layout_width="wrap_content"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_marginTop="8dp"-->
+<!--android:text="@string/Days_worked"-->
+<!--app:layout_constraintStart_toStartOf="@+id/textView19"-->
+<!--app:layout_constraintTop_toBottomOf="@+id/textView19" />-->
+
+<!--<TextView-->
+<!--android:id="@+id/textView24"-->
+<!--android:layout_width="wrap_content"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_marginTop="8dp"-->
+<!--android:text="@string/Minimum_days"-->
+<!--app:layout_constraintStart_toStartOf="@+id/textView25"-->
+<!--app:layout_constraintTop_toBottomOf="@+id/textView25" />-->
+
+<!--<TextView-->
+<!--android:id="@+id/textView25"-->
+<!--android:layout_width="wrap_content"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_marginTop="8dp"-->
+<!--android:text="@string/Maximum_days"-->
+
+<!--app:layout_constraintStart_toStartOf="@+id/textView21"-->
+<!--app:layout_constraintTop_toBottomOf="@+id/textView21" />-->
+
+<!--<TextView-->
+<!--android:id="@+id/tvZarabotanoZaGod"-->
+<!--android:layout_width="wrap_content"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_marginStart="16dp"-->
+<!--android:text="0"-->
+<!--android:textSize="18sp"-->
+<!--android:textStyle="bold"-->
+<!--app:layout_constraintBottom_toBottomOf="@+id/textView15"-->
+<!--app:layout_constraintStart_toEndOf="@+id/textView15" />-->
+
+<!--<TextView-->
+<!--android:id="@+id/tvNeViplachenoZaGod"-->
+<!--android:layout_width="wrap_content"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:text="0"-->
+<!--android:textSize="18sp"-->
+<!--android:textStyle="bold"-->
+<!--app:layout_constraintBottom_toBottomOf="@+id/textView19"-->
+<!--app:layout_constraintStart_toStartOf="@+id/tvViplachenoZaGod" />-->
+
+<!--<TextView-->
+<!--android:id="@+id/tvMinDneyOtrabotanoZaGod"-->
+<!--android:layout_width="wrap_content"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:text="0"-->
+<!--android:textSize="18sp"-->
+<!--android:textStyle="bold"-->
+<!--app:layout_constraintBottom_toBottomOf="@+id/textView24"-->
+<!--app:layout_constraintStart_toStartOf="@+id/tvMaxDneyOtrabotanoZaGod" />-->
+
+<!--<TextView-->
+<!--android:id="@+id/tvMaxDneyOtrabotanoZaGod"-->
+<!--android:layout_width="wrap_content"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:text="0"-->
+<!--android:textSize="18sp"-->
+<!--android:textStyle="bold"-->
+<!--app:layout_constraintBottom_toBottomOf="@+id/textView25"-->
+<!--app:layout_constraintStart_toStartOf="@+id/tvDneyOtrabotanoZaGod" />-->
+
+<!--<TextView-->
+<!--android:id="@+id/tvDneyOtrabotanoZaGod"-->
+<!--android:layout_width="wrap_content"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:text="0"-->
+<!--android:textSize="18sp"-->
+<!--android:textStyle="bold"-->
+<!--app:layout_constraintBottom_toBottomOf="@+id/textView21"-->
+<!--app:layout_constraintStart_toStartOf="@+id/tvNeViplachenoZaGod" />-->
+
+<!--<TextView-->
+<!--android:id="@+id/tvViplachenoZaGod"-->
+<!--android:layout_width="wrap_content"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:text="0"-->
+<!--android:textSize="18sp"-->
+<!--android:textStyle="bold"-->
+<!--app:layout_constraintBottom_toBottomOf="@+id/textView17"-->
+<!--app:layout_constraintStart_toStartOf="@+id/tvZarabotanoZaGod" />-->
+
+<!--<TextView-->
+<!--android:id="@+id/textView26"-->
+<!--android:layout_width="wrap_content"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_marginStart="5dp"-->
+<!--android:text="("-->
+<!--app:layout_constraintBottom_toBottomOf="@+id/tvMaxDneyOtrabotanoZaGod"-->
+<!--app:layout_constraintStart_toEndOf="@+id/tvMaxDneyOtrabotanoZaGod" />-->
+
+<!--<TextView-->
+<!--android:id="@+id/textView28"-->
+<!--android:layout_width="wrap_content"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:text="("-->
+<!--app:layout_constraintBottom_toBottomOf="@+id/tvMinDneyOtrabotanoZaGod"-->
+<!--app:layout_constraintStart_toEndOf="@+id/tvMaxDneyOtrabotanoZaGod"-->
+<!--app:layout_constraintStart_toStartOf="@+id/textView26" />-->
+
+<!--<TextView-->
+<!--android:id="@+id/textView30"-->
+<!--android:layout_width="wrap_content"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:text=")"-->
+<!--app:layout_constraintBottom_toBottomOf="@+id/tvMinMonthName"-->
+<!--app:layout_constraintStart_toEndOf="@+id/tvMinMonthName" />-->
+
+<!--<TextView-->
+<!--android:id="@+id/textView31"-->
+<!--android:layout_width="wrap_content"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:text=")"-->
+<!--app:layout_constraintBottom_toBottomOf="@+id/tvMaxMonthName"-->
+<!--app:layout_constraintStart_toEndOf="@+id/tvMaxMonthName" />-->
+
+<!--<TextView-->
+<!--android:id="@+id/tvMinMonthName"-->
+<!--android:layout_width="wrap_content"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:text="январе"-->
+<!--app:layout_constraintBottom_toBottomOf="@+id/textView28"-->
+<!--app:layout_constraintStart_toEndOf="@+id/textView26"-->
+<!--app:layout_constraintStart_toStartOf="@+id/tvMaxMonthName" />-->
+
+<!--<TextView-->
+<!--android:id="@+id/tvMaxMonthName"-->
+<!--android:layout_width="wrap_content"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:text="январе"-->
+<!--app:layout_constraintBottom_toBottomOf="@+id/textView26"-->
+<!--app:layout_constraintStart_toEndOf="@+id/textView26" />-->
