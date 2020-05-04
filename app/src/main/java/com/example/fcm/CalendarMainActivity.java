@@ -39,6 +39,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.fcm.models.TemplateJob;
 import com.example.fcm.mycalendar.CalendarView;
 import com.example.fcm.mycalendar.CalendarViewEvents;
 import com.example.fcm.mycalendar.CalendarViewGridAdapter;
@@ -48,7 +49,6 @@ import com.example.fcm.helper.Helper;
 import com.example.fcm.jobreview.FixedJobReview;
 import com.example.fcm.jobreview.ForHourJobReview;
 import com.example.fcm.jobreview.ForSmenaJobReview;
-import com.example.fcm.models.TempaleJob;
 import com.example.fcm.models.UserInfoToFirestore;
 import com.example.fcm.models.MainWork;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -427,8 +427,8 @@ public class CalendarMainActivity extends AppCompatActivity implements EasyPermi
             cancel.setOnClickListener( v1 -> {dialog.dismiss();} );
 
             Query query = noteRef_full.orderBy( "template_name", Query.Direction.DESCENDING );;
-            FirestoreRecyclerOptions<TempaleJob> options = new FirestoreRecyclerOptions.Builder<TempaleJob>()
-                    .setQuery(query, TempaleJob.class)
+            FirestoreRecyclerOptions<TemplateJob> options = new FirestoreRecyclerOptions.Builder<TemplateJob>()
+                    .setQuery(query, TemplateJob.class)
                     .build();
             adapter_new = new TemplateAdapter( options );
             adapter_new.startListening();
@@ -439,7 +439,7 @@ public class CalendarMainActivity extends AppCompatActivity implements EasyPermi
             adapter_new.setOnItemClickListener( new TemplateAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
-                    TempaleJob tmp = documentSnapshot.toObject( TempaleJob.class );
+                    TemplateJob tmp = documentSnapshot.toObject( TemplateJob.class );
 
                     String jobType = tmp.getTempalte_type();
                     switch (jobType){

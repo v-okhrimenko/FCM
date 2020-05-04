@@ -30,13 +30,13 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.fcm.models.TemplateJob;
 import com.example.fcm.recycleviewadapter.TemplateAdapter;
 import com.example.fcm.mycalendar.DatePicker;
 import com.example.fcm.mycalendar.DatePickerEvents;
 import com.example.fcm.recycleviewadapter.AddDateInAddJobActivityAdapter;
 import com.example.fcm.helper.Helper;
 import com.example.fcm.models.MainWork;
-import com.example.fcm.models.TempaleJob;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -363,7 +363,7 @@ public class AddShiftRate extends AppCompatActivity implements AddDateInAddJobAc
     }
 
     private void saveAsTemplate() {
-        TempaleJob tmp = new TempaleJob();
+        TemplateJob tmp = new TemplateJob();
         if(tamplate_name.contains( et_JobName.getText().toString().toUpperCase().trim() )){
 
             AlertDialog.Builder builder = new AlertDialog.Builder( AddShiftRate.this);
@@ -657,7 +657,7 @@ public class AddShiftRate extends AppCompatActivity implements AddDateInAddJobAc
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 
                         for (QueryDocumentSnapshot q: queryDocumentSnapshots){
-                            TempaleJob tp = q.toObject( TempaleJob.class );
+                            TemplateJob tp = q.toObject( TemplateJob.class );
                             //System.out.println( tp.getTemplate_name() );
                             tamplate_name.add( tp.getTemplate_name().toUpperCase() );
                         }

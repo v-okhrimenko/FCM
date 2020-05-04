@@ -34,8 +34,8 @@ public class AddDateInAddJobActivityAdapter extends RecyclerView.Adapter<AddDate
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        String animal = mData.get(position);
-        holder.myTextView.setText(animal);
+        String selectedDate = mData.get(position);
+        holder.myTextView.setText(selectedDate);
     }
 
     // total number of rows

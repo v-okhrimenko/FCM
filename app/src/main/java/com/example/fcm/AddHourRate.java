@@ -35,7 +35,7 @@ import com.example.fcm.recycleviewadapter.AddDateInAddJobActivityAdapter;
 import com.example.fcm.recycleviewadapter.TemplateAdapter;
 import com.example.fcm.helper.Helper;
 import com.example.fcm.models.MainWork;
-import com.example.fcm.models.TempaleJob;
+import com.example.fcm.models.TemplateJob;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -320,8 +320,8 @@ public class AddHourRate extends AppCompatActivity implements AddDateInAddJobAct
 //                cancel.setOnClickListener( v1 -> {dialog.dismiss();} );
 //
 //                Query query = noteRef_full.whereEqualTo( "tempalte_type", "for hour" ).orderBy( "template_name", Query.Direction.DESCENDING );;
-//                FirestoreRecyclerOptions<TempaleJob> options = new FirestoreRecyclerOptions.Builder<TempaleJob>()
-//                        .setQuery(query, TempaleJob.class)
+//                FirestoreRecyclerOptions<TemplateJob> options = new FirestoreRecyclerOptions.Builder<TemplateJob>()
+//                        .setQuery(query, TemplateJob.class)
 //                        .build();
 //                adapter_new = new TemplateAdapter( options );
 //                adapter_new.startListening();
@@ -490,7 +490,7 @@ public class AddHourRate extends AppCompatActivity implements AddDateInAddJobAct
     }
 
     private void saveAsTemplate() {
-        TempaleJob tmp = new TempaleJob();
+        TemplateJob tmp = new TemplateJob();
         if(tamplate_name.contains( et_JobName.getText().toString().toUpperCase().trim() )){
 
             AlertDialog.Builder builder = new AlertDialog.Builder( AddHourRate.this);
@@ -575,7 +575,7 @@ public class AddHourRate extends AppCompatActivity implements AddDateInAddJobAct
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 
                         for (QueryDocumentSnapshot q: queryDocumentSnapshots){
-                            TempaleJob tp = q.toObject( TempaleJob.class );
+                            TemplateJob tp = q.toObject( TemplateJob.class );
                             // //System.out.println( tp.getTemplate_name() );
                             tamplate_name.add( tp.getTemplate_name().toUpperCase() );
                         }

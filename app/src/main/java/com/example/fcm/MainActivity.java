@@ -139,9 +139,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -161,846 +158,421 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.fcm.helper.Helper;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity {
 
+    private EditText userEmail;
+    private EditText userPassword;
 
-
-
-    Button btnSignIn, btnRegister, lostpass, regitration_new;
-    EditText emailSi;
-    EditText passSi;
-    TextView signin;
-    TextView problem_enter;
-
-
-    //REGISTRATION LAYOUT
-    Boolean emailOk = false;
-    Boolean pass1Ok = false;
-    Boolean pass2Ok = false;
-
-
-    FirebaseAuth auth;
-    FirebaseDatabase db;
-    DatabaseReference users;
-    String setmail;
-    ConstraintLayout root;
-
-    android.app.ProgressDialog progressDialog;
-    AlertDialog dialog_1;
-    FirebaseUser user;
-
-
-
-
-
-    private void setLocale(String lang) {
-
-        Locale locale = Resources.getSystem().getConfiguration().locale;
-
-//        if(locale.getCountry().equals( "UA" ) || locale.getCountry().equals( "RU" ) ){
-//
-//            Locale locale_new = new Locale("ru");
-//            Locale.setDefault(locale);
-        Configuration config = new Configuration();
-        config.locale = locale;
-        getBaseContext().getResources().
-                updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
-
-//        Locale locale = new Locale(lang);
-//        Locale.setDefault(locale);
-//        Configuration config = new Configuration();
-//        config.locale = locale;
-//        getBaseContext().getResources().updateConfiguration( config, getBaseContext().getResources().getDisplayMetrics() );
-//
-//        SharedPreferences.Editor editor = getSharedPreferences( "Settings", MODE_PRIVATE ).edit();
-//        editor.putString( "My_Lang", lang );
-//        editor.apply();
-
-    }
-
-
-    public void loadLockale(){
-        SharedPreferences prefs = getSharedPreferences( "Settings", Activity.MODE_PRIVATE );
-        String language = prefs.getString( "My_Lang" , "");
-        setLocale( language );
-    }
+    private FirebaseAuth auth;
+    private ConstraintLayout root;
+    private AlertDialog alertDialog;
+    private FirebaseUser firebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //loadLockale();
         setContentView(R.layout.activity_main);
 
-
-
-        btnSignIn = findViewById(R.id.btn_enter);
-        problem_enter = findViewById( R.id.tv_problem_enter );
-        //btnRegister = findViewById(R.id.btn_registration);
-        //regitration_new = findViewById(R.id.btn_registration_);
-
         auth = FirebaseAuth.getInstance();
-        db = FirebaseDatabase.getInstance();
-
-        user = auth.getInstance().getCurrentUser();
-        users = db.getReference("Users");
-
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         root = findViewById(R.id.rootelement);
 
-        setmail = getResources().getString(R.string.set_mail_alert);
+        Button btn_SignIn = findViewById( R.id.btn_enter );
+        TextView btn_forgotPassword = findViewById( R.id.tv_problem_enter );
 
-        emailSi = findViewById(R.id.signInEmail);
-        passSi = findViewById(R.id.signInPass);
+        userEmail = findViewById(R.id.signInEmail);
+        userPassword = findViewById(R.id.signInPass);
+        TextView btn_signUp = findViewById( R.id.textView45 ); // button registration
 
-        //lostpass = findViewById(R.id.btnlostpass);
+        checkIfUserAuthorised();
 
-        signin = findViewById( R.id.textView45 );
+        btn_forgotPassword.setOnClickListener( v -> {
 
-        check_auth();
+            AlertDialog.Builder builder = new AlertDialog.Builder( MainActivity.this );
+            LayoutInflater inflater = LayoutInflater.from( MainActivity.this );
+            final View regiserwindow = inflater.inflate( R.layout.forgot_pass_inflater, null );
+            builder.setView( regiserwindow );
 
+            final Button btn_newPasswordOk = regiserwindow.findViewById( R.id.btn_registr );
+            final Button btn_newPasswordCancel = regiserwindow.findViewById( R.id.cencel_registartion );
+            final EditText et_UserEmail = regiserwindow.findViewById( R.id.et_email_registartion );
+            final TextView tv_YouEmailTop = regiserwindow.findViewById( R.id.textView31 );
+            final TextView tv_noSuchAccount = regiserwindow.findViewById( R.id.tv_no_such_account );
+            final TextView tv_emailIsntCorrect = regiserwindow.findViewById( R.id.tv_EmailIsntCorrect );
 
-        problem_enter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            final AlertDialog sendNewPasswordDialog = builder.create();
+            sendNewPasswordDialog.getWindow().setBackgroundDrawable( new ColorDrawable( Color.TRANSPARENT ) );
+            sendNewPasswordDialog.setCancelable( false );
+            sendNewPasswordDialog.show();
 
-                AlertDialog.Builder builder = new AlertDialog.Builder( MainActivity.this );
-                LayoutInflater inflater = LayoutInflater.from( MainActivity.this );
-                final View regiserWindow = inflater.inflate( R.layout.forgot_pass_inflater, null );
-                builder.setView( regiserWindow );
+            et_UserEmail.addTextChangedListener( new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                final Button newPass_ok = regiserWindow.findViewById( R.id.btn_registr );
-                final Button newPass_cencel = regiserWindow.findViewById( R.id.cencel_registartion );
+                }
 
-                final EditText email = regiserWindow.findViewById( R.id.et_email_registartion );
-                final TextView YouEmailTop = regiserWindow.findViewById( R.id.textView31 );
-                final TextView noSuchAccaund = regiserWindow.findViewById( R.id.tv_no_such_account );
-                final TextView emailIsntCorrect = regiserWindow.findViewById( R.id.tv_EmailIsntCorrect );
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    tv_emailIsntCorrect.setVisibility( View.INVISIBLE );
+                    et_UserEmail.setBackground(getDrawable( R.drawable.text_edit_light_blue  ) );
+                    tv_YouEmailTop.setTextColor( getResources().getColor( R.color.blue_lite ) );
+                    tv_noSuchAccount.setVisibility( View.INVISIBLE );
+                }
 
+                @Override
+                public void afterTextChanged(Editable s) {
 
-                final AlertDialog dialog = builder.create();
-                dialog.getWindow().setBackgroundDrawable( new ColorDrawable( Color.TRANSPARENT ) );
-                dialog.setCancelable( false );
-                dialog.show();
+                }
+            } );
+            btn_newPasswordOk.setOnClickListener( v12 -> {
 
-                email.addTextChangedListener( new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                showSpinner( getString( R.string.In_the_process ));
+
+                hideKeyboardFrom( getApplicationContext(),regiserwindow );
+
+                if(et_UserEmail.getText().toString().isEmpty()){
+                    alertDialog.dismiss();
+                    et_UserEmail.setBackground(getDrawable( R.drawable.text_edit_error  ) );
+                    tv_YouEmailTop.setTextColor( getResources().getColor( R.color.alert_bottom ) );
+
+                }
+
+                else {
+                    if (Helper.isValidEmail( et_UserEmail.getText().toString().trim() )){
+
+                        FirebaseAuth.getInstance().sendPasswordResetEmail( et_UserEmail.getText().toString().trim() )
+                                .addOnCompleteListener( task -> {
+                                    if (task.isSuccessful()){
+
+                                        alertDialog.dismiss();
+                                        sendNewPasswordDialog.dismiss();
+                                        Snackbar.make(root, getString( R.string.Password_reset_link_sent ), Snackbar.LENGTH_LONG).show();
+
+                                    } else {
+                                        alertDialog.dismiss();
+                                        et_UserEmail.setBackground(getDrawable( R.drawable.text_edit_error  ) );
+                                        tv_YouEmailTop.setTextColor( getResources().getColor( R.color.alert_bottom ) );
+                                        tv_noSuchAccount.setVisibility( View.VISIBLE );
+                                    }
+                                } );
+                    } else {
+                        alertDialog.dismiss();
+                        et_UserEmail.setBackground(getDrawable( R.drawable.text_edit_error  ) );
+                        tv_YouEmailTop.setTextColor( getResources().getColor( R.color.alert_bottom ) );
+                        tv_emailIsntCorrect.setVisibility( View.VISIBLE );
+                    }
+                }
+            } );
+            btn_newPasswordCancel.setOnClickListener( v1 -> sendNewPasswordDialog.dismiss() );
+        } );
+        btn_signUp.setOnClickListener( v -> {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder( MainActivity.this );
+            LayoutInflater inflater = LayoutInflater.from( MainActivity.this );
+            final View regiserWindow = inflater.inflate( R.layout.regitration_layout_inflater, null );
+            builder.setView( regiserWindow );
+
+            final Button btn_registrationOk = regiserWindow.findViewById( R.id.btn_registr );
+            final Button btn_registrationCencel = regiserWindow.findViewById( R.id.cencel_registartion );
+
+            final EditText email = regiserWindow.findViewById( R.id.et_email_registartion );
+            final TextView YouEmailTop = regiserWindow.findViewById( R.id.textView31 );
+
+            final EditText pass1 = regiserWindow.findViewById( R.id.et_pass_registartion );
+            final TextView YouPassTop = regiserWindow.findViewById( R.id.textView25 );
+            final TextView passNoMatch = regiserWindow.findViewById( R.id.tv_miniminSixChar2 );
+            final TextView passNoConteinSpase = regiserWindow.findViewById( R.id.tv_miniminSixChar3 );
+            final EditText pass2 = regiserWindow.findViewById( R.id.et_repeat_pass_registartion );
+            final TextView repeatYouPassTop = regiserWindow.findViewById( R.id.tv_new_pass_label );
+            final TextView passNoMatch2 = regiserWindow.findViewById( R.id.tv_error_new_password2 );
+            final TextView emailIsntCorrect = regiserWindow.findViewById( R.id.tv_EmailIsntCorrect );
+            final TextView minSixChar = regiserWindow.findViewById( R.id.tv_miniminSixChar );
+            final ImageView check_ok = regiserWindow.findViewById( R.id.iv_password_check_ok );
+            final ImageView check_ok2 = regiserWindow.findViewById( R.id.iv_password2_check_ok );
+
+            check_ok.setVisibility( View.INVISIBLE );
+            check_ok2.setVisibility( View.INVISIBLE );
+
+            final Integer[] x = {0};
+
+            final AlertDialog registrationDialog = builder.create();
+            registrationDialog.getWindow().setBackgroundDrawable( new ColorDrawable( Color.TRANSPARENT ) );
+            registrationDialog.setCancelable( false );
+            registrationDialog.show();
+
+            pass2.addTextChangedListener( new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    pass2.setBackground(getDrawable( R.drawable.text_edit_light_blue  ) );
+                    pass2.setTextColor( getResources().getColor( R.color.blue_lite ) );
+                    repeatYouPassTop.setTextColor( getResources().getColor( R.color.blue_lite ) );
+                    passNoMatch2.setVisibility( View.INVISIBLE );
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+            } );
+
+            pass1.addTextChangedListener( new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    pass2.getText().clear();
+                    passNoMatch.setVisibility( View.INVISIBLE );
+                    passNoMatch2.setVisibility( View.INVISIBLE );
+                    pass1.setBackground(getDrawable( R.drawable.text_edit_light_blue  ) );
+                    pass1.setTextColor( getResources().getColor( R.color.blue_lite ) );
+                    YouPassTop.setTextColor( getResources().getColor( R.color.blue_lite ) );
+
+                    x[0] = (pass1.getText().toString()).length();
+
+                    if (s.toString().contains(" ")){
+                        passNoConteinSpase.setVisibility( View.VISIBLE );
+                        minSixChar.setVisibility( View.INVISIBLE );
+                        pass1.setBackground(getDrawable( R.drawable.text_edit_error  ) );
+                        YouPassTop.setTextColor( getResources().getColor( R.color.alert_bottom ) );
+                    } else {
+                        passNoConteinSpase.setVisibility( View.INVISIBLE );
+                        minSixChar.setVisibility( View.VISIBLE );
+                        pass1.setBackground(getDrawable( R.drawable.text_edit_light_blue  ) );
+                        YouPassTop.setTextColor( getResources().getColor( R.color.blue_lite ) );
 
                     }
 
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        emailIsntCorrect.setVisibility( View.INVISIBLE );
-                        email.setBackground(getDrawable( R.drawable.text_edit_light_blue  ) );
-                        YouEmailTop.setTextColor( getResources().getColor( R.color.blue_lite ) );
-                        noSuchAccaund.setVisibility( View.INVISIBLE );
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
+                    if (x[0]==0) {
+                        minSixChar.setVisibility( View.INVISIBLE );
 
                     }
-                } );
+                    if (x[0] >= 6) {
+                        minSixChar.setVisibility( View.INVISIBLE );
 
-                newPass_ok.setOnClickListener( new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                    } else {
+                        if (s.toString().contains(" ")) {
+                            minSixChar.setVisibility( View.INVISIBLE );
+                        } else {
+                            minSixChar.setVisibility( View.VISIBLE );
+                            passNoMatch.setVisibility( View.INVISIBLE );
+                        }
+                    }
+                }
 
-                        showSpinner( getString( R.string.In_the_process ));
+                @Override
+                public void afterTextChanged(Editable s) {
 
-                        hideKeyboardFrom( getApplicationContext(),regiserWindow );
+                }
+            } );
 
-                        if(email.getText().toString().isEmpty()){
-                            dialog_1.dismiss();
+            email.addTextChangedListener( new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    emailIsntCorrect.setVisibility( View.INVISIBLE );
+                    email.setBackground(getDrawable( R.drawable.text_edit_light_blue  ) );
+                    YouEmailTop.setTextColor( getResources().getColor( R.color.blue_lite ) );
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+            } );
+
+            btn_registrationCencel.setOnClickListener( v1 -> registrationDialog.dismiss() );
+            btn_registrationOk.setOnClickListener( new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    if (isCorrectPAss( pass1.getText().toString().trim(), pass2.getText().toString().trim() )
+                            && Helper.isValidEmail( email.getText().toString().trim() )){
+                        hideKeyboardFrom( getApplicationContext(), regiserWindow );
+                        showSpinner("Регистрация ...");
+                        startUserRegistration();
+                    } else {
+
+                        //EMAIL CHECK
+                        if (email.getText().toString().trim().isEmpty()){
+
                             email.setBackground(getDrawable( R.drawable.text_edit_error  ) );
                             YouEmailTop.setTextColor( getResources().getColor( R.color.alert_bottom ) );
+                        } else {
+                            if(Helper.isValidEmail( email.getText().toString().trim() )) {
+                                emailIsntCorrect.setVisibility( View.INVISIBLE );
+                                email.setBackground(getDrawable( R.drawable.text_edit_light_blue  ) );
+                                YouEmailTop.setTextColor( getResources().getColor( R.color.blue_lite ) );
 
-                        }
-
-                        else {
-                            if (Helper.isValidEmail( email.getText().toString().trim() )){
-
-                                //FIREBASE RESTORE
-
-                                FirebaseAuth.getInstance().sendPasswordResetEmail( email.getText().toString().trim() )
-                                        .addOnCompleteListener( new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if (task.isSuccessful()){
-
-                                                    dialog_1.dismiss();
-                                                    dialog.dismiss();
-                                                    Snackbar.make(root, getString( R.string.Password_reset_link_sent ), Snackbar.LENGTH_LONG).show();
-
-                                                    //System.out.println( "we send you new pass");
-
-
-                                                }
-                                                else {
-                                                    dialog_1.dismiss();
-                                                    //System.out.println( task.getException().getMessage());
-                                                    email.setBackground(getDrawable( R.drawable.text_edit_error  ) );
-                                                    YouEmailTop.setTextColor( getResources().getColor( R.color.alert_bottom ) );
-                                                    noSuchAccaund.setVisibility( View.VISIBLE );
-
-
-                                                }
-                                            }
-                                        } );
                             } else {
-                                dialog_1.dismiss();
                                 email.setBackground(getDrawable( R.drawable.text_edit_error  ) );
                                 YouEmailTop.setTextColor( getResources().getColor( R.color.alert_bottom ) );
                                 emailIsntCorrect.setVisibility( View.VISIBLE );
-
-
                             }
+
                         }
-                    }
-                } );
 
-                newPass_cencel.setOnClickListener( v1 -> dialog.dismiss() );
+                        // PASS CHECK
 
-//                if (emailSi.getText().toString().equals("")) {
-//                    Snackbar.make(root, "Введите адресс электронной почты в поле ввода почты", Snackbar.LENGTH_LONG).show();
-//                } else { sendmail();
-//                }
-            }
-        });
-
-//        private void sendmail() {
-//            FirebaseAuth.getInstance().sendPasswordResetEmail(emailSi.getText().toString())
-//                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<Void> task) {
-//                            if (task.isSuccessful()) {
-//                                Snackbar.make(root, getString( R.string.new_pass_send ), Snackbar.LENGTH_LONG).show();
-//                            }
-//                        }
-//                    });
-//
-//        }
-
-
-
-
-        signin.setOnClickListener( new View.OnClickListener() {
-        //regitration_new.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                AlertDialog.Builder builder = new AlertDialog.Builder( MainActivity.this );
-                LayoutInflater inflater = LayoutInflater.from( MainActivity.this );
-                final View regiserWindow = inflater.inflate( R.layout.regitration_layout_inflater, null );
-                builder.setView( regiserWindow );
-
-
-
-
-                final Button reg_ok = regiserWindow.findViewById( R.id.btn_registr );
-                final Button reg_cencel = regiserWindow.findViewById( R.id.cencel_registartion );
-
-                final EditText email = regiserWindow.findViewById( R.id.et_email_registartion );
-                final TextView YouEmailTop = regiserWindow.findViewById( R.id.textView31 );
-
-                final EditText pass1 = regiserWindow.findViewById( R.id.et_pass_registartion );
-                final TextView YouPassTop = regiserWindow.findViewById( R.id.textView25 );
-                final TextView passNoMatch = regiserWindow.findViewById( R.id.tv_miniminSixChar2 );
-                final TextView passNoConteinSpase = regiserWindow.findViewById( R.id.tv_miniminSixChar3 );
-
-
-                final EditText pass2 = regiserWindow.findViewById( R.id.et_repeat_pass_registartion );
-                final TextView repeatYouPassTop = regiserWindow.findViewById( R.id.tv_new_pass_label );
-                final TextView passNoMatch2 = regiserWindow.findViewById( R.id.tv_error_new_password2 );
-
-
-                final TextView enterYouEmailTXT = regiserWindow.findViewById( R.id.tv_needEmail );
-                final TextView emailIsntCorrect = regiserWindow.findViewById( R.id.tv_EmailIsntCorrect );
-
-                final TextView minSixChar = regiserWindow.findViewById( R.id.tv_miniminSixChar );
-
-                final ImageView check_ok = regiserWindow.findViewById( R.id.iv_password_check_ok );
-                final ImageView check_ok2 = regiserWindow.findViewById( R.id.iv_password2_check_ok );
-                final ImageView done = regiserWindow.findViewById( R.id.iv_password2_check_ok );
-
-
-
-                check_ok.setVisibility( View.INVISIBLE );
-                check_ok2.setVisibility( View.INVISIBLE );
-
-                final Integer[] x = {0};
-
-
-
-                final AlertDialog dialog = builder.create();
-                dialog.getWindow().setBackgroundDrawable( new ColorDrawable( Color.TRANSPARENT ) );
-                dialog.setCancelable( false );
-                dialog.show();
-
-
-                pass2.addTextChangedListener( new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        pass2.setBackground(getDrawable( R.drawable.text_edit_light_blue  ) );
-                        pass2.setTextColor( getResources().getColor( R.color.blue_lite ) );
-                        repeatYouPassTop.setTextColor( getResources().getColor( R.color.blue_lite ) );
-                        passNoMatch2.setVisibility( View.INVISIBLE );
-
-
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
-
-                    }
-                } );
-
-                pass1.addTextChangedListener( new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        pass2.getText().clear();
-                        passNoMatch.setVisibility( View.INVISIBLE );
-                        passNoMatch2.setVisibility( View.INVISIBLE );
-                        pass1.setBackground(getDrawable( R.drawable.text_edit_light_blue  ) );
-                        pass1.setTextColor( getResources().getColor( R.color.blue_lite ) );
-                        //pass2.setBackground(getDrawable( R.drawable.text_edit_light_blue  ) );
-                        //pass2.setTextColor( getResources().getColor( R.color.blue_lite ) );
-                        YouPassTop.setTextColor( getResources().getColor( R.color.blue_lite ) );
-                        //repeatYouPassTop.setTextColor( getResources().getColor( R.color.blue_lite ) );
-
-                        x[0] = (pass1.getText().toString()).length();
-
-                        if (s.toString().contains(" ")){
-                            passNoConteinSpase.setVisibility( View.VISIBLE );
-                            minSixChar.setVisibility( View.INVISIBLE );
+                        if (pass1.getText().toString().trim().isEmpty() || pass1.getText().toString().trim().length()<5 ){
                             pass1.setBackground(getDrawable( R.drawable.text_edit_error  ) );
                             YouPassTop.setTextColor( getResources().getColor( R.color.alert_bottom ) );
-                        } else {
-                            passNoConteinSpase.setVisibility( View.INVISIBLE );
-                            minSixChar.setVisibility( View.VISIBLE );
-                            pass1.setBackground(getDrawable( R.drawable.text_edit_light_blue  ) );
-                            //pass1.setTextColor( getResources().getColor( R.color.blue_lite ) );
-                            YouPassTop.setTextColor( getResources().getColor( R.color.blue_lite ) );
+                        }
+
+                        if (pass2.getText().toString().trim().isEmpty()){
+                            pass2.setBackground(getDrawable( R.drawable.text_edit_error  ) );
+                            repeatYouPassTop.setTextColor( getResources().getColor( R.color.alert_bottom ) );
+                        }
+
+                        if (pass1.getText().toString().trim().length()>5 && pass2.getText().toString().isEmpty()) {
+                            pass2.setBackground(getDrawable( R.drawable.text_edit_error  ) );
+                            repeatYouPassTop.setTextColor( getResources().getColor( R.color.alert_bottom ) );
 
                         }
 
-                        if (x[0]==0) {
-                            minSixChar.setVisibility( View.INVISIBLE );
-
-                        }
-                        if (x[0] >= 6) {
-                            minSixChar.setVisibility( View.INVISIBLE );
-
-                        } else {
-                            if (s.toString().contains(" ")) {
-                                minSixChar.setVisibility( View.INVISIBLE );
-                            } else {
-                                minSixChar.setVisibility( View.VISIBLE );
-                                passNoMatch.setVisibility( View.INVISIBLE );
-                            }
-
-
+                        if (pass1.getText().toString().contains( " " )) {
+                            pass2.setBackground(getDrawable( R.drawable.text_edit_error  ) );
+                            passNoConteinSpase.setVisibility( View.VISIBLE );
+                            repeatYouPassTop.setTextColor( getResources().getColor( R.color.alert_bottom ) );
 
                         }
 
+                        if (!pass2.getText().toString().trim().equals( pass1.getText().toString().trim() ) && pass1.length()>5){
+                            pass2.setBackground(getDrawable( R.drawable.text_edit_error  ) );
+                            repeatYouPassTop.setTextColor( getResources().getColor( R.color.alert_bottom ) );
+                            passNoMatch2.setVisibility( View.VISIBLE );
+                        }
                     }
+                }
 
-                    @Override
-                    public void afterTextChanged(Editable s) {
+                private void startUserRegistration() {
 
-                    }
-                } );
+                    auth.createUserWithEmailAndPassword(email.getText().toString(), pass1.getText().toString())
 
-                email.addTextChangedListener( new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                            .addOnCompleteListener( task -> {
+                                if (task.isSuccessful()) {
+                                    userEmail.setText(email.getText().toString());
+                                    userPassword.setText(pass1.getText().toString());
 
-                    }
+                                    FirebaseAuth auth = FirebaseAuth.getInstance();
+                                    FirebaseUser user_mail = auth.getCurrentUser();
+                                    user_mail.sendEmailVerification()
+                                            .addOnCompleteListener( task1 -> {
 
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        emailIsntCorrect.setVisibility( View.INVISIBLE );
-                        email.setBackground(getDrawable( R.drawable.text_edit_light_blue  ) );
-                        YouEmailTop.setTextColor( getResources().getColor( R.color.blue_lite ) );
-                    }
+                                                if (task1.isSuccessful()) {
+                                                    registrationDialog.dismiss();
+                                                    alertDialog.dismiss();
+                                                    Snackbar.make(root, getString( R.string.user_add_mail_send ), Snackbar.LENGTH_LONG).show();
+                                                }
+                                            } );
 
-                    @Override
-                    public void afterTextChanged(Editable s) {
-
-                    }
-                } );
-
-                reg_cencel.setOnClickListener( v1 -> dialog.dismiss() );
-
-                reg_ok.setOnClickListener( new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        if (isCorrectPAss(pass1.getText().toString().trim(), pass2.getText().toString().trim() ) == true
-                                && Helper.isValidEmail( email.getText().toString().trim() ) == true){
-                            hideKeyboardFrom( getApplicationContext(), regiserWindow );
-                            showSpinner("Регистрация ...");
-                            regitrUser();
-                            //dialog.dismiss();
-                        } else {
-
-                            //EMAIL CHECK
-                            if (email.getText().toString().trim().isEmpty()){
-
-                                email.setBackground(getDrawable( R.drawable.text_edit_error  ) );
-                                YouEmailTop.setTextColor( getResources().getColor( R.color.alert_bottom ) );
-                            } else {
-                                if(Helper.isValidEmail( email.getText().toString().trim() ) == true) {
-                                    System.out.println( "EMAIL is OK" );
-                                    emailIsntCorrect.setVisibility( View.INVISIBLE );
-                                    email.setBackground(getDrawable( R.drawable.text_edit_light_blue  ) );
-                                    YouEmailTop.setTextColor( getResources().getColor( R.color.blue_lite ) );
-                                    //emailOk = true;
-
-                                } else {
+                                } else  {
+                                    Snackbar.make(root, getString( R.string.User_with_such_an_email_exists ), Snackbar.LENGTH_SHORT).show();
                                     email.setBackground(getDrawable( R.drawable.text_edit_error  ) );
                                     YouEmailTop.setTextColor( getResources().getColor( R.color.alert_bottom ) );
-                                    emailIsntCorrect.setVisibility( View.VISIBLE );
-                                    emailOk = false;
-
+                                    alertDialog.dismiss();
                                 }
+                            } );
+                }
+            } );
+        } );
+        btn_SignIn.setOnClickListener( v -> {
+            hideKeyboard( MainActivity.this );
+            signIn();
 
-                            }
-
-                            // PASS CHECK
-
-                            if (pass1.getText().toString().trim().isEmpty() || pass1.getText().toString().trim().length()<5 ){
-
-                                pass1.setBackground(getDrawable( R.drawable.text_edit_error  ) );
-                                YouPassTop.setTextColor( getResources().getColor( R.color.alert_bottom ) );
-                            }
-
-                            if (pass2.getText().toString().trim().isEmpty()){
-
-                                pass2.setBackground(getDrawable( R.drawable.text_edit_error  ) );
-                                repeatYouPassTop.setTextColor( getResources().getColor( R.color.alert_bottom ) );
-                            }
-
-                            if (pass1.getText().toString().trim().length()>5 && pass2.getText().toString().isEmpty()) {
-                                pass2.setBackground(getDrawable( R.drawable.text_edit_error  ) );
-                                repeatYouPassTop.setTextColor( getResources().getColor( R.color.alert_bottom ) );
-
-                            }
-
-                            if (pass1.getText().toString().contains( " " )) {
-                                pass2.setBackground(getDrawable( R.drawable.text_edit_error  ) );
-                                passNoConteinSpase.setVisibility( View.VISIBLE );
-                                repeatYouPassTop.setTextColor( getResources().getColor( R.color.alert_bottom ) );
-
-                            }
-
-
-
-                            if (!pass2.getText().toString().trim().equals( pass1.getText().toString().trim() ) && pass1.length()>5){
-                                //pass1.setBackground(getDrawable( R.drawable.text_edit_error  ) );
-                                pass2.setBackground(getDrawable( R.drawable.text_edit_error  ) );
-                                //YouPassTop.setTextColor( getResources().getColor( R.color.alert_bottom ) );
-                                //repeatYouPassTop.setTextColor( getResources().getColor( R.color.alert_bottom ) );
-                                repeatYouPassTop.setTextColor( getResources().getColor( R.color.alert_bottom ) );
-                                //passNoMatch.setVisibility( View.VISIBLE );
-                                passNoMatch2.setVisibility( View.VISIBLE );
-
-                            }
-
-                        }
-                    }
-
-                    private void regitrUser() {
-
-                        auth.createUserWithEmailAndPassword(email.getText().toString(), pass1.getText().toString())
-
-                                .addOnCompleteListener( new OnCompleteListener<AuthResult>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<AuthResult> task) {
-                                        if (task.isSuccessful()) {
-
-
-                                            //Snackbar.make(root, "Пользователь добавлен!", Snackbar.LENGTH_SHORT).show();
-                                            emailSi.setText(email.getText().toString());
-                                            passSi.setText(pass1.getText().toString());
-
-                                            FirebaseAuth auth = FirebaseAuth.getInstance();
-                                            FirebaseUser user_mail = auth.getCurrentUser();
-
-                                            user_mail.sendEmailVerification()
-                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                        @Override
-                                                        public void onComplete(@NonNull Task<Void> task) {
-
-                                                            if (task.isSuccessful()) {
-                                                                dialog.dismiss();
-                                                                dialog_1.dismiss();
-
-                                                                //dialog.dismiss();
-                                                                //dialog_1.dismiss();
-                                                                Snackbar.make(root, getString( R.string.user_add_mail_send ), Snackbar.LENGTH_LONG).show();
-                                                                ;
-                                                            }
-                                                        }
-                                                    });
-
-                                        } else  {
-                                            Snackbar.make(root, getString( R.string.User_with_such_an_email_exists ), Snackbar.LENGTH_SHORT).show();
-                                            email.setBackground(getDrawable( R.drawable.text_edit_error  ) );
-                                            YouEmailTop.setTextColor( getResources().getColor( R.color.alert_bottom ) );
-                                            dialog_1.dismiss();
-
-
-                                        }
-                                    }
-                                } );
-//                                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-//
-//                                    @Override
-//                                    public void onSuccess(final AuthResult authResult) {
-//
-//
-////                                progressDialog.dismiss();
-//                                        dialog.dismiss();
-//                                        dialog_1.dismiss();
-//
-//
-//                                        emailSi.setText(email.getText().toString());
-//                                        passSi.setText(pass1.getText().toString());
-//
-//                                        User user = new User();
-//                                        user.setEmail(email.getText().toString());
-//                                        //user.setName(name.getText().toString());
-//                                        user.setPassword(pass1.getText().toString());
-//
-//                                        FirebaseAuth auth = FirebaseAuth.getInstance();
-//                                        FirebaseUser user_mail = auth.getCurrentUser();
-//
-//                                        user_mail.sendEmailVerification()
-//                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                                    @Override
-//                                                    public void onComplete(@NonNull Task<Void> task) {
-//
-//                                                        if (task.isSuccessful()) {
-//                                                            dialog.dismiss();
-//                                                            dialog_1.dismiss();
-//
-//                                                            Snackbar.make(root, "Письмо для активации отправлено на Ваш e-mail!", Snackbar.LENGTH_SHORT).show();
-//                                                            ;
-//                                                        }
-//                                                    }
-//                                                });
-//                                        users.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Login")
-//                                                .setValue(user)
-//
-//                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                                                    @Override
-//                                                    public void onSuccess(Void aVoid) {
-//
-//                                                        Snackbar.make(root, "Пользователь добавлен!", Snackbar.LENGTH_SHORT).show();
-//
-//
-//                                                    }
-//                                                });
-//
-//
-//
-//                                    }
-//
-//                                });
-
-                    }
-                } );
-
-
-
-            }});
-
-        btnSignIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //showSpinner( getString( R.string.enter_ ) );
-                hideKeyboard( MainActivity.this );
-                registration();
-
-
-
-            }
-        });
-
-//        btnRegister.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                showRegistrationWindow();
-//            }
-//        });
-
-
-
+        } );
     }
 
-    private void check_auth() {
+    private void checkIfUserAuthorised() {
 
         if (auth.getCurrentUser() != null) {
-            // already signed in
+            boolean emailVerified = firebaseUser.isEmailVerified();
 
-            System.out.println("ВНУТРИ");
-
-            boolean emailVerified = user.isEmailVerified();
-
-            if (emailVerified==true) {
-
-                System.out.println( "TRYUU" );
-
+            if (emailVerified) {
                 startActivity(new Intent(MainActivity.this, CalendarMainActivity.class));
                 overridePendingTransition(0, 0);
                 finish();
-            } else {
-
-
-//                AlertDialog.Builder builder = new AlertDialog.Builder( MainActivity.this );
-//                LayoutInflater inflater = LayoutInflater.from( MainActivity.this );
-//                final View regiserWindow = inflater.inflate( R.layout.no_activation_inflater, null );
-//                builder.setView( regiserWindow );
-//
-//                final Button send = regiserWindow.findViewById( R.id.btn_registr );
-//                final Button cencel = regiserWindow.findViewById( R.id.cencel_registartion );
-//
-//
-//                final AlertDialog dialog = builder.create();
-//                dialog.getWindow().setBackgroundDrawable( new ColorDrawable( Color.TRANSPARENT ) );
-//                dialog.setCancelable( false );
-//                dialog.show();
-//
-//                send.setOnClickListener( new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//
-//                        showSpinner( getString( R.string.In_the_process ));
-//
-//                        FirebaseAuth auth = FirebaseAuth.getInstance();
-//                        FirebaseUser user_mail = auth.getCurrentUser();
-//
-//                        user_mail.sendEmailVerification()
-//
-//                                .addOnFailureListener( new OnFailureListener() {
-//                                    @Override
-//                                    public void onFailure(@NonNull Exception e) {
-//                                        System.out.println( e.getMessage().trim() );
-//                                        dialog.dismiss();
-//                                        dialog_1.dismiss();
-//                                        Snackbar.make(root, getString( R.string.somsing_wrong ), Snackbar.LENGTH_LONG).show();
-//                                    }
-//                                } )
-//                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                    @Override
-//                                    public void onComplete(@NonNull Task<Void> task) {
-//
-//                                        if (task.isSuccessful()) {
-//                                            dialog.dismiss();
-//                                            dialog_1.dismiss();
-//
-//                                            Snackbar.make(root, getString( R.string.email_with_a_activation_sent_email ), Snackbar.LENGTH_LONG).show();
-//
-//                                        } else {
-//                                            System.out.println( task.getException().getMessage() );
-//                                        }
-//                                    }
-//                                });
-//
-//                        //resend();
-//
-//                    }
-//                } );
-//
-//                cencel.setOnClickListener( v -> dialog.dismiss() );
-//
-//
             }
-
-        } else {
-            // not signed in
-            System.out.println("НАДО РЕГЕСТРИРОВАТСЯ");
-//            View view = findViewById(R.id.Drawer_layo);
-//            String undo = getString(R.string.UNDO);
-//            String itemdel = getString(R.string.Itemdeleted);
-//            Snackbar snackbar = Snackbar.make(view, "Ваш аккакнт не активирован. Отпавить повторно ссылку для активации?", Snackbar.LENGTH_LONG);
-//            snackbar.setAction("Отправить", v -> resend());
-//            snackbar.show();
         }
     }
 
-    private void resend() {
+    private void signIn() {
 
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        FirebaseUser user_mail = auth.getCurrentUser();
-        //String user_mail = emailSi.getText().toString();
-        //System.out.println( user_mail.getEmail() );
-
-        user_mail.sendEmailVerification()
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-
-                        if (task.isSuccessful()) {
-                            //dialog.dismiss();
-                            //dialog_1.dismiss();
-
-                            Snackbar.make(root, getString( R.string.resend_activation ), Snackbar.LENGTH_LONG).show();
-
-                        }
-                    }
-                });
-    }
-
-
-
-
-    private void registration() {
-
-        final TextInputEditText email = findViewById(R.id.signInEmail);
-        final TextInputEditText password = findViewById(R.id.signInPass);
-
-
-        if(email.getText().toString().equals("")|| password.getText().toString().equals("")){
-            //dialog_1.dismiss();
+        if(userEmail.getText().toString().equals("")|| userPassword.getText().toString().equals("")){
             Snackbar.make(root, getString( R.string.Enter_your_email_and_password ), Snackbar.LENGTH_SHORT).show();
            hideKeyboard( MainActivity.this );
-           //dialog_1.dismiss();
         } else
-            //showSpinner(getString( R.string.enter_ ));
-            //showSpinner( getString( R.string.enter_ ) );
-            auth.signInWithEmailAndPassword(email.getText().toString(), password.getText().toString())
-                    .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                        @Override
-                        public void onSuccess(AuthResult authResult) {
-                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                            boolean emailVerified = user.isEmailVerified();
-                            System.out.println("--------------"+emailVerified);
-                            if (emailVerified==true) {
+            auth.signInWithEmailAndPassword(userEmail.getText().toString(), userPassword.getText().toString())
+                    .addOnSuccessListener( authResult -> {
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                        boolean emailVerified = user.isEmailVerified();
+                        if (emailVerified) {
+                            startActivity(new Intent(MainActivity.this, CalendarMainActivity.class));
+                            overridePendingTransition(0, 0);
+                            finish();
+                        } else {
 
+                            AlertDialog.Builder builder = new AlertDialog.Builder( MainActivity.this );
+                            LayoutInflater inflater = LayoutInflater.from( MainActivity.this );
+                            final View regiserWindow = inflater.inflate( R.layout.no_activation_inflater, null );
+                            builder.setView( regiserWindow );
 
-                                startActivity(new Intent(MainActivity.this, CalendarMainActivity.class));
-                                overridePendingTransition(0, 0);
-                                finish();
-                                //dialog_1.dismiss();
-                            } else {
+                            final Button send = regiserWindow.findViewById( R.id.btn_registr );
+                            final Button cencel = regiserWindow.findViewById( R.id.cencel_registartion );
 
-                                AlertDialog.Builder builder = new AlertDialog.Builder( MainActivity.this );
-                                LayoutInflater inflater = LayoutInflater.from( MainActivity.this );
-                                final View regiserWindow = inflater.inflate( R.layout.no_activation_inflater, null );
-                                builder.setView( regiserWindow );
+                            final AlertDialog dialog = builder.create();
+                            dialog.getWindow().setBackgroundDrawable( new ColorDrawable( Color.TRANSPARENT ) );
+                            dialog.setCancelable( false );
+                            dialog.show();
 
-                                final Button send = regiserWindow.findViewById( R.id.btn_registr );
-                                final Button cencel = regiserWindow.findViewById( R.id.cencel_registartion );
+                            send.setOnClickListener( v -> {
+                                FirebaseAuth auth = FirebaseAuth.getInstance();
+                                FirebaseUser user_mail = auth.getCurrentUser();
+                                user_mail.sendEmailVerification()
 
+                                        .addOnFailureListener( e -> {
+                                            //System.out.println( e.getMessage().trim() );
+                                            dialog.dismiss();
+                                            Snackbar.make(root, getString( R.string.somsing_wrong ), Snackbar.LENGTH_LONG).show();
+                                        } )
+                                        .addOnCompleteListener( task -> {
 
-                                final AlertDialog dialog = builder.create();
-                                dialog.getWindow().setBackgroundDrawable( new ColorDrawable( Color.TRANSPARENT ) );
-                                dialog.setCancelable( false );
-                                dialog.show();
+                                            if (task.isSuccessful()) {
 
-                                send.setOnClickListener( new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
+                                                dialog.dismiss();
+                                                Snackbar.make(root, getString( R.string.email_with_a_activation_sent_email ), Snackbar.LENGTH_LONG).show();
 
-                                        //showSpinner( getString( R.string.In_the_process ));
+                                            } else {
+                                                System.out.println( task.getException().getMessage() );
+                                            }
+                                        } );
+                            } );
 
-                                        FirebaseAuth auth = FirebaseAuth.getInstance();
-                                        FirebaseUser user_mail = auth.getCurrentUser();
-
-                                        user_mail.sendEmailVerification()
-
-                                                .addOnFailureListener( new OnFailureListener() {
-                                                    @Override
-                                                    public void onFailure(@NonNull Exception e) {
-                                                        System.out.println( e.getMessage().trim() );
-                                                        dialog.dismiss();
-                                                        //dialog_1.dismiss();
-                                                        Snackbar.make(root, getString( R.string.somsing_wrong ), Snackbar.LENGTH_LONG).show();
-                                                    }
-                                                } )
-                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<Void> task) {
-
-                                                        if (task.isSuccessful()) {
-                                                            dialog.dismiss();
-                                                            //dialog_1.dismiss();
-
-                                                            Snackbar.make(root, getString( R.string.email_with_a_activation_sent_email ), Snackbar.LENGTH_LONG).show();
-
-                                                        } else {
-                                                            System.out.println( task.getException().getMessage() );
-                                                        }
-                                                    }
-                                                });
-
-                                        //resend();
-
-                                    }
-                                } );
-
-                                cencel.setOnClickListener( v -> dialog.dismiss() );
-
-//                                dialog_1.dismiss();
-//
-//                                //Snackbar.make(root, "Активируйте Ваш аккаунт", Snackbar.LENGTH_LONG).show();
-//                                //View view = findViewById(R.id.Drawer_layo);
-//                                String undo = getString(R.string.UNDO);
-//
-//
-//                                String itemdel = getString(R.string.Itemdeleted);
-//                                Snackbar snackbar = Snackbar.make(root, getString( R.string.resend_activation ), Snackbar.LENGTH_LONG);
-//
-//
-//
-//                                snackbar.setAction(getString( R.string.send ), v -> resend());
-//                                snackbar.show();
-
-
-
-                            }
-
+                            cencel.setOnClickListener( v -> dialog.dismiss() );
                         }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            //dialog_1.dismiss();
-                            Snackbar.make(root, e.getMessage(), Snackbar.LENGTH_SHORT).show();
-                        }
-            });
+
+                    } ).addOnFailureListener( e -> Snackbar.make(root, e.getMessage(), Snackbar.LENGTH_SHORT).show() );
     }
-    private  void showSpinner(String message) {
+    private void showSpinner(String message) {
         int llPadding = 30;
         LinearLayout ll = new LinearLayout(this);
         ll.setOrientation(LinearLayout.HORIZONTAL);
@@ -1033,50 +605,27 @@ public class MainActivity extends AppCompatActivity {
         builder.setCancelable(true);
         builder.setView(ll);
 
-        dialog_1 = builder.create();
-        dialog_1.show();
-        Window window = dialog_1.getWindow();
+        alertDialog = builder.create();
+        alertDialog.show();
+        Window window = alertDialog.getWindow();
         if (window != null) {
             WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
-            layoutParams.copyFrom(dialog_1.getWindow().getAttributes());
+            layoutParams.copyFrom( alertDialog.getWindow().getAttributes());
             layoutParams.width = LinearLayout.LayoutParams.WRAP_CONTENT;
             layoutParams.height = LinearLayout.LayoutParams.WRAP_CONTENT;
-            dialog_1.getWindow().setAttributes(layoutParams);
-        }
-//        progressDialog = new android.app.ProgressDialog(MainActivity.this);
-//        progressDialog.setProgressStyle(STYLE_SPINNER);
-//        progressDialog.setMessage("Идет регистрация");
-//        progressDialog.setCancelable(true);
-//        progressDialog.setIndeterminate(true);
-//        progressDialog.show();
-    }
-
-
-
-
-
-    public static boolean isCorrectPAss(String p1, String p2 )
-    {
-
-
-        if (p1.equals( p2 ) && p1.length()>5 && (!p1.contains( " " ))){
-            return true;
-        }
-        else {
-            return false;
+            alertDialog.getWindow().setAttributes(layoutParams);
         }
     }
-
+    public static boolean isCorrectPAss(String passwordOne, String passwordTwo ) {
+        return passwordOne.equals( passwordTwo ) && passwordOne.length() > 5 && (!passwordOne.contains( " " ));
+    }
     public static void hideKeyboardFrom(Context context, View view) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
-
     public static void hideKeyboard(Activity activity) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        //Find the currently focused view, so we can grab the correct window token from it.
         View view = activity.getCurrentFocus();
-        //If no view currently has focus, create a new one, just so we can grab a window token from it
         if (view == null) {
             view = new View(activity);
         }

@@ -6,7 +6,12 @@ import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.core.content.ContextCompat;
 
 import com.example.fcm.R;
 
@@ -110,6 +115,28 @@ public abstract class Helper {
 //
 //    }
 
+    public static void showCustomToast(Context context, String txt, int color, int icon, int duration ){
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View layout = inflater.inflate(R.layout.custom_toast,
+                null);
+        LinearLayout ln = layout.findViewById( R.id.custom_toast_container );
+        ln.setBackground(context.getResources().getDrawable( R.drawable.event_bg ) );
+        ln.setBackgroundTintList( ContextCompat.getColorStateList( context, color) );
+
+        ImageView iv = layout.findViewById( R.id.iv );
+        iv.setBackground( context.getResources().getDrawable( icon ) );
+
+        TextView text = (TextView) layout.findViewById(R.id.text);
+        //text.setText(context.getString( R.string.saved_successfully));
+        text.setText(txt);
+        Toast toast = new Toast(context.getApplicationContext());
+//                                    toast.setGravity( Gravity.CENTER_VERTICAL, 0, 0);
+        toast.setDuration(duration);
+        toast.setView(layout);
+        toast.show();
+
+    }
+
     public static void showInfoRounded(Context context) {
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder( context );
         LayoutInflater inflater = LayoutInflater.from( context );
@@ -125,32 +152,31 @@ public abstract class Helper {
         ok.setOnClickListener( v1 -> dialog.dismiss() );
     }
 
-//    public static void showAlert(Context context, String shapka, String txt) {
-//        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder( context );
-//        LayoutInflater inflater = LayoutInflater.from( context );
-//        final View regiserWindow = inflater.inflate( R.layout.show_alert_info_one_button, null );
-//        builder.setView( regiserWindow );
-//        final TextView shapka_txt = regiserWindow.findViewById( R.id.tv_info_shapka );
-//        shapka_txt.setText( context.getResources().getString( R.string.No_templates ) );
-//        final TextView txt_txt = regiserWindow.findViewById( R.id.tv_info_txt );
-//        txt_txt.setText( context.getResources().getString( R.string.No_templates_txt ) );
-//        final Button ok = regiserWindow.findViewById( R.id.btn_info_ok );
-//
-//        final androidx.appcompat.app.AlertDialog dialog = builder.create();
-//        dialog.getWindow().setBackgroundDrawable( new ColorDrawable( Color.TRANSPARENT ) );
-//        dialog.setCancelable( false );
-//        dialog.show();
-//        ok.setOnClickListener( new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                dialog.dismiss();
-//
-//        } });
-//
-//    }
+    public static void showInfoNoDateAdd(Context context) {
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder( context );
+        LayoutInflater inflater = LayoutInflater.from(context );
+        final View regiserWindow = inflater.inflate( R.layout.show_alert_info_one_button, null );
+        builder.setView( regiserWindow );
+        final TextView shapka_txt = regiserWindow.findViewById( R.id.tv_info_shapka );
+        shapka_txt.setText( context.getResources().getString( R.string.Add_a_date ) );
+        final TextView txt_txt = regiserWindow.findViewById( R.id.tv_info_txt );
+        txt_txt.setText(  context.getResources().getString( R.string.No_Dates_sekected ) );
+        final Button ok = regiserWindow.findViewById( R.id.btn_info_ok );
+        final androidx.appcompat.app.AlertDialog dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawable( new ColorDrawable( Color.TRANSPARENT ) );
+        dialog.setCancelable( false );
+        dialog.show();
+        ok.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+
+            } });
+
+
+    }
 
     public static void infoNoTemplatePresent(Context context) {
-
 
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder( context );
         LayoutInflater inflater = LayoutInflater.from( context );

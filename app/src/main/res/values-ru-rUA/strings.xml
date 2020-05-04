@@ -127,7 +127,7 @@
     <string name="user_add_mail_send">Пользователь добавлен успешно. Письмо для активации отправлено на Ваш e-mail</string>
     <string name="User_with_such_an_email_exists">Пользователь c таким E-mail уже существует!</string>
     <string name="avatar_add">Аватар сохранен успешно</string>
-    <string name="Enter_your_email_and_password">" VveditВведите Ваш e-mail и пароль"</string>
+    <string name="Enter_your_email_and_password">" Введите Ваш e-mail и пароль"</string>
     <string name="hello_blank_fragment">Отправить</string>
     <string name="resend_activation">отправить активацию повторно?</string>
     <string name="enter_">Входим...</string>

@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fcm.R;
-import com.example.fcm.models.TempaleJob;
+import com.example.fcm.models.TemplateJob;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -20,7 +20,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class TemplateAdapter extends FirestoreRecyclerAdapter<TempaleJob, TemplateAdapter.NoteHolder> {
+public class TemplateAdapter extends FirestoreRecyclerAdapter<TemplateJob, TemplateAdapter.NoteHolder> {
 
     String template_name, valuta, tempalte_type;
     Integer price_hour, price_fixed, price_smena, smena_duration, overtime_pocent ;
@@ -44,13 +44,13 @@ public class TemplateAdapter extends FirestoreRecyclerAdapter<TempaleJob, Templa
 
 
 
-    public TemplateAdapter(@NonNull FirestoreRecyclerOptions<TempaleJob> options) {
+    public TemplateAdapter(@NonNull FirestoreRecyclerOptions<TemplateJob> options) {
         super( options );
 
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull NoteHolder holder, int position, @NonNull TempaleJob model) {
+    protected void onBindViewHolder(@NonNull NoteHolder holder, int position, @NonNull TemplateJob model) {
         //System.out.println( model.getTempalte_type() );
         if(model.getTempalte_type().equals("for smena" )) {
             holder.price_job_id_new.setText( String.valueOf(model.getPrice_smena()) );
@@ -97,22 +97,22 @@ public class TemplateAdapter extends FirestoreRecyclerAdapter<TempaleJob, Templa
     }
 
     public void undo(int position){
-        TempaleJob TempaleJob = new TempaleJob();
+        TemplateJob TemplateJob = new TemplateJob();
         System.out.println( "CANCEL"+position );
-        TempaleJob.setTemplate_name(template_name.toUpperCase());
-        TempaleJob.setValuta(valuta);
-        TempaleJob.setTempalte_type(tempalte_type);
-        TempaleJob.setPrice_smena(price_smena);
-        TempaleJob.setPrice_fixed(price_fixed);
-        TempaleJob.setPrice_hour(price_hour);
-        TempaleJob.setSmena_duration(smena_duration);
-        TempaleJob.setOvertime_pocent(overtime_pocent);
+        TemplateJob.setTemplate_name(template_name.toUpperCase());
+        TemplateJob.setValuta(valuta);
+        TemplateJob.setTempalte_type(tempalte_type);
+        TemplateJob.setPrice_smena(price_smena);
+        TemplateJob.setPrice_fixed(price_fixed);
+        TemplateJob.setPrice_hour(price_hour);
+        TemplateJob.setSmena_duration(smena_duration);
+        TemplateJob.setOvertime_pocent(overtime_pocent);
 
 
 
 
 
-        noteRef_full.document(template_name).set( TempaleJob )
+        noteRef_full.document(template_name).set( TemplateJob )
                 .addOnSuccessListener( new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -139,15 +139,15 @@ public class TemplateAdapter extends FirestoreRecyclerAdapter<TempaleJob, Templa
 //        System.out.println( "ADD TO UNDELETE"+ position );
 //
 //
-//        TempaleJob TempaleJob = getSnapshots().getSnapshot( position ).toObject( TempaleJob.class );
-//        template_name = TempaleJob.getTemplate_name();
-//        valuta = TempaleJob.getValuta();
-//        tempalte_type = TempaleJob.getTempalte_type();
-//        price_hour = TempaleJob.getPrice_hour();
-//        price_fixed = TempaleJob.getPrice_fixed();
-//        price_smena = TempaleJob.getPrice_smena();
-//        smena_duration = TempaleJob.getSmena_duration();
-//        overtime_pocent = TempaleJob.getOvertime_pocent();
+//        TemplateJob TemplateJob = getSnapshots().getSnapshot( position ).toObject( TemplateJob.class );
+//        template_name = TemplateJob.getTemplate_name();
+//        valuta = TemplateJob.getValuta();
+//        tempalte_type = TemplateJob.getTempalte_type();
+//        price_hour = TemplateJob.getPrice_hour();
+//        price_fixed = TemplateJob.getPrice_fixed();
+//        price_smena = TemplateJob.getPrice_smena();
+//        smena_duration = TemplateJob.getSmena_duration();
+//        overtime_pocent = TemplateJob.getOvertime_pocent();
 //
 //
 //        System.out.println( "DELEEE "+template_name+" "+valuta+ " "+tempalte_type  );

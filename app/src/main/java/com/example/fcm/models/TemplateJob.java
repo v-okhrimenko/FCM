@@ -1,14 +1,14 @@
 package com.example.fcm.models;
 
-public class TempaleJob {
+public class TemplateJob {
     String template_name, valuta, tempalte_type;
     Integer price_hour, price_fixed, price_smena, smena_duration, overtime_pocent, rounded_minutes, half_shift_hours ;
     private Boolean half_shift;
 
-    public TempaleJob() {
+    public TemplateJob() {
     }
 
-    public TempaleJob(String template_name, String valuta, String tempalte_type, Integer price_hour, Integer price_fixed, Integer price_smena, Integer smena_duration, Integer overtime_pocent, Integer rounded_minutes, Integer half_shift_hours, Boolean half_shift) {
+    public TemplateJob(String template_name, String valuta, String tempalte_type, Integer price_hour, Integer price_fixed, Integer price_smena, Integer smena_duration, Integer overtime_pocent, Integer rounded_minutes, Integer half_shift_hours, Boolean half_shift) {
         this.template_name = template_name;
         this.valuta = valuta;
         this.tempalte_type = tempalte_type;

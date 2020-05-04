@@ -40,9 +40,9 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.fcm.models.TemplateJob;
 import com.example.fcm.recycleviewadapter.TemplateAdapter;
 import com.example.fcm.helper.Helper;
-import com.example.fcm.models.TempaleJob;
 import com.example.fcm.models.UserInfoToFirestore;
 import com.example.fcm.models.MainWork;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -454,7 +454,7 @@ public class AddTemplateActivity extends AppCompatActivity {
         ok_shift.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TempaleJob tmp = new TempaleJob();
+                TemplateJob tmp = new TemplateJob();
 
                 if (et_templateName_shift.getText().toString().isEmpty()) {
                     et_templateName_shift.setBackground( getResources().getDrawable( R.drawable.text_edit_error ) );
@@ -662,7 +662,7 @@ public class AddTemplateActivity extends AppCompatActivity {
         ok_hour.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TempaleJob tmp = new TempaleJob();
+                TemplateJob tmp = new TemplateJob();
                 if (et_templateName_hour.getText().toString().isEmpty()) {
                     et_templateName_hour.setBackground( getResources().getDrawable( R.drawable.text_edit_error ) );
                 } else {
@@ -818,7 +818,7 @@ public class AddTemplateActivity extends AppCompatActivity {
 
                             //System.out.println( "ИМЯ ЕСТЬ и ИЗМЕНЕНО" );
                             //Helper.template_already_exits( AddTemplateActivity.this, et_templateName.getText().toString().trim().toUpperCase() );
-                            TempaleJob tmp = new TempaleJob();
+                            TemplateJob tmp = new TemplateJob();
                             AlertDialog.Builder builder = new AlertDialog.Builder(context);
                             LayoutInflater inflater = LayoutInflater.from(context);
                             final View regiserWindow = inflater.inflate(R.layout.template_is_present_info_inflater, null);
@@ -866,7 +866,7 @@ public class AddTemplateActivity extends AppCompatActivity {
                             } );
                         } else {
 
-                            TempaleJob tmp = new TempaleJob();
+                            TemplateJob tmp = new TemplateJob();
                             tmp.setTempalte_type( "fixed" );
                             tmp.setTemplate_name( et_templateName.getText().toString().trim().toUpperCase() );
                             tmp.setPrice_fixed( Integer.parseInt( et_templatePrice.getText().toString().trim() ) );
@@ -903,7 +903,7 @@ public class AddTemplateActivity extends AppCompatActivity {
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 
                         for (QueryDocumentSnapshot q : queryDocumentSnapshots) {
-                            TempaleJob tp = q.toObject( TempaleJob.class );
+                            TemplateJob tp = q.toObject( TemplateJob.class );
                             //System.out.println( tp.getTemplate_name() );
                             arrayList_name.add( tp.getTemplate_name().toUpperCase() );
                         }
@@ -916,8 +916,8 @@ public class AddTemplateActivity extends AppCompatActivity {
 
         Query query = noteRef_full.orderBy( "template_name", Query.Direction.DESCENDING );
         ;
-        FirestoreRecyclerOptions<TempaleJob> options = new FirestoreRecyclerOptions.Builder<TempaleJob>()
-                .setQuery( query, TempaleJob.class )
+        FirestoreRecyclerOptions<TemplateJob> options = new FirestoreRecyclerOptions.Builder<TemplateJob>()
+                .setQuery( query, TemplateJob.class )
                 .build();
         adapter_new = new TemplateAdapter( options );
 
@@ -956,7 +956,7 @@ public class AddTemplateActivity extends AppCompatActivity {
         adapter_new.setOnItemClickListener( new TemplateAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
-                TempaleJob tmp = documentSnapshot.toObject( TempaleJob.class );
+                TemplateJob tmp = documentSnapshot.toObject( TemplateJob.class );
                 
 
                 String priceFix = String.valueOf( tmp.getPrice_fixed() );
@@ -1618,7 +1618,7 @@ public class AddTemplateActivity extends AppCompatActivity {
     }
 
     private void undo(int position) {
-        TempaleJob tmp = ds.toObject( TempaleJob.class);
+        TemplateJob tmp = ds.toObject( TemplateJob.class);
         String jname = ds.getString( "template_name" );
         noteRef_full.document(jname).set( tmp );
         adapter_new.notifyDataSetChanged();
