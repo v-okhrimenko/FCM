@@ -35,7 +35,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fcm.recycleviewadapter.CalendarNoPayRv;
 import com.example.fcm.helper.Helper;
-import com.example.fcm.jobreview.FixedJobReview;
+import com.example.fcm.fixedrate.FixedJobReview;
 import com.example.fcm.jobreview.ForHourJobReview;
 import com.example.fcm.jobreview.ForSmenaJobReview;
 import com.example.fcm.models.UserInfoToFirestore;

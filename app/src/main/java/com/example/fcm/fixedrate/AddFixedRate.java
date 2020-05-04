@@ -1,4 +1,4 @@
-package com.example.fcm;
+package com.example.fcm.fixedrate;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -23,8 +23,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.fcm.CalendarMainActivity;
+import com.example.fcm.R;
 import com.example.fcm.helper.DbConnection;
-import com.example.fcm.helper.FixedRateMetods;
 import com.example.fcm.helper.Helper;
 import com.example.fcm.models.MainWork;
 import com.example.fcm.models.TemplateJob;
@@ -326,9 +327,6 @@ public class AddFixedRate extends AppCompatActivity implements AddDateInAddJobAc
         recyclerView.getAdapter().notifyDataSetChanged();
 
     }
-
-
-
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

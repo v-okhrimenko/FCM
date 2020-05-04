@@ -1,4 +1,4 @@
-package com.example.fcm.jobreview;
+package com.example.fcm.fixedrate;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;

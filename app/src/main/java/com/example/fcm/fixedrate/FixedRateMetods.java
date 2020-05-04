@@ -1,4 +1,4 @@
-package com.example.fcm.helper;
+package com.example.fcm.fixedrate;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,7 +7,9 @@ import android.widget.Toast;
 
 import com.example.fcm.CalendarMainActivity;
 import com.example.fcm.R;
-import com.example.fcm.interf.CheckCorrectDataInterface;
+import com.example.fcm.helper.DbConnection;
+import com.example.fcm.helper.Helper;
+import com.example.fcm.interfsce.AddJobInterface;
 import com.example.fcm.models.MainWork;
 import com.example.fcm.models.TemplateJob;
 
@@ -15,16 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class FixedRateMetods implements CheckCorrectDataInterface {
-
-
-
-    private String returnResult = "all ok";
-
+public class FixedRateMetods implements AddJobInterface {
 
     @Override
     public String fieldNotEmpty(ArrayList field) {
-
+        String returnResult = "all ok";
         int datesLength =  field.get( 2 ).toString().length();
 
        if(field.get( 0 ).equals( "" )){

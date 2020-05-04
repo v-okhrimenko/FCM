@@ -39,6 +39,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.fcm.fixedrate.AddFixedRate;
 import com.example.fcm.models.TemplateJob;
 import com.example.fcm.mycalendar.CalendarView;
 import com.example.fcm.mycalendar.CalendarViewEvents;
@@ -46,7 +47,7 @@ import com.example.fcm.mycalendar.CalendarViewGridAdapter;
 import com.example.fcm.recycleviewadapter.CalendarWorkRv;
 import com.example.fcm.recycleviewadapter.TemplateAdapter;
 import com.example.fcm.helper.Helper;
-import com.example.fcm.jobreview.FixedJobReview;
+import com.example.fcm.fixedrate.FixedJobReview;
 import com.example.fcm.jobreview.ForHourJobReview;
 import com.example.fcm.jobreview.ForSmenaJobReview;
 import com.example.fcm.models.UserInfoToFirestore;
@@ -485,7 +486,7 @@ public class CalendarMainActivity extends AppCompatActivity implements EasyPermi
             } );
 
         } else {
-            Helper.infoNoTemplatePresent( context );
+            Helper.showInfoNoTemplatePresent( context );
         }
 
 

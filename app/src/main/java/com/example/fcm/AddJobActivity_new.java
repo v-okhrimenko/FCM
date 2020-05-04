@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.fcm.fixedrate.AddFixedRate;
 import com.example.fcm.helper.Helper;
 import com.example.fcm.models.UserInfoToFirestore;
 import com.example.fcm.models.MainWork;

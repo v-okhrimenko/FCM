@@ -25,11 +25,11 @@
             android:name=".AddHourRate"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".AddFixedRate"
+            android:name=".fixedrate.AddFixedRate"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".OldNoFinishActivity" />
         <activity android:name=".jobreview.ForHourJobReview" />
-        <activity android:name=".jobreview.FixedJobReview" />
+        <activity android:name=".fixedrate.FixedJobReview" />
         <activity android:name=".AddJobActivity_new" />
         <activity
             android:name=".AlarmActivity"

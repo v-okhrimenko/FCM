@@ -66,6 +66,7 @@ public abstract class Helper {
         }
         return date;
     }
+
     public static void template_already_exits(Context context, String tmp_name ){
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder( context );
         LayoutInflater inflater = LayoutInflater.from(context );
@@ -90,30 +91,7 @@ public abstract class Helper {
                 dialog3.dismiss();
             }
         } );
-
-
     }
-
-
-//    public static void errorHalfShiftMoreDurati0n(Context context ){
-//
-//        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder( context );
-//        LayoutInflater inflater = LayoutInflater.from( context );
-//        final View regiserWindow = inflater.inflate( R.layout.alert_no_correct_date_set, null );
-//        builder.setView( regiserWindow );
-//        final TextView shapka = regiserWindow.findViewById( R.id.tv_shapka );
-//        shapka.setText( context.getResources().getString( R.string.Duration_of_half_shift_is_incorrect ) );
-//        final TextView txt = regiserWindow.findViewById( R.id.tv_txt );
-//        txt.setText( context.getResources().getString( R.string.Duration_half_shift_txt ) );
-//        final Button ok = regiserWindow.findViewById( R.id.btn_ok );
-//
-//        final androidx.appcompat.app.AlertDialog dialog = builder.create();
-//        dialog.getWindow().setBackgroundDrawable( new ColorDrawable( Color.TRANSPARENT ) );
-//        dialog.setCancelable( false );
-//        dialog.show();
-//        ok.setOnClickListener( v1 -> dialog.dismiss() );
-//
-//    }
 
     public static void showCustomToast(Context context, String txt, int color, int icon, int duration ){
         LayoutInflater inflater = LayoutInflater.from(context);
@@ -122,15 +100,11 @@ public abstract class Helper {
         LinearLayout ln = layout.findViewById( R.id.custom_toast_container );
         ln.setBackground(context.getResources().getDrawable( R.drawable.event_bg ) );
         ln.setBackgroundTintList( ContextCompat.getColorStateList( context, color) );
-
         ImageView iv = layout.findViewById( R.id.iv );
         iv.setBackground( context.getResources().getDrawable( icon ) );
-
         TextView text = (TextView) layout.findViewById(R.id.text);
-        //text.setText(context.getString( R.string.saved_successfully));
         text.setText(txt);
         Toast toast = new Toast(context.getApplicationContext());
-//                                    toast.setGravity( Gravity.CENTER_VERTICAL, 0, 0);
         toast.setDuration(duration);
         toast.setView(layout);
         toast.show();
@@ -142,9 +116,7 @@ public abstract class Helper {
         LayoutInflater inflater = LayoutInflater.from( context );
         final View regiserWindow = inflater.inflate( R.layout.info_rounded, null );
         builder.setView( regiserWindow );
-
         final Button ok = regiserWindow.findViewById( R.id.btn_ok );
-
         final androidx.appcompat.app.AlertDialog dialog = builder.create();
         dialog.getWindow().setBackgroundDrawable( new ColorDrawable( Color.TRANSPARENT ) );
         dialog.setCancelable( false );
@@ -166,17 +138,12 @@ public abstract class Helper {
         dialog.getWindow().setBackgroundDrawable( new ColorDrawable( Color.TRANSPARENT ) );
         dialog.setCancelable( false );
         dialog.show();
-        ok.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-
-            } });
+        ok.setOnClickListener( v -> dialog.dismiss() );
 
 
     }
 
-    public static void infoNoTemplatePresent(Context context) {
+    public static void showInfoNoTemplatePresent(Context context) {
 
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder( context );
         LayoutInflater inflater = LayoutInflater.from( context );
@@ -242,6 +209,7 @@ public abstract class Helper {
             e.printStackTrace();
         }return null;
     }
+
     public static String dataToString(Date x){
 
         java.text.SimpleDateFormat d = new java.text.SimpleDateFormat("MM");
