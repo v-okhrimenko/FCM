@@ -5,8 +5,7 @@
     android:id="@+id/header_id"
     android:layout_width="match_parent"
     android:layout_height="150dp"
-
-    android:background="#EBEBEB"
+    android:background="@color/gray_bg"
     android:gravity="bottom"
     android:theme="@style/Theme.AppCompat.DayNight">
 

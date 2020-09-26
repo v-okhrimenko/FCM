@@ -1,4 +1,4 @@
-package com.example.fcm;
+package com.example.fcm.rateHour;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -29,13 +29,14 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.fcm.mycalendar.DatePicker;
-import com.example.fcm.mycalendar.DatePickerEvents;
-import com.example.fcm.recycleviewadapter.AddDateInAddJobActivityAdapter;
-import com.example.fcm.recycleviewadapter.TemplateAdapter;
+import com.example.fcm.ScreensActivity.CalendarMainActivity;
+import com.example.fcm.R;
 import com.example.fcm.helper.Helper;
 import com.example.fcm.models.MainWork;
 import com.example.fcm.models.TemplateJob;
+import com.example.fcm.mycalendar.DatePicker;
+import com.example.fcm.recycleviewadapter.AddDateInAddJobActivityAdapter;
+import com.example.fcm.recycleviewadapter.TemplateAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -46,6 +47,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.Source;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -84,6 +86,8 @@ public class AddHourRate extends AppCompatActivity implements AddDateInAddJobAct
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_add_hour_rate );
 
+        View decorView = getWindow().getDecorView();
+        Helper.hideSystemUI( decorView );
 
 
         et_JobName = findViewById(R.id.tv_name_jrFixed);
@@ -117,7 +121,6 @@ public class AddHourRate extends AppCompatActivity implements AddDateInAddJobAct
         tamplate_name = new ArrayList<String>();
         checkTemplateName();
 
-
         et_JobName.addTextChangedListener( new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -134,6 +137,7 @@ public class AddHourRate extends AppCompatActivity implements AddDateInAddJobAct
 
             }
         } );
+
         et_HourPrice.addTextChangedListener( new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -171,7 +175,7 @@ public class AddHourRate extends AppCompatActivity implements AddDateInAddJobAct
                     dialog1.getWindow().setBackgroundDrawable( new ColorDrawable( Color.TRANSPARENT ) );
 
                     ///noteRef_addWork.get().addOnSuccessListener( new OnSuccessListener<QuerySnapshot>() {
-                    noteRef_addWork_Full.get().addOnSuccessListener( new OnSuccessListener<QuerySnapshot>() {
+                    noteRef_addWork_Full.get( Source.CACHE).addOnSuccessListener( new OnSuccessListener<QuerySnapshot>() {
                         @Override
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                             for(QueryDocumentSnapshot ds: queryDocumentSnapshots){
@@ -184,13 +188,16 @@ public class AddHourRate extends AppCompatActivity implements AddDateInAddJobAct
                                 String dateEvent = c.get( Calendar.DAY_OF_MONTH )+"-"+(c.get( Calendar.MONTH )+1)+"-"+c.get( Calendar.YEAR );
 //                             //System.out.println( dateEvent );
 
-                                DatePicker.eventsList.add( new DatePickerEvents(main_work.getName(),dateEvent,main_work.getStatus()) );
-                            }dialog1.show();
+                               // DatePicker.eventsList.add( new DatePickerEvents(main_work.getName(),dateEvent,main_work.getStatus()) );
+                            }
+
+                            dialog1.show();
 
 
                         }
 
                     } );
+                    dialog1.show();
 
                     cancel.setOnClickListener( v1 -> {
                         x = 0;
@@ -227,19 +234,7 @@ public class AddHourRate extends AppCompatActivity implements AddDateInAddJobAct
         btn_info.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder( AddHourRate.this);
-                LayoutInflater inflater = LayoutInflater.from( AddHourRate.this);
-                final View regiserWindow = inflater.inflate(R.layout.info_rounded, null);
-                builder.setView(regiserWindow);
-
-                final Button ok = regiserWindow.findViewById( R.id.btn_ok );
-
-                final androidx.appcompat.app.AlertDialog dialog = builder.create();
-                dialog.getWindow().setBackgroundDrawable( new ColorDrawable( Color.TRANSPARENT ) );
-                dialog.setCancelable( false );
-                dialog.show();
-                ok.setOnClickListener( v1 -> dialog.dismiss() );
-
+                Helper.showInfoRounded( AddHourRate.this );
             }
         } );
 
@@ -299,66 +294,6 @@ public class AddHourRate extends AppCompatActivity implements AddDateInAddJobAct
             }
         } );
 
-//        btn_Template.setOnClickListener( new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//
-//                AlertDialog.Builder builder = new AlertDialog.Builder(AddHourRate.this);
-//                LayoutInflater inflater = LayoutInflater.from(AddHourRate.this);
-//                final View regiserWindow = inflater.inflate(R.layout.template_inflter, null);
-//                builder.setView(regiserWindow);
-//
-//                final RecyclerView recyclerView_new = regiserWindow.findViewById( R.id.recWieJobs_id_new );
-//
-//                final Button cancel = regiserWindow.findViewById( R.id.btn_close_tamplate_rv );
-//
-//                final AlertDialog dialog = builder.create();
-//                dialog.setCancelable( false );
-//                dialog.getWindow().setBackgroundDrawable( new ColorDrawable( Color.TRANSPARENT ) );
-//                dialog.show();
-//                cancel.setOnClickListener( v1 -> {dialog.dismiss();} );
-//
-//                Query query = noteRef_full.whereEqualTo( "tempalte_type", "for hour" ).orderBy( "template_name", Query.Direction.DESCENDING );;
-//                FirestoreRecyclerOptions<TemplateJob> options = new FirestoreRecyclerOptions.Builder<TemplateJob>()
-//                        .setQuery(query, TemplateJob.class)
-//                        .build();
-//                adapter_new = new TemplateAdapter( options );
-//                adapter_new.startListening();
-//                adapter_new.setOnItemClickListener( new TemplateAdapter.OnItemClickListener() {
-//                    @Override
-//                    public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
-//
-//                        int valutaIndex = 0;
-//                        switch (adapter_new.getItem( position ).getValuta()){
-//                            case "грн":
-//                                valutaIndex = 0;
-//                                break;
-//                            case "usd":
-//                                valutaIndex = 1;
-//                                break;
-//                            case "eur":
-//                                valutaIndex = 2;
-//                                break;
-//                            case "руб":
-//                                valutaIndex = 3;
-//                                break;
-//                        }
-//
-//                        et_JobName.setText( adapter_new.getItem( position ).getTemplate_name() );
-//                        et_HourPrice.setText( String.valueOf(adapter_new.getItem( position ).getPrice_hour()) );
-//                        rounded_minutes.setText( String.valueOf(adapter_new.getItem( position ).getRounded_minutes()) );
-//                        valuta.setSelection( valutaIndex );
-//                        dialog.dismiss();
-//                    }
-//                } );
-//
-//                recyclerView_new.setHasFixedSize( true );
-//                recyclerView_new.setLayoutManager( new LinearLayoutManager( getBaseContext() ) );
-//                recyclerView_new.setAdapter( adapter_new );
-//
-//            }
-//        } );
     }
 
 
@@ -448,9 +383,7 @@ public class AddHourRate extends AppCompatActivity implements AddDateInAddJobAct
                             toast.setDuration(Toast.LENGTH_LONG);
                             toast.setView(layout);
                             toast.show();
-                            startActivity(new Intent( AddHourRate.this, CalendarMainActivity.class));
-                            overridePendingTransition(0, 0);
-                            finish();
+
                         }
 
                     } )
@@ -482,6 +415,9 @@ public class AddHourRate extends AppCompatActivity implements AddDateInAddJobAct
 
 
                         }});
+            startActivity(new Intent( AddHourRate.this, CalendarMainActivity.class));
+            overridePendingTransition(0, 0);
+            finish();
 
             /// ADD TO FIREBASE HERE
 

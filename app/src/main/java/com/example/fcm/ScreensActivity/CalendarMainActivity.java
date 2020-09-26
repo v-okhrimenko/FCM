@@ -1,4 +1,4 @@
-package com.example.fcm;
+package com.example.fcm.ScreensActivity;
 
 import android.Manifest;
 import android.app.AlarmManager;
@@ -24,6 +24,8 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,23 +41,27 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.fcm.fixedrate.AddFixedRate;
+import com.example.fcm.R;
+import com.example.fcm.helper.Helper;
+import com.example.fcm.models.MainWork;
 import com.example.fcm.models.TemplateJob;
+import com.example.fcm.models.UserInfoToFirestore;
 import com.example.fcm.mycalendar.CalendarView;
-import com.example.fcm.mycalendar.CalendarViewEvents;
 import com.example.fcm.mycalendar.CalendarViewGridAdapter;
+import com.example.fcm.other.AlarmResiver;
+import com.example.fcm.other.NumberPicker;
+import com.example.fcm.rateFixed.AddFixedRate;
+import com.example.fcm.rateFixed.FixedJobReview;
+import com.example.fcm.rateHour.AddHourRate;
+import com.example.fcm.rateHour.ForHourJobReview;
+import com.example.fcm.rateSmena.AddSmenaRate;
+import com.example.fcm.rateSmena.ForSmenaJobReview;
 import com.example.fcm.recycleviewadapter.CalendarWorkRv;
 import com.example.fcm.recycleviewadapter.TemplateAdapter;
-import com.example.fcm.helper.Helper;
-import com.example.fcm.fixedrate.FixedJobReview;
-import com.example.fcm.jobreview.ForHourJobReview;
-import com.example.fcm.jobreview.ForSmenaJobReview;
-import com.example.fcm.models.UserInfoToFirestore;
-import com.example.fcm.models.MainWork;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.github.mmin18.widget.RealtimeBlurView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -67,17 +73,15 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.Source;
 import com.squareup.picasso.Picasso;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
@@ -85,49 +89,51 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
+
+
+
 public class CalendarMainActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
 
 //    private StorageReference mStorageRef = FirebaseStorage.getInstance().getReference("Avatar");
 
-    final int RequestCameraPermissionId = 1;
-
+    private final int RequestCameraPermissionId = 1;
     private float sum_noPay;
-    private float sum_PayAll;
+    //private float sum_PayAll;
+
 
     //private FloatingActionButton newWork;
 
-
-
     private int STORAGE_PERMISSION_CODE = 1;
-    private Object selectedImagePath;
-    CalendarViewGridAdapter adapter_cal;
+    //private Object selectedImagePath;
+    private CalendarViewGridAdapter adapter_cal;
     
     //ЧАСЫ И НАПОМИНАНИЯ
-    private int h;
-    private int m;
-    private boolean remind1DayChek = false;
-    private boolean remindCustomDayChek = false;
-    private Integer remindSetCustomDay;
-//    private Date alarmFromDate;
-    private String a1txt = "";
+//    private int h;
+//    private int m;
+//    private boolean remind1DayChek = false;
+//    private boolean remindCustomDayChek = false;
+//    private Integer remindSetCustomDay;
+////    private Date alarmFromDate;
+//    private String a1txt = "";
 
-    PendingIntent pendingIntent;
-    AlarmManager alarmManager;
-    private int notId = 1;
-    CalendarView cw;
-
-    FloatingActionButton fab_fixed, fab_hour, fab_shift,fab_template, fab_show_menu;
+    private PendingIntent pendingIntent;
+    private AlarmManager alarmManager;
+    //private int notId = 1;
+    private CalendarView cw;
+    private ImageView fab_show_menu, fab_shift,fab_hour, fab_fixed, fab_template;
+    //FloatingActionButton fab_template;
     private Boolean isOpen=false;
-    TextView tv_fixed_txt, tv_hour_txt, tv_shift_txt, tv_template;
-    ConstraintLayout cl_main;
-    ConstraintLayout cl_disable_rv;
-
+    private TextView tv_fixed_txt, tv_hour_txt, tv_shift_txt, tv_template;
+    private ConstraintLayout cl_main;
+    private ConstraintLayout cl_disable_rv;
+    private ConstraintLayout bg_rv;
 
 
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser user;
-    private boolean showTemplateInFloatActionButtonMenu;
+    private boolean showTemplateInFloatActionButtonMenu = true;
     private Context context;
+    private boolean blurTrue;
 
 
     {
@@ -144,19 +150,19 @@ public class CalendarMainActivity extends AppCompatActivity implements EasyPermi
     DocumentSnapshot ds;
 
 
-
+    private RealtimeBlurView blurView, blurViewAll;
     public static CalendarWorkRv adapter;
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
-    int position;
+    private int position;
 //    private ImageButton menu;
-
-    Integer uniq_ud;
-    String name_ud, desc_ud;
-    Integer price_ud;
-    Date date_ud;
-    Boolean chek_ud;
+//
+//    Integer uniq_ud;
+//    String name_ud, desc_ud;
+//    Integer price_ud;
+//    Date date_ud;
+//    Boolean chek_ud;
     public static String[] test = new String[2];
     //DataToDrawer fh = new DataToDrawer();
 
@@ -164,20 +170,21 @@ public class CalendarMainActivity extends AppCompatActivity implements EasyPermi
 
     private final int Pick_image = 1;
     private final int Load_image = 2;
-    CircleImageView avatar;
-    String img_;
+    private CircleImageView avatar;
+    //String img_;
 
-    String emailname;
+    private String emailname;
 
-    CalendarViewGridAdapter calendarViewGridAdapter;
+    private CalendarViewGridAdapter calendarViewGridAdapter;
 
-    ArrayList <String> check_two_or_more_event = new ArrayList<>();
+    private ArrayList <String> check_two_or_more_event = new ArrayList<>();
     public static ArrayList <String> two_or_more_event = new ArrayList<>();
-
     private TemplateAdapter adapter_new;
 
-    TextView incompleatEvents;
-    TextView noPayEvents;
+    private TextView incompleatEvents;
+    private TextView noPayEvents;
+
+    private ImageButton showDrawer;
 
     private void localeSet() {
 
@@ -194,7 +201,14 @@ public class CalendarMainActivity extends AppCompatActivity implements EasyPermi
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_calendar_main );
 
+//        View decorView = getWindow().getDecorView();
+//        Helper.hideSystemUI( decorView );
+
+        showDrawer = findViewById( R.id.ib_showDrawer );
+
         context = CalendarMainActivity.this;
+        blurView = findViewById( R.id.blurview );
+        blurViewAll = findViewById( R.id.blurview_all );
 
         fab_fixed =findViewById( R.id.fab1 );
         fab_hour =findViewById( R.id.fab2 );
@@ -202,6 +216,7 @@ public class CalendarMainActivity extends AppCompatActivity implements EasyPermi
         fab_template =findViewById( R.id.fab_template );
 
         fab_show_menu =findViewById( R.id.fab4 );
+        fab_show_menu.setClickable( true );
         tv_fixed_txt =findViewById(R.id.tv_fixed_test);
         tv_hour_txt =findViewById(R.id.tv_hour_test);
         tv_shift_txt =findViewById(R.id.tv_smena_test);
@@ -209,7 +224,20 @@ public class CalendarMainActivity extends AppCompatActivity implements EasyPermi
         cl_disable_rv = findViewById( R.id.cl_black_test );
         cl_main = findViewById( R.id.cl_main );
 
-        tv_fixed_txt.setClickable( true );
+        bg_rv = findViewById( R.id.bg_rv );
+
+        tv_fixed_txt.setClickable( false );
+        tv_hour_txt.setClickable( false );
+        tv_shift_txt.setClickable( false );
+        tv_template.setClickable( false );
+
+        blurView.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isOpen=false;
+                closeMenu();
+            }
+        } );
         tv_fixed_txt.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -221,8 +249,6 @@ public class CalendarMainActivity extends AppCompatActivity implements EasyPermi
 
             }
         } );
-
-        tv_hour_txt.setClickable( true );
         tv_hour_txt.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -235,20 +261,16 @@ public class CalendarMainActivity extends AppCompatActivity implements EasyPermi
 
             }
         } );
-
-        tv_shift_txt.setClickable( true );
         tv_shift_txt.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent( CalendarMainActivity.this, AddShiftRate.class));
+                startActivity(new Intent( CalendarMainActivity.this, AddSmenaRate.class));
 //                customType(CalendarMainActivity.this,"fadein-to-fadeout");
                 overridePendingTransition(0, 0);
                 finish();
 
             }
         } );
-
-        tv_template.setClickable( true );
         tv_template.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -273,7 +295,7 @@ public class CalendarMainActivity extends AppCompatActivity implements EasyPermi
         fab_shift.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent( CalendarMainActivity.this, AddShiftRate.class));
+                startActivity(new Intent( CalendarMainActivity.this, AddSmenaRate.class));
 //                customType(CalendarMainActivity.this,"fadein-to-fadeout");
                 overridePendingTransition(0, 0);
                 finish();
@@ -315,13 +337,23 @@ public class CalendarMainActivity extends AppCompatActivity implements EasyPermi
                }
             }
         } );
+
         recyclerView = findViewById( R.id.main_work_rv );
+
+
+
+        checkPerm();
+
         cw = findViewById( R.id.mainCalendarView );
         cw.CollectEventMonth();
-
         updateList();
-        setCalendar();
-        checkPerm();
+
+//        Calendar calendarToday = Calendar.getInstance();
+//
+//
+//        setCalendarCurrent( calendarToday.get( Calendar.YEAR ), calendarToday.get( Calendar.MONTH ) );
+        //setCalendar();
+
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
         View headerView = navigationView.getHeaderView(0);
@@ -332,7 +364,17 @@ public class CalendarMainActivity extends AppCompatActivity implements EasyPermi
         noPayEvents= (TextView) MenuItemCompat.getActionView(navigationView.getMenu().
                 findItem(R.id.not_pay));
         drawerLayout = findViewById(R.id.Drawer_layo);
+
         navigationView = findViewById(R.id.navigationView);
+        //navigationView.setItemIconTintList( null );
+
+        showDrawer.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.openDrawer( Gravity.LEFT );
+            }
+        } );
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -410,22 +452,31 @@ public class CalendarMainActivity extends AppCompatActivity implements EasyPermi
 
 
     private void showTemplate() {
+
         if (showTemplateInFloatActionButtonMenu){
+
+            //blurViewAll.setVisibility( View.VISIBLE );
             AlertDialog.Builder builder = new AlertDialog.Builder( CalendarMainActivity.this);
             LayoutInflater inflater = LayoutInflater.from( CalendarMainActivity.this);
             final View regiserWindow = inflater.inflate(R.layout.template_inflter, null);
             builder.setView(regiserWindow);
 
+            View decorView = regiserWindow.getRootView();
+            Helper.hideSystemUI( decorView );
+
             final RecyclerView recyclerView_new = regiserWindow.findViewById( R.id.recWieJobs_id_new );
-
-
             final Button cancel = regiserWindow.findViewById( R.id.btn_close_tamplate_rv );
 
             final AlertDialog dialog = builder.create();
             dialog.setCancelable( false );
             dialog.getWindow().setBackgroundDrawable( new ColorDrawable( Color.TRANSPARENT ) );
+            //dialog.getWindow().setBackgroundDrawable( new ColorDrawable( Color.TRANSPARENT ) );
+            //dialog.getWindow().setDimAmount(0.0f);
             dialog.show();
-            cancel.setOnClickListener( v1 -> {dialog.dismiss();} );
+
+            cancel.setOnClickListener( v1 -> {
+                blurViewAll.setVisibility( View.INVISIBLE );
+                dialog.dismiss();} );
 
             Query query = noteRef_full.orderBy( "template_name", Query.Direction.DESCENDING );;
             FirestoreRecyclerOptions<TemplateJob> options = new FirestoreRecyclerOptions.Builder<TemplateJob>()
@@ -451,12 +502,14 @@ public class CalendarMainActivity extends AppCompatActivity implements EasyPermi
                             intent.putExtra("name", tmp.getTemplate_name());
                             intent.putExtra("price", String.valueOf(tmp.getPrice_fixed()) );
                             intent.putExtra("valuta", tmp.getValuta() );
+
                             startActivity(intent);
+                            overridePendingTransition(0, 0);
                             break;
 
                         case "for smena":
 
-                            Intent intent_forSmena = new Intent( CalendarMainActivity.this, AddShiftRate.class);
+                            Intent intent_forSmena = new Intent( CalendarMainActivity.this, AddSmenaRate.class);
                             intent_forSmena.putExtra("isFromTemplate", "true");
                             intent_forSmena.putExtra("name", tmp.getTemplate_name());
                             intent_forSmena.putExtra("priceShift", String.valueOf( tmp.getPrice_smena() ));
@@ -468,6 +521,7 @@ public class CalendarMainActivity extends AppCompatActivity implements EasyPermi
                             intent_forSmena.putExtra("half_shiht_hours",String.valueOf( tmp.getHalf_shift_hours() ) );
 
                             startActivity(intent_forSmena);
+                            overridePendingTransition(0, 0);
                             break;
                         case "for hour":
 
@@ -479,6 +533,7 @@ public class CalendarMainActivity extends AppCompatActivity implements EasyPermi
                             intent_forHour.putExtra("rounded_nimutes", String.valueOf( tmp.getRounded_minutes() ) );
 
                             startActivity(intent_forHour);
+                            overridePendingTransition(0, 0);
                             break;
                     }
 
@@ -493,20 +548,30 @@ public class CalendarMainActivity extends AppCompatActivity implements EasyPermi
     }
 
     private void closeMenu() {
+
+        tv_fixed_txt.setClickable( false );
+        tv_hour_txt.setClickable( false );
+        tv_shift_txt.setClickable( false );
+        tv_template.setClickable( false );
+
+        tv_fixed_txt.setVisibility( View.GONE );
+        tv_hour_txt.setVisibility( View.GONE  );
+        tv_shift_txt.setVisibility( View.GONE  );
+        tv_template.setVisibility( View.GONE  );
+
         isOpen=false;
         tv_fixed_txt.setAlpha( 0 );
         tv_hour_txt.setAlpha( 0 );
         tv_shift_txt.setAlpha( 0 );
         tv_template.setAlpha( 0 );
 
-
+        //blurView.setVisibility( View.INVISIBLE );
         cl_disable_rv.setAlpha( 0 );
         cl_disable_rv.setClickable( false );
         cl_disable_rv.setFocusable( false );
 
-
-
         fab_show_menu.animate().rotation( 0 );
+        //fab_show_menu.setImageDrawable( getDrawable( R.drawable.buttonaddtest ) );
         fab_fixed.animate().translationY( 0 ).rotation( 0 );
         fab_hour.animate().translationY( 0 ).rotation( 0 );
         fab_shift.animate().translationY( 0 ).rotation( 0 );
@@ -520,9 +585,20 @@ public class CalendarMainActivity extends AppCompatActivity implements EasyPermi
     }
 
     private void openMenu() {
+
+        tv_fixed_txt.setClickable( true );
+        tv_hour_txt.setClickable( true );
+        tv_shift_txt.setClickable( true );
+        tv_template.setClickable( true );
+
+        tv_fixed_txt.setVisibility( View.VISIBLE );
+        tv_hour_txt.setVisibility( View.VISIBLE );
+        tv_shift_txt.setVisibility( View.VISIBLE );
+        tv_template.setVisibility( View.VISIBLE );
+
+        cl_disable_rv.setOnClickListener( v -> closeMenu() );
         isOpen=true;
         //tv_template.animate().translationY( -565 ).setDuration(100 );
-
         tv_fixed_txt.animate().translationY( -430 ).setDuration(300 );
         tv_fixed_txt.setAlpha( 1 );
         tv_hour_txt.animate().translationY( -295 ).setDuration(200 );
@@ -532,12 +608,12 @@ public class CalendarMainActivity extends AppCompatActivity implements EasyPermi
         tv_template.animate().translationX( -160 ).setDuration(300 );
         tv_template.setAlpha( 1 );
 
-
         cl_disable_rv.setAlpha( 1 );
         cl_disable_rv.setClickable( true );
         cl_disable_rv.setFocusable( true );
 
         fab_show_menu.animate().rotation( 180 );
+        //fab_show_menu.setImageDrawable( getDrawable( R.drawable.buttonaddpressedwhite ) );
 
         fab_fixed.animate().translationY( -430 ).rotation( 360 ).setDuration(300 );
         fab_hour.animate().translationY( -295 ).rotation( 360 ).setDuration(200 );
@@ -545,75 +621,140 @@ public class CalendarMainActivity extends AppCompatActivity implements EasyPermi
         //fab_template.animate().translationY( -565 ).rotation( 360 ).setDuration(100 );
         fab_template.animate().translationX( -160 ).rotation( 360 ).setDuration(300 );
 
+
+
     }
 
-    private void setCalendar() {
+    private void showBlur() {
 
-        CalendarView.eventsList.clear();
-        check_two_or_more_event.clear();
-        two_or_more_event.clear();
+        blurView.setVisibility( View.VISIBLE );
+        blurTrue = true;
+    }
 
-        Runnable run = new Runnable() {
-            public void run() {
-
-                CalendarView.eventsList.clear();
-                check_two_or_more_event.clear();
-                two_or_more_event.clear();
-
-                ///noteRef_addWork.get().addOnSuccessListener( new OnSuccessListener<QuerySnapshot>() {
-                noteRef_addWork_Full.get().addOnSuccessListener( new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        for(QueryDocumentSnapshot ds: queryDocumentSnapshots) {
-                            MainWork main_work = ds.toObject( MainWork.class );
-//                            System.out.println( main_work.getDate() );
-
-                            Calendar c = Calendar.getInstance();
-                            c.setTime( main_work.getDate() );
-
-                            String dateEvent = c.get( Calendar.DAY_OF_MONTH ) + "-" + (c.get( Calendar.MONTH ) + 1) + "-" + c.get( Calendar.YEAR );
-//                            System.out.println( dateEvent );
-
-                            CalendarView.eventsList.add( new CalendarViewEvents( main_work.getName(), dateEvent, main_work.getStatus() ) );
-                            ///CalendarView.eventsList.add( new CalendarViewEvents( main_work.getJobName(), dateEvent, main_work.getStatus() ) );
-
-
-                            check_two_or_more_event.add( dateEvent );
-////                            ArrayList <String> two_or_more_event = new ArrayList<>();
+//    public  void setCalendarCurrent (int year, int month) {
 //
-                            twoSets( check_two_or_more_event );
-                        }
-                        cw.CollectEventMonth();
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.set(year, month, 1);
+//
+//        int maxDay =  calendar.getActualMaximum( Calendar.DAY_OF_MONTH );
+//
+//        Calendar cFirstDayInMonth = Calendar.getInstance();
+//        cFirstDayInMonth.set( Calendar.YEAR,year  );
+//        cFirstDayInMonth.set( Calendar.MONTH, month );
+//        cFirstDayInMonth.set( Calendar.DAY_OF_MONTH, 1 );
+//        cFirstDayInMonth.set( Calendar.HOUR_OF_DAY,0 );
+//        cFirstDayInMonth.set( Calendar.MINUTE,0 );
+//        cFirstDayInMonth.set( Calendar.SECOND,0 );
+//        cFirstDayInMonth.set( Calendar.MILLISECOND,0 );
+//
+//        Date firesDayInMonth = new Date();
+//        firesDayInMonth.setTime( cFirstDayInMonth.getTimeInMillis() );
+//
+//        Calendar cLastDayInMonth = Calendar.getInstance();
+//        cLastDayInMonth.set( Calendar.YEAR,year  );
+//        cLastDayInMonth.set( Calendar.MONTH, month );
+//        cLastDayInMonth.set( Calendar.DAY_OF_MONTH, maxDay );
+//        cLastDayInMonth.set( Calendar.HOUR_OF_DAY,0 );
+//        cLastDayInMonth.set( Calendar.MINUTE,0 );
+//        cLastDayInMonth.set( Calendar.SECOND,0 );
+//        cLastDayInMonth.set( Calendar.MILLISECOND,0 );
+//
+//        Date lastDayInMonth = new Date();
+//        lastDayInMonth.setTime( cLastDayInMonth.getTimeInMillis() );
+//
+//        DbConnection.DBJOBS
+//                .whereGreaterThanOrEqualTo( "date",firesDayInMonth )
+//                .whereLessThanOrEqualTo( "date", lastDayInMonth ).get( Source.CACHE)
+//                .addOnSuccessListener( new OnSuccessListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+//                        for(QueryDocumentSnapshot snapshot: queryDocumentSnapshots) {
+//
+//                            MainWork mainWork = snapshot.toObject( MainWork.class);
+//
+//                            System.out.println(mainWork.getDate());
+//
+//                            Calendar c = Calendar.getInstance();
+//                            c.setTime( mainWork.getDate() );
+//                            String dateEvent = c.get( Calendar.DAY_OF_MONTH ) + "-" + (c.get( Calendar.MONTH ) + 1) + "-" + c.get( Calendar.YEAR );
+//                            CalendarView.eventsList.add( new CalendarViewEvents( mainWork.getName(), dateEvent, mainWork.getStatus() ) );
+//                            check_two_or_more_event.add( dateEvent );
+//                            twoSets( check_two_or_more_event );
+//
+//                        }
+//                        cw.CollectEventMonth();
+//                    }
+//                } );
+//
+//
+//
+//    }
 
-                    }
-
-                }
-                );
-
-
-            }};
-        new Thread(run).start();
-    }
-
-    private static void twoSets(ArrayList<String> data)
-    {
-        Set<String> foundStrings = new HashSet<>();
-        Set<String> duplicates = new HashSet<>();
-        for (String str : data)
-        {
-            if (foundStrings.contains(str))
-            {
-                duplicates.add(str);
-                two_or_more_event.add( str );
-
-            }
-            else
-            {
-                foundStrings.add(str);
-            }
-        }
-
-    }
+//    private void setCalendar() {
+//
+//        CalendarView.eventsList.clear();
+//        check_two_or_more_event.clear();
+//        two_or_more_event.clear();
+//
+//        Runnable run = new Runnable() {
+//            public void run() {
+//
+////                CalendarView.eventsList.clear();
+////                check_two_or_more_event.clear();
+////                two_or_more_event.clear();
+////
+////
+//                    noteRef_addWork_Full.get( Source.CACHE).addOnSuccessListener( new OnSuccessListener<QuerySnapshot>() {
+//                     @Override
+//                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+//                         for(QueryDocumentSnapshot ds: queryDocumentSnapshots) {
+//                             MainWork main_work = ds.toObject( MainWork.class );
+////                            System.out.println( main_work.getDate() );
+//
+//                             Calendar c = Calendar.getInstance();
+//                             c.setTime( main_work.getDate() );
+//
+//                             String dateEvent = c.get( Calendar.DAY_OF_MONTH ) + "-" + (c.get( Calendar.MONTH ) + 1) + "-" + c.get( Calendar.YEAR );
+////                            System.out.println( dateEvent );
+//                             CalendarView.eventsList.add( new CalendarViewEvents( main_work.getName(), dateEvent, main_work.getStatus() ) );
+//                             ///CalendarView.eventsList.add( new CalendarViewEvents( main_work.getJobName(), dateEvent, main_work.getStatus() ) );
+//                             check_two_or_more_event.add( dateEvent );
+//////                            ArrayList <String> two_or_more_event = new ArrayList<>();
+//                             twoSets( check_two_or_more_event );
+//                         }
+//                         cw.CollectEventMonth();
+//                     }
+//
+//                 }
+//                );
+//
+//
+//                ///noteRef_addWork.get().addOnSuccessListener( new OnSuccessListener<QuerySnapshot>() {
+//
+//            }};
+//        new Thread(run).start();
+//
+//
+//    }
+//
+//    private static void twoSets(ArrayList<String> data)
+//    {
+//        Set<String> foundStrings = new HashSet<>();
+//        Set<String> duplicates = new HashSet<>();
+//        for (String str : data)
+//        {
+//            if (foundStrings.contains(str))
+//            {
+//                duplicates.add(str);
+//                two_or_more_event.add( str );
+//            }
+//            else
+//            {
+//                foundStrings.add(str);
+//            }
+//        }
+//
+//    }
 
     @AfterPermissionGranted( 123 )
     private void checkPerm() {
@@ -622,7 +763,6 @@ public class CalendarMainActivity extends AppCompatActivity implements EasyPermi
             public void run() {
 
                 if (ActivityCompat.checkSelfPermission( getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE ) != PackageManager.PERMISSION_GRANTED) {
-
                     ActivityCompat.requestPermissions( CalendarMainActivity.this, new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, RequestCameraPermissionId );
                     return;
                 }
@@ -656,7 +796,7 @@ public class CalendarMainActivity extends AppCompatActivity implements EasyPermi
         allSumm.clear();
         allSummP.clear();
 
-        sum_PayAll = 0f;
+        //sum_PayAll = 0f;
         sum_noPay = 0f;
 
         Date date_ = new Date(System.currentTimeMillis());
@@ -664,7 +804,7 @@ public class CalendarMainActivity extends AppCompatActivity implements EasyPermi
         Date date_ok_ = Helper.stringToData( d1_ );
 
         noteRef_addWork_Full.whereLessThan("date", date_ok_ ).whereEqualTo( "needFinish", true )
-                .whereEqualTo( "end",null ).orderBy( "date", Query.Direction.ASCENDING ).get()
+                .whereEqualTo( "end",null ).orderBy( "date", Query.Direction.ASCENDING ).get(Source.CACHE)
                 .addOnSuccessListener( new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -700,7 +840,7 @@ public class CalendarMainActivity extends AppCompatActivity implements EasyPermi
                     }
                 });
 
-        noteRef_data.get()
+        noteRef_data.get(Source.CACHE)
                 .addOnSuccessListener( new OnSuccessListener<DocumentSnapshot>() {
                    @Override
                    public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -733,7 +873,7 @@ public class CalendarMainActivity extends AppCompatActivity implements EasyPermi
                }
                 );
 
-        noteRef_addWork_Full.whereEqualTo( "status", false ).whereLessThan("date", date_ok).orderBy( "date", Query.Direction.DESCENDING ).get()
+        noteRef_addWork_Full.whereEqualTo( "status", false ).whereLessThan("date", date_ok).orderBy( "date", Query.Direction.DESCENDING ).get(Source.CACHE)
                 .addOnFailureListener( new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
@@ -796,213 +936,228 @@ public class CalendarMainActivity extends AppCompatActivity implements EasyPermi
 
     public void updateList() {
 
-//      ИЩЕМ ПО ДАТЕ И СОРТИРУЕМ ПО ВОЗРАСТАНИЮ
-        Date date = new Date(System.currentTimeMillis());
-        String d1 = Helper.dataToString( date );
-        Date date_ok = Helper.stringToData( d1 );
+        Runnable run = new Runnable() {
+            public void run() {
+
+                //      ИЩЕМ ПО ДАТЕ И СОРТИРУЕМ ПО ВОЗРАСТАНИЮ
+                Date date = new Date(System.currentTimeMillis());
+                String d1 = Helper.dataToString( date );
+                Date date_ok = Helper.stringToData( d1 );
 
 
 //        System.out.println( date_ok );
-        //Query query = noteRef_addWork.whereGreaterThanOrEqualTo("date", date_ok ).orderBy( "date", Query.Direction.ASCENDING );
-        Query query = noteRef_addWork_Full.whereGreaterThanOrEqualTo("date", date_ok ).orderBy( "date", Query.Direction.ASCENDING );
+                //Query query = noteRef_addWork.whereGreaterThanOrEqualTo("date", date_ok ).orderBy( "date", Query.Direction.ASCENDING );
+                Query query = noteRef_addWork_Full.whereGreaterThanOrEqualTo("date", date_ok ).orderBy( "date", Query.Direction.ASCENDING );
 
-        //Query query2 = noteRef_addWork_Full.whereLessThanOrEqualTo( "date", date_ok  ).orderBy( "date", Query.Direction.ASCENDING );
+                //Query query2 = noteRef_addWork_Full.whereLessThanOrEqualTo( "date", date_ok  ).orderBy( "date", Query.Direction.ASCENDING );
 
-        FirestoreRecyclerOptions<MainWork> options = new FirestoreRecyclerOptions.Builder<MainWork>()
-                .setQuery(query, MainWork.class)
-                .build();
-        adapter = new CalendarWorkRv( options );
-        RecyclerView recyclerView = findViewById( R.id.main_work_rv );
-        recyclerView.setHasFixedSize( true );
-        recyclerView.setLayoutManager( new LinearLayoutManager( getBaseContext() ) );
-        recyclerView.setAdapter( adapter );
-        //recyclerView.setLayoutAnimation( controller );
-        recyclerView.getAdapter().notifyDataSetChanged();
+                FirestoreRecyclerOptions<MainWork> options = new FirestoreRecyclerOptions.Builder<MainWork>()
+                        .setQuery(query, MainWork.class)
+                        .build();
+                adapter = new CalendarWorkRv( options );
+                RecyclerView recyclerView = findViewById( R.id.main_work_rv );
+                recyclerView.setHasFixedSize( true );
+                recyclerView.setLayoutManager( new LinearLayoutManager( getBaseContext() ) );
+                recyclerView.setAdapter( adapter );
+                //recyclerView.setLayoutAnimation( controller );
+                //recyclerView.getAdapter().notifyDataSetChanged();
 
-        //runAnimation(recyclerView, 0);
+                //runAnimation(recyclerView, 0);
+
+                new ItemTouchHelper( new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT) {
+
+                    @Override
+                    public float getSwipeThreshold(RecyclerView.ViewHolder viewHolder) {
+                        return 0.6f;
+                    }
 
 
-        new ItemTouchHelper( new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT) {
+                    @Override
+                    public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                        return false;
+                    }
 
-            @Override
-            public float getSwipeThreshold(RecyclerView.ViewHolder viewHolder) {
-                return 0.6f;
-            }
+                    @Override
+                    public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                        position = viewHolder.getAdapterPosition();
+                        switch (direction) {
 
+                            case ItemTouchHelper.LEFT:
 
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;
-            }
+                                adapter.update( viewHolder.getAdapterPosition() );
+                                adapter.notifyDataSetChanged();
+                                //recyclerView.setAdapter(adapter);
+                                //setCalendar();
+                                cw.updateCalendar();
 
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                position = viewHolder.getAdapterPosition();
-                switch (direction) {
-
-                    case ItemTouchHelper.LEFT:
-
-                        adapter.update( viewHolder.getAdapterPosition() );
-                        adapter.notifyDataSetChanged();
-                        //recyclerView.setAdapter(adapter);
-                        setCalendar();
-                        dataToDrawer();
-                        break;
+                                //dataToDrawer();
+                                recyclerView.setAdapter(adapter);
+                                break;
 //
-                    case ItemTouchHelper.RIGHT:
-                        add_to_undelete_data(position);
-                        delete_item(position);
-                        setCalendar();
+                            case ItemTouchHelper.RIGHT:
+                                adapter.delete( position );
 
-                        String id___ = adapter.get_id( position );
-                        //System.out.println("id1: " + id___ );
-                        alarmManager = (AlarmManager) getBaseContext().getSystemService(ALARM_SERVICE);
-                        Intent my_intent = new Intent( CalendarMainActivity.this,AlarmResiver.class);
-                        my_intent.putExtra( "jobId", id___);
-                        Integer uniqId = adapter.getItem( position ).getUniqId();
-                        pendingIntent = pendingIntent.getBroadcast( CalendarMainActivity.this, uniqId, my_intent, PendingIntent.FLAG_UPDATE_CURRENT );
+
+                                showUndoSnackbar(position);
+                                //delete_item(position);
+//                                adapter.notifyItemRemoved( position );
+//                                add_to_undelete_data(position);
+
+                                //delete_item(position);
+
+                                //setCalendar();
+                                cw.updateCalendar();
+                                recyclerView.setAdapter(adapter);
+
+                                String id___ = adapter.get_id( position );
+                                //System.out.println("id1: " + id___ );
+                                alarmManager = (AlarmManager) getBaseContext().getSystemService(ALARM_SERVICE);
+                                Intent my_intent = new Intent( CalendarMainActivity.this, AlarmResiver.class);
+                                my_intent.putExtra( "jobId", id___);
+                                Integer uniqId = adapter.getItem( position ).getUniqId();
+                                pendingIntent = pendingIntent.getBroadcast( CalendarMainActivity.this, uniqId, my_intent, PendingIntent.FLAG_UPDATE_CURRENT );
 //                                alarmManager.set(AlarmManager.RTC_WAKEUP, c1.getTimeInMillis(), pendingIntent);
-                        alarmManager.cancel(pendingIntent);
+                                alarmManager.cancel(pendingIntent);
 //
-                        Toast.makeText( CalendarMainActivity.this,getString( R.string.AlarmCancel ),Toast.LENGTH_SHORT ).show();
+                                //Toast.makeText( CalendarMainActivity.this,getString( R.string.AlarmCancel ),Toast.LENGTH_SHORT ).show();
+
+                                break;
+
+                        }}
+
+                    @Override
+                    public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                        new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                                .addSwipeLeftBackgroundColor( ContextCompat.getColor( CalendarMainActivity.this, R.color.clear ) )
+                                .addSwipeLeftActionIcon( R.drawable.ic_monetization )
+                                .addSwipeRightActionIcon( R.drawable.del_icon_red )
+                                .addSwipeRightBackgroundColor( ContextCompat.getColor( CalendarMainActivity.this, R.color.clear ))
+                                .create()
+                                .decorate();
+                        super.onChildDraw( c, recyclerView, viewHolder, dX/5, dY, actionState, isCurrentlyActive );
+
+                    }
 
 
-                        break;
+                } ).attachToRecyclerView( recyclerView );
+                adapter.setOnItemClickListener( new CalendarWorkRv.onItemClickListener() {
 
-            }}
+                    @Override
+                    public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
 
-            @Override
-            public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-                new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-                        .addSwipeLeftBackgroundColor( ContextCompat.getColor( CalendarMainActivity.this, R.color.white ) )
-                        .addSwipeLeftActionIcon( R.drawable.ic_monetization )
-                        .addSwipeRightActionIcon( R.drawable.del_icon_red )
-                        .addSwipeRightBackgroundColor( ContextCompat.getColor( CalendarMainActivity.this, R.color.white ))
-                        .create()
-                        .decorate();
-                super.onChildDraw( c, recyclerView, viewHolder, dX/5, dY, actionState, isCurrentlyActive );
-
-            }
-
-
-        } ).attachToRecyclerView( recyclerView );
-        adapter.setOnItemClickListener( new CalendarWorkRv.onItemClickListener() {
-
-            @Override
-            public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
-
-                MainWork main_work = documentSnapshot.toObject( MainWork.class );
+                        MainWork main_work = documentSnapshot.toObject( MainWork.class );
 //                System.out.println(main_work.getUniqId());
 //
-                String priceFix = String.valueOf(main_work.getPrice_fixed());
-                String priceHour = String.valueOf(main_work.getPrice_hour());
-                String priceSm = String.valueOf(main_work.getPrice_smena());
-                String durationSm = String.valueOf(main_work.getSmena_duration());
-                String overTimeProcent = String.valueOf(main_work.getOvertime_pocent());
-                String startTime = String.valueOf(main_work.getStart());
-                String endTime = String.valueOf(main_work.getEnd());
-                String finalCost = String.valueOf(main_work.getZarabotanoFinal());
+                        String priceFix = String.valueOf(main_work.getPrice_fixed());
+                        String priceHour = String.valueOf(main_work.getPrice_hour());
+                        String priceSm = String.valueOf(main_work.getPrice_smena());
+                        String durationSm = String.valueOf(main_work.getSmena_duration());
+                        String overTimeProcent = String.valueOf(main_work.getOvertime_pocent());
+                        String startTime = String.valueOf(main_work.getStart());
+                        String endTime = String.valueOf(main_work.getEnd());
+                        String finalCost = String.valueOf(main_work.getZarabotanoFinal());
 
-                String uid =String.valueOf( main_work.getUniqId());
-                String name = main_work.getName();
-                String date = String.valueOf(Helper.dataToString(main_work.getDate()));
-                String description = main_work.getDiscription();
-                String valuta = main_work.getValuta();
-                String status = String.valueOf(main_work.getStatus());
-                String alarm;
-                String rounded_nimutes = String.valueOf( main_work.getRounded_minut() );
-                String half_shiht = String.valueOf( main_work.getHalf_shift() );
-                String half_shiht_hours = String.valueOf( main_work.getHalf_shift_hours() );
-
-
-                String documentName = documentSnapshot.getId();
-
-                if(main_work.getAlarm1()==null){
-                    alarm = null;
-                } else {
-                    alarm = String.valueOf(main_work.getAlarm1());
-                }
+                        String uid =String.valueOf( main_work.getUniqId());
+                        String name = main_work.getName();
+                        String date = String.valueOf(Helper.dataToString(main_work.getDate()));
+                        String description = main_work.getDiscription();
+                        String valuta = main_work.getValuta();
+                        String status = String.valueOf(main_work.getStatus());
+                        String alarm;
+                        String rounded_nimutes = String.valueOf( main_work.getRounded_minut() );
+                        String half_shiht = String.valueOf( main_work.getHalf_shift() );
+                        String half_shiht_hours = String.valueOf( main_work.getHalf_shift_hours() );
 
 
+                        String documentName = documentSnapshot.getId();
 
-                String jobType = main_work.getTempalte_type();
-                switch (jobType){
-                    case "fixed":
-                        Intent intent = new Intent( CalendarMainActivity.this, FixedJobReview.class);
-                        intent.putExtra("uid", uid);
-                        intent.putExtra("name", name);
-                        intent.putExtra("price", priceFix );
-                        intent.putExtra("date", date );
-                        intent.putExtra("description", description );
-                        intent.putExtra("valuta", valuta );
-                        intent.putExtra("status", status );
-                        intent.putExtra("alarm", alarm );
-                        intent.putExtra("documentName", documentName );
+                        if(main_work.getAlarm1()==null){
+                            alarm = null;
+                        } else {
+                            alarm = String.valueOf(main_work.getAlarm1());
+                        }
 
-                        startActivity(intent);
-                        break;
+                        String jobType = main_work.getTempalte_type();
+                        switch (jobType){
+                            case "fixed":
+                                Intent intent = new Intent( CalendarMainActivity.this, FixedJobReview.class);
+                                intent.putExtra("uid", uid);
+                                intent.putExtra("name", name);
+                                intent.putExtra("price", priceFix );
+                                intent.putExtra("date", date );
+                                intent.putExtra("description", description );
+                                intent.putExtra("valuta", valuta );
+                                intent.putExtra("status", status );
+                                intent.putExtra("alarm", alarm );
+                                intent.putExtra("documentName", documentName );
 
-                        case "for smena":
+                                startActivity(intent);
+                                overridePendingTransition(0, 0);
+                                break;
 
-                        Intent intent_forSmena = new Intent( CalendarMainActivity.this, ForSmenaJobReview.class);
+                            case "for smena":
 
-                        intent_forSmena.putExtra("uid", uid);
-                        intent_forSmena.putExtra("name", name);
-                        intent_forSmena.putExtra("priceShift", priceSm);
-                        intent_forSmena.putExtra("durationSm", durationSm);
-                        intent_forSmena.putExtra("overTimeProcent", overTimeProcent);
-                        intent_forSmena.putExtra("startTime", startTime);
-                        intent_forSmena.putExtra("endTime", endTime);
-                        intent_forSmena.putExtra("finalCost", finalCost);
-                        intent_forSmena.putExtra("date", date );
-                        intent_forSmena.putExtra("description", description );
-                        intent_forSmena.putExtra("valuta", valuta );
-                        intent_forSmena.putExtra("status", status );
-                        intent_forSmena.putExtra("alarm", alarm );
-                        intent_forSmena.putExtra("documentName", documentName );
-                        intent_forSmena.putExtra("rounded_nimutes", rounded_nimutes );
-                        intent_forSmena.putExtra("half_shiht", half_shiht );
-                        intent_forSmena.putExtra("half_shiht_hours", half_shiht_hours );
+                                Intent intent_forSmena = new Intent( CalendarMainActivity.this, ForSmenaJobReview.class);
 
-                        startActivity(intent_forSmena);
-                        break;
-                    case "for hour":
+                                intent_forSmena.putExtra("uid", uid);
+                                intent_forSmena.putExtra("name", name);
+                                intent_forSmena.putExtra("priceShift", priceSm);
+                                intent_forSmena.putExtra("durationSm", durationSm);
+                                intent_forSmena.putExtra("overTimeProcent", overTimeProcent);
+                                intent_forSmena.putExtra("startTime", startTime);
+                                intent_forSmena.putExtra("endTime", endTime);
+                                intent_forSmena.putExtra("finalCost", finalCost);
+                                intent_forSmena.putExtra("date", date );
+                                intent_forSmena.putExtra("description", description );
+                                intent_forSmena.putExtra("valuta", valuta );
+                                intent_forSmena.putExtra("status", status );
+                                intent_forSmena.putExtra("alarm", alarm );
+                                intent_forSmena.putExtra("documentName", documentName );
+                                intent_forSmena.putExtra("rounded_nimutes", rounded_nimutes );
+                                intent_forSmena.putExtra("half_shiht", half_shiht );
+                                intent_forSmena.putExtra("half_shiht_hours", half_shiht_hours );
 
-                        Intent intent_forHour = new Intent( CalendarMainActivity.this, ForHourJobReview.class);
+                                startActivity(intent_forSmena);
+                                overridePendingTransition(0, 0);
+                                break;
+                            case "for hour":
 
-                        intent_forHour.putExtra("uid", uid);
-                        intent_forHour.putExtra("name", name);
-                        intent_forHour.putExtra("priceHour", priceHour);
-                        intent_forHour.putExtra("startTime", startTime);
-                        intent_forHour.putExtra("endTime", endTime);
-                        intent_forHour.putExtra("finalCost", finalCost);
-                        intent_forHour.putExtra("date", date );
-                        intent_forHour.putExtra("description", description );
-                        intent_forHour.putExtra("valuta", valuta );
-                        intent_forHour.putExtra("status", status );
-                        intent_forHour.putExtra("alarm", alarm );
-                        intent_forHour.putExtra("documentName", documentName );
-                        intent_forHour.putExtra("rounded_nimutes", rounded_nimutes );
+                                Intent intent_forHour = new Intent( CalendarMainActivity.this, ForHourJobReview.class);
 
-                        startActivity(intent_forHour);
-                        break;
-                }
+                                intent_forHour.putExtra("uid", uid);
+                                intent_forHour.putExtra("name", name);
+                                intent_forHour.putExtra("priceHour", priceHour);
+                                intent_forHour.putExtra("startTime", startTime);
+                                intent_forHour.putExtra("endTime", endTime);
+                                intent_forHour.putExtra("finalCost", finalCost);
+                                intent_forHour.putExtra("date", date );
+                                intent_forHour.putExtra("description", description );
+                                intent_forHour.putExtra("valuta", valuta );
+                                intent_forHour.putExtra("status", status );
+                                intent_forHour.putExtra("alarm", alarm );
+                                intent_forHour.putExtra("documentName", documentName );
+                                intent_forHour.putExtra("rounded_nimutes", rounded_nimutes );
+
+                                startActivity(intent_forHour);
+                                overridePendingTransition(0, 0);
+                                break;
+                        }
+                    }
+                } );
+
             }
-        } );
-    }
+        };
+        run.run();
 
-    private void delete_item(int position) {
-        adapter.delete( position );
-        adapter.notifyItemRemoved( position );
-        adapter.notifyDataSetChanged();
-        recyclerView.setAdapter(adapter);
-        showUndoSnackbar();
-        dataToDrawer();
     }
 
     private void add_to_undelete_data(Integer position) {
-        ds = adapter.getSnapshots().getSnapshot( position );
 
+        Runnable run = new Runnable() {
+            public void run() {
+        ds = adapter.getSnapshots().getSnapshot( position );
+            }};
+        new Thread(run).start();
     }
 
     private void runAnimation(RecyclerView recyclerView, int type) {
@@ -1017,21 +1172,40 @@ public class CalendarMainActivity extends AppCompatActivity implements EasyPermi
 
     }
 
-    private void showUndoSnackbar() {
-        View view = findViewById(R.id.Drawer_layo);
+    private void showUndoSnackbar(int position) {
+        add_to_undelete_data(position);
+        Runnable run = new Runnable() {
+            public void run() {
+        //CoordinatorLayout view = findViewById(R.id.coordinate_layout_fab);
+        DrawerLayout view = findViewById(R.id.Drawer_layo);
         String undo = getString(R.string.UNDO);
         String itemdel = getString(R.string.Itemdeleted);
         Snackbar snackbar = Snackbar.make(view, itemdel, Snackbar.LENGTH_LONG);
-        snackbar.setAction(undo, v ->undo(position));
+        Snackbar.SnackbarLayout layout = (Snackbar.SnackbarLayout) snackbar.getView();
+        layout.setPadding( 0, 0, 0, 80);
+        layout.setBackgroundColor( getResources().getColor( R.color.black_effective_100 ) );
+        snackbar.setAction(undo, v ->undo());
         snackbar.show();
+
+                //adapter.notifyItemRemoved( position );
+            }};
+        new Thread(run).run();
 
     }
 
-    private void undo(int position) {
+    private void undo() {
+        Runnable run = new Runnable() {
+            public void run() {
         MainWork main_work = ds.toObject( MainWork.class);
         noteRef_addWork_Full.document().set( main_work );
+
+
+        //setCalendar();
+            }};
+        new Thread(run).start();
         recyclerView.setAdapter(adapter);
-        setCalendar();
+        adapter.notifyDataSetChanged();
+        cw.updateCalendar();
 
 
     }
@@ -1041,21 +1215,19 @@ public class CalendarMainActivity extends AppCompatActivity implements EasyPermi
     protected void onStart() {
         super.onStart();
         dataToDrawer();
-        checkTemplate();
-
+        //checkTemplate();
         adapter.startListening();
-        recyclerView.setAdapter(adapter);
+        //recyclerView.setAdapter(adapter);
     }
 
     private void checkTemplate() {
-
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                noteRef_full.get().addOnSuccessListener( new OnSuccessListener<QuerySnapshot>() {
+                noteRef_full.get(Source.CACHE).addOnSuccessListener( new OnSuccessListener<QuerySnapshot>() {
                      @Override
                      public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                         System.out.println(queryDocumentSnapshots.size());
+                         //System.out.println(queryDocumentSnapshots.size());
                          if(queryDocumentSnapshots.size()!=0){
                              showTemplateInFloatActionButtonMenu = true;
 
@@ -1070,9 +1242,7 @@ public class CalendarMainActivity extends AppCompatActivity implements EasyPermi
             }
         };
         runnable.run();
-
     }
-
 
     @Override
     protected void onDestroy() {
@@ -1093,17 +1263,13 @@ public class CalendarMainActivity extends AppCompatActivity implements EasyPermi
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 
         if (requestCode == AppSettingsDialog.DEFAULT_SETTINGS_REQ_CODE) {
-
         }
 
         switch(requestCode) {
 
-
             case Pick_image:
                 if (resultCode == RESULT_OK) {
                     try {
-
-
                         //Получаем URI изображения, преобразуем его в Bitmap
                         //объект и отображаем в элементе ImageView нашего интерфейса:
                         final Uri imageUri = imageReturnedIntent.getData();
@@ -1155,7 +1321,7 @@ public class CalendarMainActivity extends AppCompatActivity implements EasyPermi
 
     }
 
-    private void setNubmerPicker(NumberPicker nubmerPicker,String [] numbers ){
+    private void setNubmerPicker(NumberPicker nubmerPicker, String [] numbers ){
         nubmerPicker.setMaxValue(numbers.length-1);
         nubmerPicker.setMinValue(0);
         nubmerPicker.setWrapSelectorWheel(true);

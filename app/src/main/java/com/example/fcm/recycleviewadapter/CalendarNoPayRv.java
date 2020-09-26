@@ -1,5 +1,6 @@
 package com.example.fcm.recycleviewadapter;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.icu.text.SimpleDateFormat;
 import android.os.Build;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fcm.R;
@@ -21,6 +23,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.Date;
 import java.util.Locale;
 
@@ -35,6 +38,7 @@ public class CalendarNoPayRv extends FirestoreRecyclerAdapter<MainWork, Calendar
     public String documentId;
 
     private Float price;
+    private Context context;
 
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser user;
@@ -60,6 +64,8 @@ public class CalendarNoPayRv extends FirestoreRecyclerAdapter<MainWork, Calendar
         documentId = getSnapshots().getSnapshot(position).getId();
 
         holder.name.setText( model.getName());
+        //holder.name.setTextColor( context.getResources().getColorStateList(R.color.red_50) );
+        //holder.price.setTextColor( context.getResources().getColorStateList(R.color.red_50) );
 
         java.text.SimpleDateFormat d = new java.text.SimpleDateFormat("MM");
         java.text.SimpleDateFormat m = new java.text.SimpleDateFormat("dd");
@@ -94,7 +100,7 @@ public class CalendarNoPayRv extends FirestoreRecyclerAdapter<MainWork, Calendar
     @Override
     public CalendarHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate( R.layout.rv_nopay_work, parent, false );
-
+        context = parent.getContext();
         return new CalendarHolder( v );
     }
 
@@ -130,6 +136,7 @@ public class CalendarNoPayRv extends FirestoreRecyclerAdapter<MainWork, Calendar
 //        TextView day_week;
         TextView year;
         TextView price;
+        ConstraintLayout layout;
 
 
 //        ImageView pay_ico;
@@ -139,17 +146,17 @@ public class CalendarNoPayRv extends FirestoreRecyclerAdapter<MainWork, Calendar
         public CalendarHolder(@NonNull View itemView) {
             super( itemView );
             name = itemView.findViewById( R.id.no_name_text_view_id);
-
             day = itemView.findViewById( R.id.nday_text_view_id );
             year = itemView.findViewById( R.id.np_year_id );
             month = itemView.findViewById( R.id.nmonth_text_view_id);
             price = itemView.findViewById( R.id.price_noPay_id);
+            layout = itemView.findViewById( R.id.constr_bg );
 
 
 //            day_week = itemView.findViewById( R.id.day_week_text_view_id );
 //            pay_ico = itemView.findViewById( R.id.pay_icon_visible_id );
 
-            itemView.setOnClickListener( new View.OnClickListener() {
+            layout.setOnClickListener( new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     int position = getAdapterPosition();

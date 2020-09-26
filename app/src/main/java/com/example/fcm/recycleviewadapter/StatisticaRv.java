@@ -16,6 +16,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chinodev.androidneomorphframelayout.NeomorphFrameLayout;
 import com.example.fcm.R;
 import com.example.fcm.models.MainWork;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -69,7 +70,9 @@ public class StatisticaRv extends FirestoreRecyclerAdapter<MainWork, StatisticaR
     protected void onBindViewHolder(@NonNull CalendarHolder holder, int position, @NonNull MainWork model) {
 
         documentId = getSnapshots().getSnapshot(position).getId();
-
+        holder.mainLayout.setClickable( false );
+        holder.bg.setClickable( true );
+        //holder.layout.setClickable( false );
         holder.name.setText( model.getName());
 
         java.text.SimpleDateFormat d = new java.text.SimpleDateFormat("MM");
@@ -98,16 +101,24 @@ public class StatisticaRv extends FirestoreRecyclerAdapter<MainWork, StatisticaR
 
 
         MainWork main_work = getSnapshots().getSnapshot( position ).toObject( MainWork.class );
-        if(main_work.getStatus() == true) {
-//            holder.bg.setBackgroundColor( Color.parseColor("#93C750") );
-            holder.bg.setBackgroundTintList(context.getResources().getColorStateList(R.color.green_olive));
+        if(!main_work.getStatus() == true) {
+            holder.bg.setBackgroundTintList(context.getResources().getColorStateList(R.color.red_50));
+            //holder.bg.setBackgroundColor( Color.parseColor("#93C750") );
+            //holder.bg.setBackgroundTintList(context.getResources().getColorStateList(R.color.green_olive));
+            //holder.name.setTextColor( context.getResources().getColorStateList(R.color.text_gray) );
+            //holder.price.setTextColor( context.getResources().getColorStateList(R.color.green_olive) );
+
 
 
 
 
         }else {
-
-            holder.bg.setBackgroundTintList(context.getResources().getColorStateList(R.color.red_50));
+//            holder.name.setTextColor( context.getResources().getColorStateList(R.color.red_50) );
+//            holder.price.setTextColor( context.getResources().getColorStateList(R.color.red_50) );
+//            holder.day.setTextColor( context.getResources().getColorStateList(R.color.red_50) );
+//            holder.month.setTextColor( context.getResources().getColorStateList(R.color.red_50) );
+//            holder.year.setTextColor( context.getResources().getColorStateList(R.color.red_50) );
+            holder.bg.setBackgroundTintList(context.getResources().getColorStateList(R.color.green_olive));
 
         }
 
@@ -154,8 +165,9 @@ public class StatisticaRv extends FirestoreRecyclerAdapter<MainWork, StatisticaR
         TextView month;
         TextView year;
         TextView price;
-        ConstraintLayout layout;
+        NeomorphFrameLayout layout;
         ConstraintLayout bg;
+        ConstraintLayout mainLayout;
 
         public CalendarHolder(@NonNull View itemView) {
             super( itemView );
@@ -167,13 +179,17 @@ public class StatisticaRv extends FirestoreRecyclerAdapter<MainWork, StatisticaR
             price = itemView.findViewById( R.id.price_noPay_id);
             layout = itemView.findViewById( R.id.bg_rv );
             bg = itemView.findViewById( R.id.constr_bg );
+            mainLayout = itemView.findViewById( R.id.neomorphFrameLayout3 );
 
-            itemView.setOnClickListener( new View.OnClickListener() {
+            bg.setOnClickListener( new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    //System.out.println("CLICK Q");
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION && listener != null) {
                         listener.onItemClick( getSnapshots().getSnapshot( position ), position );
+
                     }
                 }
             } );

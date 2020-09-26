@@ -1,4 +1,4 @@
-package com.example.fcm;
+package com.example.fcm.ScreensActivity;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -28,9 +28,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.NotificationCompat;
 
+import com.example.fcm.R;
 import com.example.fcm.helper.Helper;
-import com.example.fcm.models.UserInfoToFirestore;
 import com.example.fcm.models.MainWork;
+import com.example.fcm.models.UserInfoToFirestore;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -38,6 +39,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Source;
 
 import java.io.IOException;
 import java.util.Date;
@@ -99,6 +101,10 @@ public class AlarmActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_alarm );
+
+        View decorView = getWindow().getDecorView();
+        Helper.hideSystemUI( decorView );
+
         tvAlarmJobName = findViewById( R.id.tvAlarmJobName );
         tvAlarmJobData = findViewById( R.id.tvAlarmJobData );
         description = findViewById(R.id.ed_alarm_description);
@@ -122,7 +128,7 @@ public class AlarmActivity extends AppCompatActivity {
 
         alertAnimation.start();
 
-        noteRef_data.get()
+        noteRef_data.get(Source.CACHE)
                 .addOnSuccessListener( new OnSuccessListener<DocumentSnapshot>() {
                     @Override
 
@@ -158,7 +164,7 @@ public class AlarmActivity extends AppCompatActivity {
         Intent intent = getIntent();
         id__ = intent.getStringExtra( "jobId" );
 //        System.out.println( intent.getStringExtra( "jobId" ) );
-        noteRef_addWork.document( id__ ).get().addOnSuccessListener( new OnSuccessListener<DocumentSnapshot>() {
+        noteRef_addWork.document( id__ ).get( Source.CACHE).addOnSuccessListener( new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 MainWork main_work = documentSnapshot.toObject( MainWork.class );
@@ -197,7 +203,7 @@ public class AlarmActivity extends AppCompatActivity {
         mTimer = new Timer();
         mMyTimerTask = new MyTimerTask();
 //        mTimer.schedule(mMyTimerTask, 180000);
-        mTimer.schedule(mMyTimerTask, 10000);
+        mTimer.schedule(mMyTimerTask, 300000);
 
 
         stop = findViewById(R.id.btn_stop);

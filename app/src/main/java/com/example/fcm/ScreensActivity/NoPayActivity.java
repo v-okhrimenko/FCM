@@ -1,4 +1,4 @@
-package com.example.fcm;
+package com.example.fcm.ScreensActivity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -21,6 +21,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -33,14 +34,16 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.fcm.recycleviewadapter.CalendarNoPayRv;
+import com.example.fcm.R;
+import com.example.fcm.rateFixed.FixedJobReview;
 import com.example.fcm.helper.Helper;
-import com.example.fcm.fixedrate.FixedJobReview;
-import com.example.fcm.jobreview.ForHourJobReview;
-import com.example.fcm.jobreview.ForSmenaJobReview;
-import com.example.fcm.models.UserInfoToFirestore;
+import com.example.fcm.rateHour.ForHourJobReview;
+import com.example.fcm.rateSmena.ForSmenaJobReview;
 import com.example.fcm.models.MainWork;
+import com.example.fcm.models.UserInfoToFirestore;
+import com.example.fcm.recycleviewadapter.CalendarNoPayRv;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.github.mmin18.widget.RealtimeBlurView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
@@ -54,6 +57,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.Source;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -93,6 +97,10 @@ public class NoPayActivity extends AppCompatActivity {
 
     DocumentSnapshot ds;
     private String emailname;
+    private RealtimeBlurView blurView;
+    private ImageButton showDrawer;
+
+
 
 
     {
@@ -146,9 +154,18 @@ public class NoPayActivity extends AppCompatActivity {
 //        loadLockale();
         setContentView( R.layout.activity_no_pay );
 
+        blurView = findViewById( R.id.blurview );
+
+        showDrawer = findViewById( R.id.ib_showDrawer2 );
+
+        View decorView = getWindow().getDecorView();
+        Helper.hideSystemUI( decorView );
+
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
         View headerView = navigationView.getHeaderView(0);
+
+
         avatar = (CircleImageView) headerView.findViewById(R.id.profile_image);
         incompleatEvents = (TextView) MenuItemCompat.getActionView(navigationView.getMenu().
                 findItem(R.id.need_finish));
@@ -182,6 +199,13 @@ public class NoPayActivity extends AppCompatActivity {
 //        });
 
         drawerLayout = findViewById(R.id.Drawer_layo);
+        showDrawer.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.openDrawer( Gravity.LEFT );
+            }
+        } );
+
         navigationView = findViewById(R.id.navigationView);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -266,7 +290,7 @@ public class NoPayActivity extends AppCompatActivity {
         Date date_ok = Helper.stringToData( d1 );
         ArrayList<Float> chek_no_info = new ArrayList<>();
 
-        noteRef_addWork_Full.whereEqualTo( "status", false ).whereLessThan("date", date_ok).orderBy( "date", Query.Direction.DESCENDING ).get()
+        noteRef_addWork_Full.whereEqualTo( "status", false ).whereLessThan("date", date_ok).orderBy( "date", Query.Direction.DESCENDING ).get( Source.CACHE)
                 .addOnSuccessListener( new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -279,6 +303,7 @@ public class NoPayActivity extends AppCompatActivity {
 
                         if (chek_no_info.isEmpty()) {
 
+                            blurView.setVisibility( View.INVISIBLE );
                             androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder( NoPayActivity.this );
                             LayoutInflater inflater = LayoutInflater.from( NoPayActivity.this );
                             final View regiserWindow = inflater.inflate( R.layout.show_alert_info_one_button, null );
@@ -290,6 +315,7 @@ public class NoPayActivity extends AppCompatActivity {
                             final Button ok = regiserWindow.findViewById( R.id.btn_info_ok );
                             final androidx.appcompat.app.AlertDialog dialog = builder.create();
                             dialog.getWindow().setBackgroundDrawable( new ColorDrawable( Color.TRANSPARENT ) );
+                            //dialog.getWindow().setDimAmount(0.0f);
                             dialog.setCancelable( false );
                             dialog.show();
                             ok.setOnClickListener( new View.OnClickListener() {
@@ -299,7 +325,7 @@ public class NoPayActivity extends AppCompatActivity {
                                     startActivity(new Intent( NoPayActivity.this, CalendarMainActivity.class));
                                     overridePendingTransition(0, 0);
                                     finish();
-                                    dialog.dismiss();
+                                    //dialog.dismiss();
 
                                 } });
 
@@ -375,10 +401,10 @@ public class NoPayActivity extends AppCompatActivity {
             @Override
             public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
                 new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-                        .addSwipeLeftBackgroundColor( ContextCompat.getColor( NoPayActivity.this, R.color.white ) )
+                        .addSwipeLeftBackgroundColor( ContextCompat.getColor( NoPayActivity.this, R.color.clear ) )
                         .addSwipeLeftActionIcon( R.drawable.ic_monetization )
                         .addSwipeRightActionIcon( R.drawable.del_icon_red )
-                        .addSwipeRightBackgroundColor( ContextCompat.getColor( NoPayActivity.this, R.color.white ))
+                        .addSwipeRightBackgroundColor( ContextCompat.getColor( NoPayActivity.this, R.color.clear ))
                         .create()
                         .decorate();
                 super.onChildDraw( c, recyclerView, viewHolder, dX/5, dY, actionState, isCurrentlyActive );
@@ -594,7 +620,7 @@ public class NoPayActivity extends AppCompatActivity {
         Date date_ok_ = Helper.stringToData( d1_ );
 
         noteRef_addWork_Full.whereLessThan("date", date_ok_ ).whereEqualTo( "needFinish", true )
-                .whereEqualTo( "end",null ).orderBy( "date", Query.Direction.ASCENDING ).get()
+                .whereEqualTo( "end",null ).orderBy( "date", Query.Direction.ASCENDING ).get( Source.CACHE)
                 .addOnSuccessListener( new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -630,7 +656,7 @@ public class NoPayActivity extends AppCompatActivity {
                     }
                 });
 
-        noteRef_data.get()
+        noteRef_data.get( Source.CACHE)
                 .addOnSuccessListener( new OnSuccessListener<DocumentSnapshot>() {
                                            @Override
                                            public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -663,7 +689,7 @@ public class NoPayActivity extends AppCompatActivity {
                                        }
                 );
 
-        noteRef_addWork_Full.whereEqualTo( "status", false ).whereLessThan("date", date_ok).orderBy( "date", Query.Direction.DESCENDING ).get()
+        noteRef_addWork_Full.whereEqualTo( "status", false ).whereLessThan("date", date_ok).orderBy( "date", Query.Direction.DESCENDING ).get( Source.CACHE)
                 .addOnFailureListener( new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {

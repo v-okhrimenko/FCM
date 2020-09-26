@@ -1,4 +1,4 @@
-package com.example.fcm.fixedrate;
+package com.example.fcm.rateFixed;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -23,7 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.fcm.CalendarMainActivity;
+import com.example.fcm.ScreensActivity.CalendarMainActivity;
 import com.example.fcm.R;
 import com.example.fcm.helper.DbConnection;
 import com.example.fcm.helper.Helper;
@@ -36,6 +36,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.Source;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -57,6 +58,10 @@ public class AddFixedRate extends AppCompatActivity implements AddDateInAddJobAc
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_add_fixed_rate );
+
+        View decorView = getWindow().getDecorView();
+        Helper.hideSystemUI( decorView );
+
 
         etJobName = findViewById(R.id.tv_name_jrFixed);
         etDescription = findViewById(R.id.et_description_jrFixed);
@@ -136,17 +141,15 @@ public class AddFixedRate extends AppCompatActivity implements AddDateInAddJobAc
                     final AlertDialog datePickerDialog = builder.create();
                     datePickerDialog.getWindow().setBackgroundDrawable( new ColorDrawable( Color.TRANSPARENT ) );
 
-                    ///noteRef_addWork.get().addOnSuccessListener( new OnSuccessListener<QuerySnapshot>() {
-                    DbConnection.DBJOBS.get().addOnSuccessListener( new OnSuccessListener<QuerySnapshot>() {
+                    ///noteRef_addWork.get( Source.CACHE).addOnSuccessListener( new OnSuccessListener<QuerySnapshot>() {
+                    DbConnection.DBJOBS.get( Source.CACHE).addOnSuccessListener( new OnSuccessListener<QuerySnapshot>() {
                         @Override
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                             for(QueryDocumentSnapshot ds: queryDocumentSnapshots){
                                 MainWork main_work = ds.toObject( MainWork.class );
-
                                 Calendar c = Calendar.getInstance();
                                 c.setTime(main_work.getDate());
                                 String dateEvent = c.get( Calendar.DAY_OF_MONTH )+"-"+(c.get( Calendar.MONTH )+1)+"-"+c.get( Calendar.YEAR );
-
                                 DatePicker.eventsList.add( new DatePickerEvents(main_work.getName(),dateEvent,main_work.getStatus()) );
                             }datePickerDialog.show();
                         }
@@ -230,15 +233,23 @@ public class AddFixedRate extends AppCompatActivity implements AddDateInAddJobAc
 
     private void checkTemplateName() {
         arrayListTemplateName.clear();
-        DbConnection.DBTEMPLATES.get()
+        DbConnection.DBTEMPLATES.get( Source.CACHE)
                 .addOnSuccessListener( queryDocumentSnapshots -> {
                     for (QueryDocumentSnapshot documentSnapshot: queryDocumentSnapshots){
                         TemplateJob templateJob = documentSnapshot.toObject( TemplateJob.class );
                         arrayListTemplateName.add( templateJob.getTemplate_name().toUpperCase() );
+                        System.out.println( templateJob.getTemplate_name().toUpperCase());
+                        System.out.println( etJobName.getText().toString().trim().toUpperCase());
+
+                        if(templateJob.getTemplate_name().toUpperCase().equals( etJobName.getText().toString().trim().toUpperCase() )){
+                            System.out.println("ПРИСУТСТВУЕТ");
+                        }
                     }
                 } );
     }
     private void saveAsTemplate() {
+        //checkTemplateName();
+
 
         FixedRateMetods fixedRateMetods = new FixedRateMetods();
 

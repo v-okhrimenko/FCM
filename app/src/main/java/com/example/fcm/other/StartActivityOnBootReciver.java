@@ -1,4 +1,4 @@
-package com.example.fcm;
+package com.example.fcm.other;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -16,6 +16,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.Source;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -52,7 +53,7 @@ public class StartActivityOnBootReciver extends BroadcastReceiver {
         String d1 = Helper.dataToString( date );
         Date date_ok = Helper.stringToData( d1 );
 
-        noteRef_addWork_Full.whereGreaterThanOrEqualTo("date", date_ok ).orderBy( "date", Query.Direction.ASCENDING ).get().addOnSuccessListener( new OnSuccessListener<QuerySnapshot>() {
+        noteRef_addWork_Full.whereGreaterThanOrEqualTo("date", date_ok ).orderBy( "date", Query.Direction.ASCENDING ).get( Source.CACHE).addOnSuccessListener( new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 

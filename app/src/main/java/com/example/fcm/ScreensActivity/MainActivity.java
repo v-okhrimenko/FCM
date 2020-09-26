@@ -133,7 +133,7 @@
 //    }
 //
 //}
-package com.example.fcm;
+package com.example.fcm.ScreensActivity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -161,10 +161,12 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.example.fcm.R;
 import com.example.fcm.helper.Helper;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -180,11 +182,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView( R.layout.activity_main);
+
+        View decorView = getWindow().getDecorView();
+        Helper.hideSystemUI( decorView );
 
         auth = FirebaseAuth.getInstance();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         root = findViewById(R.id.rootelement);
+        FirebaseDatabase.getInstance().setPersistenceEnabled( true );
 
         Button btn_SignIn = findViewById( R.id.btn_enter );
         TextView btn_forgotPassword = findViewById( R.id.tv_problem_enter );
@@ -508,6 +514,7 @@ public class MainActivity extends AppCompatActivity {
             boolean emailVerified = firebaseUser.isEmailVerified();
 
             if (emailVerified) {
+                FirebaseDatabase.getInstance().setPersistenceEnabled( true );
                 startActivity(new Intent(MainActivity.this, CalendarMainActivity.class));
                 overridePendingTransition(0, 0);
                 finish();

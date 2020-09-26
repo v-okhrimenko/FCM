@@ -14,7 +14,8 @@
         android:background="#FFFFFF"
         android:orientation="horizontal"
         android:paddingTop="8dp"
-        android:paddingBottom="8dp">
+        android:paddingBottom="8dp"
+        >
 
         <ImageButton
             android:id="@+id/ib_previousMonth"

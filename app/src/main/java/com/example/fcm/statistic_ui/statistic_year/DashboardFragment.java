@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,17 +22,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.fcm.MyValueFormatter;
+import com.example.fcm.other.MyValueFormatterOld;
 import com.example.fcm.R;
-import com.example.fcm.recycleviewadapter.StatisticaNoPayRv;
 import com.example.fcm.helper.Helper;
 import com.example.fcm.models.MainWork;
+import com.example.fcm.recycleviewadapter.StatisticaNoPayRv;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -42,7 +44,6 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -51,6 +52,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.Source;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -140,7 +142,7 @@ public class DashboardFragment extends Fragment {
     private View root;
     private ObjectAnimator objectAnimator;
     private ObjectAnimator objectAnimator2;
-    private FloatingActionButton yearpick_test;
+    private ImageView yearpick_test;
 
     private DashboardViewModel dashboardViewModel;
 
@@ -199,7 +201,7 @@ public class DashboardFragment extends Fragment {
 
                 final Button ok = regiserWindow.findViewById(R.id.button_picker_year_ok);
                 final Button cnc = regiserWindow.findViewById(R.id.button_picker_year_cencel);
-                final com.example.fcm.NumberPicker numberPicker_ = regiserWindow.findViewById(R.id.year_picker2);
+                final com.example.fcm.other.NumberPicker numberPicker_ = regiserWindow.findViewById(R.id.year_picker2);
 
                 numberPicker_.setMaxValue( max );
                 numberPicker_.setMinValue( min );
@@ -391,7 +393,7 @@ public class DashboardFragment extends Fragment {
             date_end = Helper.stringToData( datachek_2 );
         }
 
-        noteRef_addWork_Full.whereGreaterThanOrEqualTo( "date", date_start ).whereLessThanOrEqualTo( "date", date_end ).orderBy( "date", Query.Direction.DESCENDING ).get()
+        noteRef_addWork_Full.whereGreaterThanOrEqualTo( "date", date_start ).whereLessThanOrEqualTo( "date", date_end ).orderBy( "date", Query.Direction.DESCENDING ).get( Source.CACHE)
                 .addOnSuccessListener( new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -507,7 +509,7 @@ public class DashboardFragment extends Fragment {
         }
         chekYear.add( newVal );
 
-        noteRef_addWork_Full.whereGreaterThanOrEqualTo( "date", date_start ).whereLessThanOrEqualTo( "date", date_end ).orderBy( "date", Query.Direction.ASCENDING ).get()
+        noteRef_addWork_Full.whereGreaterThanOrEqualTo( "date", date_start ).whereLessThanOrEqualTo( "date", date_end ).orderBy( "date", Query.Direction.ASCENDING ).get( Source.CACHE)
                 .addOnSuccessListener( new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -614,7 +616,7 @@ public class DashboardFragment extends Fragment {
                     ii = -1;
                     int z = i;
 
-                    noteRef_addWork_Full.whereGreaterThanOrEqualTo( "date", date_start ).whereLessThanOrEqualTo( "date", date_end ).orderBy( "date", Query.Direction.ASCENDING ).get()
+                    noteRef_addWork_Full.whereGreaterThanOrEqualTo( "date", date_start ).whereLessThanOrEqualTo( "date", date_end ).orderBy( "date", Query.Direction.ASCENDING ).get( Source.CACHE)
                             .addOnSuccessListener( new OnSuccessListener<QuerySnapshot>() {
                                                        @Override
                                                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -685,7 +687,7 @@ public class DashboardFragment extends Fragment {
 
 
                 PieDataSet dataSet = new PieDataSet(pieEntries, "");
-                dataSet.setValueFormatter( new MyValueFormatter() );
+                dataSet.setValueFormatter( new MyValueFormatterOld() );
                 PieData data = new PieData(year, dataSet);
                 pieChart.setData(data);
                 Legend legend = pieChart.getLegend();
@@ -695,6 +697,8 @@ public class DashboardFragment extends Fragment {
                 pieChart.setTouchEnabled(true);
                 pieChart.setHighlightPerTapEnabled(true);
 
+                pieChart.getRenderer().getPaintRender().setShadowLayer(25, 0, 22, ContextCompat.getColor(getContext(), R.color.neomorph_shadow_color));
+                pieChart.setHoleColor(Color.TRANSPARENT);
                 pieChart.setNoDataText(getString( R.string.year_data_not_avialable ));
                 pieChart.setDragDecelerationFrictionCoef( 0.2f );
                 pieChart.setRotationAngle(1f);
@@ -714,12 +718,12 @@ public class DashboardFragment extends Fragment {
 //            {}
 
 
-                dataSet.setColors( ColorTemplate.COLORFUL_COLORS);
-                dataSet.setValueTextSize( 9 );
-                dataSet.setValueTextColor( Color.WHITE );
+                dataSet.setColors( ColorTemplate.PASTEL_COLORS);
+                dataSet.setValueTextSize( 12 );
+                dataSet.setValueTextColor( Color.BLACK );
                 dataSet.setValueTypeface( Typeface.DEFAULT_BOLD );
 
-                pieChart.animateXY(800, 800);
+                //pieChart.animateXY(400, 400);
                 pieChart.setVisibility( View.VISIBLE );
                 clZarabotano.setAlpha( 1 );
 
@@ -806,7 +810,7 @@ public class DashboardFragment extends Fragment {
         minMax.clear();
 
 
-        noteRef_addWork_Full.get()
+        noteRef_addWork_Full.get( Source.CACHE)
                 .addOnSuccessListener( new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {

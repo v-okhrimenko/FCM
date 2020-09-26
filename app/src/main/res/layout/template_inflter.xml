@@ -2,52 +2,46 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cardView3"
+    android:id="@+id/bg_rv"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    android:padding="10dp"
-    app:cardBackgroundColor="#52000000"
-    app:cardCornerRadius="25dp"
-    app:cardElevation="0dp"
-    app:cardMaxElevation="0dp">
-
+    android:clickable="false"
+    app:cardCornerRadius="@dimen/alert_corner_radius"
+    app:cardElevation="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#00000000">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recWieJobs_id_new"
-            android:layout_width="0dp"
-            android:layout_height="250dp"
-            android:layout_margin="10dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp"
-            android:scrollbarAlwaysDrawHorizontalTrack="true"
-            android:scrollbarAlwaysDrawVerticalTrack="true"
-            android:scrollbarStyle="insideInset"
-            android:scrollbars="vertical"
-            app:layout_constraintBottom_toTopOf="@+id/btn_close_tamplate_rv"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        android:background="@color/clear">
 
         <Button
             android:id="@+id/btn_close_tamplate_rv"
             android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:layout_margin="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:background="@drawable/button_ok_blue_ripple"
-            android:backgroundTint="@color/red_50"
+            android:layout_height="@dimen/button_heighy"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/button_cancel_white_ripple"
             android:text="@string/cancel"
-            android:textColor="#FFFDFD"
+            android:textColor="@color/red_lite"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/recWieJobs_id_new"
+            app:layout_constraintStart_toStartOf="@+id/recWieJobs_id_new"
+            app:layout_constraintTop_toBottomOf="@+id/recWieJobs_id_new" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recWieJobs_id_new"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_margin="10dp"
+            android:scrollbarAlwaysDrawHorizontalTrack="true"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            android:scrollbarStyle="insideInset"
+            android:scrollbars="vertical"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

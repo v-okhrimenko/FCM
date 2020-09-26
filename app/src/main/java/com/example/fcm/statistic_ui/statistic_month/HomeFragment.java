@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,26 +24,29 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.fcm.CalendarMainActivity;
-import com.example.fcm.NumberPicker;
 import com.example.fcm.R;
-import com.example.fcm.recycleviewadapter.StatisticaRv;
+import com.example.fcm.ScreensActivity.CalendarMainActivity;
 import com.example.fcm.helper.Helper;
 import com.example.fcm.models.MainWork;
+import com.example.fcm.other.NumberPicker;
+import com.example.fcm.rateFixed.FixedFragmentReviewTest;
+import com.example.fcm.rateHour.HourFragmentReviewTest;
+import com.example.fcm.rateSmena.SmenaFragmentReviewTest;
+import com.example.fcm.recycleviewadapter.StatisticaRv;
 import com.example.fcm.statistic_ui.statistic_year.DashboardFragment;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.Source;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -91,6 +95,8 @@ public class HomeFragment extends Fragment {
     private float sum_PayAll;
     private float sum_noPay;
     private String avatarname;
+    private DocumentSnapshot ds;
+    private boolean fromFragment;
 
     {
         user = auth.getCurrentUser();
@@ -101,7 +107,7 @@ public class HomeFragment extends Fragment {
     public CollectionReference noteRef_addWork = db_fstore.collection( user.getUid() ).document("My DB").collection("MyWorks");
     private DocumentReference noteRef_data = db_fstore.collection( user.getUid() ).document("Avatar");
     private CollectionReference noteRef_addWork_Full = db_fstore.collection( user.getUid() ).document("My DB").collection("MyWorksFull");
-
+    private TextView month_txt, year_txt;
     View root;
 
 
@@ -110,29 +116,21 @@ public class HomeFragment extends Fragment {
         homeViewModel =
                 ViewModelProviders.of( this ).get( HomeViewModel.class );
         root = inflater.inflate( R.layout.fragment_home, container, false );
-        final FloatingActionButton mYsel = root.findViewById(R.id.button_month_year_picker);
-        final TextView month_txt = root.findViewById( R.id.allsum_edittext );
-        final TextView year_txt = root.findViewById( R.id.Year_select_textView );
+        //final FloatingActionButton mYsel = root.findViewById(R.id.button_month_year_picker);
+        final ImageView mYsel = root.findViewById(R.id.iv_click_calendarselect);
+        month_txt = root.findViewById( R.id.allsum_edittext );
+        year_txt = root.findViewById( R.id.Year_select_textView );
         final RecyclerView recyclerView = root.findViewById( R.id.month_year_rv_id );
 
 //        checkDataForYear();
-
+        //checkNotEmpty();
 
 
         Calendar calendar = Calendar.getInstance();
         yearSelected = calendar.get(Calendar.YEAR);
         monthSelected = calendar.get(Calendar.MONTH);
 
-        Locale locale = Resources.getSystem().getConfiguration().locale;
-//        Calendar calendar = Calendar.getInstance();
-//        yearSelected = calendar.get(Calendar.YEAR);
-//        monthSelected = calendar.get(Calendar.MONTH);
-
-        month_txt.setText( getNameOfMonth( monthSelected, locale ) );
-        year_txt.setText(Integer.toString(yearSelected));
-
-
-        checkNotEmpty();
+        isFromIntent();
 
 
 //        rv(monthSelected,yearSelected);
@@ -204,6 +202,7 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onValueChange(android.widget.NumberPicker picker, int oldVal, int newVal) {
                         mSelectPicker = newVal;
+                        System.out.println(mSelectPicker);
                         if(ySelectPicker==yearSelected && mSelectPicker>monthSelected){
                             numbYear.setValue( yearSelected );
                             ySelectPicker=yearSelected;
@@ -222,6 +221,7 @@ public class HomeFragment extends Fragment {
                     public void onClick(View v) {
 //                        System.out.println( mTst + "  " + yTst );
                         rv(mSelectPicker,ySelectPicker);
+
                             month_txt.setText( getNameOfMonth(mSelectPicker, locale ) );
                             year_txt.setText( Integer.toString(ySelectPicker) );
                             dialog.dismiss();
@@ -249,6 +249,8 @@ public class HomeFragment extends Fragment {
         Runnable run = new Runnable() {
             public void run() {
 
+
+
         ArrayList<Float> check = new ArrayList<>();
 
         Date datachek;
@@ -263,7 +265,7 @@ public class HomeFragment extends Fragment {
         datachek = Helper.stringToData( datachek_ );
         //String datachek = (date.getDate()-1)+"-"+(date.getMonth()+1)+"-"+c.get( Calendar.YEAR );
 
-        noteRef_addWork_Full.whereLessThanOrEqualTo( "date", datachek ).orderBy( "date", Query.Direction.ASCENDING ).get()
+        noteRef_addWork_Full.whereLessThanOrEqualTo( "date", datachek ).orderBy( "date", Query.Direction.ASCENDING ).get( Source.CACHE)
                 .addOnSuccessListener( new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -337,7 +339,7 @@ public class HomeFragment extends Fragment {
             date_end = Helper.stringToData( datachek_2 );
         }
 
-        noteRef_addWork_Full.whereGreaterThanOrEqualTo( "date", date_start ).whereLessThanOrEqualTo( "date", date_end ).orderBy( "date", Query.Direction.ASCENDING ).get()
+        noteRef_addWork_Full.whereGreaterThanOrEqualTo( "date", date_start ).whereLessThanOrEqualTo( "date", date_end ).orderBy( "date", Query.Direction.ASCENDING ).get( Source.CACHE)
                 .addOnSuccessListener( new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -460,14 +462,13 @@ public class HomeFragment extends Fragment {
 
         Date date = new Date(System.currentTimeMillis());
         int mon = monthSelected+1;
+        System.out.println("mon"+mon);
         int dat = date.getMonth()+1;
 
-        System.out.println("monthSelected + 1  "+mon + "   "+"date_get month +1  "+dat);
-        System.out.println("monthSelected   "+monthSelected + "   "+"date_get month  "+date.getMonth());
+        //System.out.println("monthSelected + 1  "+mon + "   "+"date_get month +1  "+dat);
+        //System.out.println("monthSelected   "+monthSelected + "   "+"date_get month  "+date.getMonth());
         if(yearSelected == (date.getYear()+1900)) {
             if ((mon) == (dat)){
-
-                System.out.println(mon);
 
                 datachek_1 = "01"+"-"+(mon)+"-"+yearSelected;
                 datachek_2 = (date.getDate()-1)+"-"+mon+"- "+yearSelected;
@@ -480,10 +481,11 @@ public class HomeFragment extends Fragment {
             if(mon != dat )
              {
                  if(mon<dat){
-                     Calendar c = new GregorianCalendar();
+                     Calendar c = Calendar.getInstance();
                      c.set(Calendar.YEAR, yearSelected);
-                     c.set(Calendar.MONTH, mon);
+                     c.set(Calendar.MONTH, monthSelected);
                      int maximum = c.getActualMaximum(Calendar.DAY_OF_MONTH);
+                     System.out.println(maximum);
 
                      datachek_1 = "01"+"-"+(mon)+"-"+yearSelected;
                      datachek_2 = maximum+"-"+(mon)+"-"+yearSelected;
@@ -506,7 +508,7 @@ public class HomeFragment extends Fragment {
         }
         if(yearSelected != (date.getYear()+1900)) {
 
-            Calendar c = new GregorianCalendar();
+            Calendar c = Calendar.getInstance();
             c.set(Calendar.YEAR, yearSelected);
             c.set(Calendar.MONTH, monthSelected);
             int maximum = c.getActualMaximum(Calendar.DAY_OF_MONTH);
@@ -518,7 +520,7 @@ public class HomeFragment extends Fragment {
             date_end = Helper.stringToData( datachek_2 );
         }
 
-        noteRef_addWork_Full.whereGreaterThanOrEqualTo( "date", date_start ).whereLessThanOrEqualTo( "date", date_end ).orderBy( "date", Query.Direction.ASCENDING ).get()
+        noteRef_addWork_Full.whereGreaterThanOrEqualTo( "date", date_start ).whereLessThanOrEqualTo( "date", date_end ).orderBy( "date", Query.Direction.ASCENDING ).get(Source.CACHE)
                 .addOnSuccessListener( new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -550,7 +552,11 @@ public class HomeFragment extends Fragment {
                         TextView no_pay = (TextView) root.findViewById( R.id.needPay_id );
                         no_pay.setText(neVyplacheno);
                         if(DashboardFragment.sum(allSumm_Nopay)!=0.0){
-                            no_pay.setTextColor( getResources().getColor( R.color.red_lite ) );
+                            try {
+                                no_pay.setTextColor( getResources().getColor( R.color.red_lite ) );
+                            } catch (Resources.NotFoundException e) {
+                                e.printStackTrace();
+                            }
                         }
                         if(DashboardFragment.sum(allSumm_Nopay)==0.0){
                             no_pay.setTextColor( getResources().getColor( R.color.colorSecondaryText ) );
@@ -586,6 +592,15 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager( new LinearLayoutManager( getContext() ) );
         recyclerView.setAdapter( adapter );
         adapter.startListening();
+
+        adapter.setOnItemClickListener( new StatisticaRv.onItemClickListener() {
+            @Override
+            public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
+                MainWork mainWork = documentSnapshot.toObject( MainWork.class );
+                System.out.println(mainWork.getTempalte_type() +" "+ mainWork.getName());
+                startFragment(mainWork, documentSnapshot);
+            }
+        } );
 
         new ItemTouchHelper( new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
 
@@ -626,8 +641,6 @@ public class HomeFragment extends Fragment {
                         adapter.notifyDataSetChanged();
                         recyclerView.setAdapter(adapter);
 
-
-
                         break;
 
                 }}
@@ -638,7 +651,7 @@ public class HomeFragment extends Fragment {
             public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
                 new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
                         .addSwipeRightActionIcon( R.drawable.del_icon_red )
-                        .addSwipeRightBackgroundColor( ContextCompat.getColor( getContext(), R.color.white ))
+                        .addSwipeRightBackgroundColor( ContextCompat.getColor( getContext(), R.color.clear ))
                         .create()
                         .decorate();
                 super.onChildDraw( c, recyclerView, viewHolder, dX/5, dY, actionState, isCurrentlyActive );
@@ -651,18 +664,124 @@ public class HomeFragment extends Fragment {
 
     }
 
+    private void startFragment(MainWork mainWork, DocumentSnapshot jobSnapshot) {
+
+        String priceFix = String.valueOf( mainWork.getPrice_fixed() );
+        String priceHour = String.valueOf( mainWork.getPrice_hour() );
+        String priceSm = String.valueOf( mainWork.getPrice_smena() );
+        String durationSm = String.valueOf( mainWork.getSmena_duration() );
+        String overTimeProcent = String.valueOf( mainWork.getOvertime_pocent() );
+        String startTime = String.valueOf( mainWork.getStart() );
+        String endTime = String.valueOf( mainWork.getEnd() );
+        String finalCost = String.valueOf( mainWork.getZarabotanoFinal() );
+        String uid = String.valueOf( mainWork.getUniqId() );
+        String name = mainWork.getName();
+        String date_ = String.valueOf( Helper.dataToString( mainWork.getDate() ) );
+        String description = mainWork.getDiscription();
+        String valuta = mainWork.getValuta();
+        String status = String.valueOf( mainWork.getStatus() );
+        String alarm;
+        String rounded_nimutes = String.valueOf( mainWork.getRounded_minut() );
+        String half_shiht = String.valueOf( mainWork.getHalf_shift() );
+        String half_shiht_hours = String.valueOf( mainWork.getHalf_shift_hours() );
+        String documentName = jobSnapshot.getId();
+
+        String jobType = mainWork.getTempalte_type();
+
+        switch (jobType) {
+
+            case "fixed":
+
+                FixedFragmentReviewTest fixedFragmentReviewTest= new FixedFragmentReviewTest();
+
+                Bundle sendNameToFixedFragment = new Bundle();
+                sendNameToFixedFragment.putString( "uid", uid );
+                sendNameToFixedFragment.putString( "name", name );
+                sendNameToFixedFragment.putString("price", priceFix );
+                sendNameToFixedFragment.putString( "date", date_ );
+                sendNameToFixedFragment.putString( "description", description );
+                sendNameToFixedFragment.putString( "valuta", valuta );
+                sendNameToFixedFragment.putString( "status", status );
+                //sendNameToFixedFragment.putString( "alarm", alarm );
+                sendNameToFixedFragment.putString( "documentName", documentName );
+                sendNameToFixedFragment.putString( "fromFragment", "true" );
+
+                fixedFragmentReviewTest.setArguments( sendNameToFixedFragment );
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.nav_host_fragment, fixedFragmentReviewTest, "findThisFragment")
+                        .addToBackStack(null)
+                        .commit();
+                break;
+
+            case "for smena":
+
+                SmenaFragmentReviewTest smenaFragmentReviewTest= new SmenaFragmentReviewTest();
+
+                Bundle sendNameToSmenaFragment = new Bundle();
+                sendNameToSmenaFragment.putString( "uid", uid );
+                sendNameToSmenaFragment.putString( "name", name );
+                sendNameToSmenaFragment.putString( "priceShift", priceSm );
+                sendNameToSmenaFragment.putString( "durationSm", durationSm );
+                sendNameToSmenaFragment.putString( "overTimeProcent", overTimeProcent );
+                sendNameToSmenaFragment.putString( "startTime", startTime );
+                sendNameToSmenaFragment.putString( "endTime", endTime );
+                sendNameToSmenaFragment.putString( "finalCost", finalCost );
+                sendNameToSmenaFragment.putString( "date", date_ );
+                sendNameToSmenaFragment.putString( "description", description );
+                sendNameToSmenaFragment.putString( "valuta", valuta );
+                sendNameToSmenaFragment.putString( "status", status );
+                //sendNameToSmenaFragment.putString( "alarm", alarm );
+                sendNameToSmenaFragment.putString( "documentName", documentName );
+                sendNameToSmenaFragment.putString( "rounded_nimutes", rounded_nimutes );
+                sendNameToSmenaFragment.putString( "half_shiht", half_shiht );
+                sendNameToSmenaFragment.putString( "half_shiht_hours", half_shiht_hours );
+                sendNameToSmenaFragment.putString( "fromFragment", "true" );
+
+                smenaFragmentReviewTest.setArguments( sendNameToSmenaFragment );
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.nav_host_fragment, smenaFragmentReviewTest, "findThisFragment")
+                        .addToBackStack(null)
+                        .commit();
+                break;
+
+            case "for hour":
+
+                HourFragmentReviewTest hourFragmentReviewTest= new HourFragmentReviewTest();
+                Bundle sendNameToOtherFragment = new Bundle();
+                sendNameToOtherFragment.putString( "uid", uid );
+                sendNameToOtherFragment.putString( "name", name );
+                sendNameToOtherFragment.putString( "priceHour", priceHour );
+                sendNameToOtherFragment.putString( "startTime", startTime );
+                sendNameToOtherFragment.putString( "endTime", endTime );
+                sendNameToOtherFragment.putString( "finalCost", finalCost );
+                sendNameToOtherFragment.putString( "date", date_ );
+                sendNameToOtherFragment.putString( "description", description );
+                sendNameToOtherFragment.putString( "valuta", valuta );
+                sendNameToOtherFragment.putString( "status", status );
+                //sendNameToOtherFragment.putString( "alarm", alarm );
+                sendNameToOtherFragment.putString( "documentName", documentName );
+                sendNameToOtherFragment.putString( "rounded_nimutes", rounded_nimutes );
+                sendNameToOtherFragment.putString( "fromFragment", "true" );
+
+                hourFragmentReviewTest.setArguments( sendNameToOtherFragment );
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.nav_host_fragment, hourFragmentReviewTest, "findThisFragment")
+                        .addToBackStack(null)
+                        .commit();
+                break;
+
+        }
+
+    }
+
     private void add_to_undelete_data(Integer position) {
 
-        name_ud =  adapter.getItem( position ).getName();
-        desc_ud = adapter.getItem( position ).getDiscription();
-        price_ud = adapter.getItem( position ).getZarabotanoFinal();
-        date_ud = adapter.getItem( position ).getDate();
-        chek_ud = adapter.getItem( position ).getStatus();
+        ds = adapter.getSnapshots().getSnapshot( position );
+
     }
 
     private void delete_item(int position) {
         adapter.delete( position );
-
 
         updateInfoAferDelete(monthSelected,yearSelected);
         dataToDrawer();
@@ -688,7 +807,7 @@ public class HomeFragment extends Fragment {
         sum_PayAll = 0;
         sum_noPay = 0;
 
-        noteRef_addWork_Full.whereEqualTo( "status", false ).whereLessThan("date", date_ok).orderBy( "date", Query.Direction.DESCENDING ).get()
+        noteRef_addWork_Full.whereEqualTo( "status", false ).whereLessThan("date", date_ok).orderBy( "date", Query.Direction.DESCENDING ).get( Source.CACHE)
                 .addOnSuccessListener( new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -727,54 +846,35 @@ public class HomeFragment extends Fragment {
     }
 
     private void undo(int position) {
-        MainWork main_work = new MainWork();
-        main_work.setName(name_ud);
-        main_work.setZarabotanoFinal(price_ud);
-        main_work.setDiscription(desc_ud);
-        main_work.setStatus(chek_ud);
-        main_work.setDate(date_ud);
-
-        noteRef_addWork_Full.document().set(main_work)
-                .addOnSuccessListener( new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-//                        dataToDrawer();
-
-                    }
-                } )
-
-                .addOnFailureListener( new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-//                        View view = findViewById(R.id.Drawer_layo);
-                        Snackbar snackbar = Snackbar.make(getView(), e.getMessage(), Snackbar.LENGTH_LONG);
-                        snackbar.show();
-
-
-                    }
-                } );
-
+        MainWork main_work = ds.toObject( MainWork.class);
+        noteRef_addWork_Full.document().set(main_work);
 
         updateInfoAferDelete(monthSelected,yearSelected);
         dataToDrawer();
 
     }
         String getNameOfMonth(int month, Locale locale) throws IllegalArgumentException {
+
         Calendar c;
         String s;
         String n;
+
+
         try {
             c=Calendar.getInstance();
             c.set(Calendar.MONTH,month);
-
+            c.set( Calendar.YEAR, ySelectPicker );
+            System.out.println(c);
             s=c.getDisplayName(Calendar.MONTH,Calendar.LONG,locale);
+            System.out.println("INT MONTH" + month + " DispName "+s);
+
+
             if(s.equals( "января" )){
                 n = "Январь";
                 return n;}
             if(s.equals( "февраля" )){
                 n = "Февраль";
-                return n;}
+                return n; }
             if(s.equals( "марта" )){
                 n = "Март";
                 return n;}
@@ -808,8 +908,8 @@ public class HomeFragment extends Fragment {
         } catch (java.lang.NullPointerException ex) {
             s=null;
         } finally {
-
         }
+
         return s;
 
     }
@@ -846,7 +946,7 @@ public class HomeFragment extends Fragment {
     private void checkDataForYear() {
 
         ArrayList<Integer> year_to_choose = new ArrayList<>();
-        noteRef_addWork_Full.get()
+        noteRef_addWork_Full.get( Source.CACHE)
 
                 .addOnSuccessListener( new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -902,5 +1002,60 @@ public class HomeFragment extends Fragment {
             } });
 
     }
+
+    private void isFromIntent() {
+
+
+        String year = "null";
+        String month;
+
+        Bundle getNameFromFragment = this.getArguments();
+        if(getNameFromFragment != null) {
+
+            year = getNameFromFragment.getString( "year" );
+            month = getNameFromFragment.getString( "month" );
+
+            if(year!=null){
+                fromFragment = true;
+                Locale locale = Resources.getSystem().getConfiguration().locale;
+
+                yearSelected = Integer.parseInt( year );
+                monthSelected = Integer.parseInt( month );
+
+                month_txt.setText( getNameOfMonth( Integer.parseInt(month), locale ) );
+                year_txt.setText(Integer.toString(Integer.parseInt( year )));
+
+                checkDataForYear();
+                rv(Integer.parseInt(month),Integer.parseInt(year));
+
+            } else {
+
+
+//                tvJobName.setText( getName() );
+//                setSpinnerYear(getName());
+//
+//                Calendar todayDate = Calendar.getInstance();
+//                String todayYear = String.valueOf( todayDate.get(Calendar.YEAR) );
+//                String todayMonth = month = Helper.getNameOfMonth(todayDate.get( Calendar.MONTH ), locale);
+//                setMonthDate( todayMonth, todayYear );
+
+
+            }
+
+        } else {
+
+            Locale locale = Resources.getSystem().getConfiguration().locale;
+            Calendar calendar = Calendar.getInstance();
+            yearSelected = calendar.get(Calendar.YEAR);
+            monthSelected = calendar.get(Calendar.MONTH);
+            month_txt.setText( getNameOfMonth( monthSelected, locale ) );
+            year_txt.setText(Integer.toString(yearSelected));
+
+            checkNotEmpty();
+
+        }
+    }
+
+
 
 }

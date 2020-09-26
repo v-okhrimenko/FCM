@@ -1,4 +1,4 @@
-package com.example.fcm;
+package com.example.fcm.ScreensActivity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -26,6 +26,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -40,11 +41,12 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.fcm.models.TemplateJob;
-import com.example.fcm.recycleviewadapter.TemplateAdapter;
+import com.example.fcm.R;
 import com.example.fcm.helper.Helper;
-import com.example.fcm.models.UserInfoToFirestore;
 import com.example.fcm.models.MainWork;
+import com.example.fcm.models.TemplateJob;
+import com.example.fcm.models.UserInfoToFirestore;
+import com.example.fcm.recycleviewadapter.TemplateAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -60,6 +62,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.Source;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -88,6 +91,7 @@ public class AddTemplateActivity extends AppCompatActivity {
     private float sum_noPay;
     RecyclerView recyclerView_new;
     private DocumentSnapshot ds;
+    private ImageButton showDrawer;
 
 
     {
@@ -155,6 +159,9 @@ public class AddTemplateActivity extends AppCompatActivity {
         loadLockale();
         setContentView( R.layout.activity_add_work_template );
 
+        View decorView = getWindow().getDecorView();
+        Helper.hideSystemUI( decorView );
+
         NavigationView navigationView = (NavigationView) findViewById( R.id.navigationView );
         View headerView = navigationView.getHeaderView( 0 );
         avatar = (CircleImageView) headerView.findViewById( R.id.profile_image );
@@ -163,6 +170,8 @@ public class AddTemplateActivity extends AppCompatActivity {
 
         noPayEvents= (TextView) MenuItemCompat.getActionView(navigationView.getMenu().
                 findItem(R.id.not_pay));
+
+        showDrawer = findViewById( R.id.ib_showDrawer6 );
 
         context = AddTemplateActivity.this;
 
@@ -181,6 +190,14 @@ public class AddTemplateActivity extends AppCompatActivity {
         //tv_template =findViewById( R.id.tv_template_test2 );
         cl_disable_rv = findViewById( R.id.cl_black_test );
         cl_main = findViewById( R.id.constr_id );
+
+        tv_fixed_txt.setClickable( false );
+        tv_hour_txt.setClickable( false );
+        tv_shift_txt.setClickable( false );
+
+        tv_fixed_txt.setVisibility( View.GONE );
+        tv_hour_txt.setVisibility( View.GONE  );
+        tv_shift_txt.setVisibility( View.GONE  );
 
         tv_fixed_txt.setClickable( true );
         tv_fixed_txt.setOnClickListener( new View.OnClickListener() {
@@ -291,6 +308,12 @@ public class AddTemplateActivity extends AppCompatActivity {
 
 
         drawerLayout = findViewById( R.id.Drawer_layo );
+        showDrawer.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.openDrawer( Gravity.LEFT );
+            }
+        } );
         navigationView = findViewById( R.id.navigationView );
 
 
@@ -558,7 +581,7 @@ public class AddTemplateActivity extends AppCompatActivity {
                                     tmp.setPrice_smena( Integer.valueOf( et_templatePrice_shift.getText().toString() ) );
                                     tmp.setValuta( sp_templateValuta_shift.getSelectedItem().toString() );
 
-                                    noteRef_full.document( et_templateName_shift.getText().toString().trim().toUpperCase() ).get().addOnSuccessListener( new OnSuccessListener<DocumentSnapshot>() {
+                                    noteRef_full.document( et_templateName_shift.getText().toString().trim().toUpperCase() ).get( Source.CACHE).addOnSuccessListener( new OnSuccessListener<DocumentSnapshot>() {
                                         @Override
                                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                                             noteRef_full.document( et_templateName_shift.getText().toString().trim().toUpperCase() ).set( tmp );
@@ -702,7 +725,7 @@ public class AddTemplateActivity extends AppCompatActivity {
                                     } else {
                                         tmp.setRounded_minutes( Integer.valueOf( et_TemplateOkruglenie_minut_hour.getText().toString().trim() ) );
                                     }
-                                    noteRef_full.document(et_templateName_hour.getText().toString().trim().toUpperCase()).get().addOnSuccessListener( new OnSuccessListener<DocumentSnapshot>() {
+                                    noteRef_full.document(et_templateName_hour.getText().toString().trim().toUpperCase()).get(Source.CACHE).addOnSuccessListener( new OnSuccessListener<DocumentSnapshot>() {
                                         @Override
                                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                                             noteRef_full.document( et_templateName_hour.getText().toString().trim().toUpperCase() ).set( tmp );
@@ -843,7 +866,7 @@ public class AddTemplateActivity extends AppCompatActivity {
                                     tmp.setPrice_fixed( Integer.valueOf(et_templatePrice.getText().toString()) );
                                     tmp.setValuta( sp_templateValuta.getSelectedItem().toString() );
 
-                                    noteRef_full.document(et_templateName.getText().toString().trim().toUpperCase()).get().addOnSuccessListener( new OnSuccessListener<DocumentSnapshot>() {
+                                    noteRef_full.document(et_templateName.getText().toString().trim().toUpperCase()).get(Source.CACHE).addOnSuccessListener( new OnSuccessListener<DocumentSnapshot>() {
                                         @Override
                                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                                             //documentSnapshot.getReference().set( tmp );
@@ -891,7 +914,7 @@ public class AddTemplateActivity extends AppCompatActivity {
     private void checkName() {
         hideKeyboard();
         arrayList_name.clear();
-        noteRef_full.get()
+        noteRef_full.get(Source.CACHE)
                 .addOnFailureListener( new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
@@ -945,8 +968,8 @@ public class AddTemplateActivity extends AppCompatActivity {
             @Override
             public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
                 new RecyclerViewSwipeDecorator.Builder( c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive )
-                        .addSwipeLeftBackgroundColor( ContextCompat.getColor( AddTemplateActivity.this, R.color.red ) )
-                        .addSwipeLeftActionIcon( R.drawable.del_icon )
+                        .addSwipeLeftBackgroundColor( ContextCompat.getColor( AddTemplateActivity.this, R.color.clear ) )
+                        .addSwipeLeftActionIcon( R.drawable.del_icon_red )
                         .create()
                         .decorate();
                 super.onChildDraw( c, recyclerView, viewHolder, dX / 5, dY, actionState, isCurrentlyActive );
@@ -1613,6 +1636,9 @@ public class AddTemplateActivity extends AppCompatActivity {
         String undo = getString( R.string.UNDO );
         String itemdel = getString( R.string.Itemdeleted );
         Snackbar snackbar = Snackbar.make( view, itemdel, Snackbar.LENGTH_LONG );
+        Snackbar.SnackbarLayout layout = (Snackbar.SnackbarLayout) snackbar.getView();
+        layout.setPadding( 0, 0, 0, 80);
+        layout.setBackgroundColor( getResources().getColor( R.color.black_effective_100 ) );
         snackbar.setAction( undo, v -> undo( position ) );
         snackbar.show();
     }
@@ -1650,7 +1676,7 @@ public class AddTemplateActivity extends AppCompatActivity {
         Date date_ok_ = Helper.stringToData( d1_ );
 
         noteRef_addWork_Full.whereLessThan("date", date_ok_ ).whereEqualTo( "needFinish", true )
-                .whereEqualTo( "end",null ).orderBy( "date", Query.Direction.ASCENDING ).get()
+                .whereEqualTo( "end",null ).orderBy( "date", Query.Direction.ASCENDING ).get(Source.CACHE)
                 .addOnSuccessListener( new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -1686,7 +1712,7 @@ public class AddTemplateActivity extends AppCompatActivity {
                     }
                 });
 
-        noteRef_data.get()
+        noteRef_data.get(Source.CACHE)
                 .addOnSuccessListener( new OnSuccessListener<DocumentSnapshot>() {
                                            @Override
                                            public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -1719,7 +1745,7 @@ public class AddTemplateActivity extends AppCompatActivity {
                                        }
                 );
 
-        noteRef_addWork_Full.whereEqualTo( "status", false ).whereLessThan("date", date_ok).orderBy( "date", Query.Direction.DESCENDING ).get()
+        noteRef_addWork_Full.whereEqualTo( "status", false ).whereLessThan("date", date_ok).orderBy( "date", Query.Direction.DESCENDING ).get(Source.CACHE)
                 .addOnFailureListener( new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
@@ -1787,6 +1813,14 @@ public class AddTemplateActivity extends AppCompatActivity {
         tv_shift_txt.setAlpha( 0 );
         //tv_template.setAlpha( 0 );
 
+        tv_fixed_txt.setClickable( false );
+        tv_hour_txt.setClickable( false );
+        tv_shift_txt.setClickable( false );
+
+        tv_fixed_txt.setVisibility( View.GONE );
+        tv_hour_txt.setVisibility( View.GONE  );
+        tv_shift_txt.setVisibility( View.GONE  );
+
 
         cl_disable_rv.setAlpha( 0 );
         cl_disable_rv.setClickable( false );
@@ -1808,8 +1842,18 @@ public class AddTemplateActivity extends AppCompatActivity {
     }
     private void openMenu() {
         isOpen=true;
-        //tv_template.animate().translationY( -565 ).setDuration(100 );
 
+        tv_fixed_txt.setClickable( true );
+        tv_hour_txt.setClickable( true );
+        tv_shift_txt.setClickable( true );
+
+        tv_fixed_txt.setVisibility( View.VISIBLE );
+        tv_hour_txt.setVisibility( View.VISIBLE );
+        tv_shift_txt.setVisibility( View.VISIBLE );
+
+        //tv_template.animate().translationY( -565 ).setDuration(100 );
+        cl_disable_rv.setClickable( true );
+        cl_disable_rv.setOnClickListener( v -> closeMenu() );
         tv_fixed_txt.animate().translationY( -430 ).setDuration(300 );
         tv_fixed_txt.setAlpha( 1 );
         tv_hour_txt.animate().translationY( -295 ).setDuration(200 );

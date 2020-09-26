@@ -19,7 +19,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.fcm;
+package com.example.fcm.other;
 
 import android.content.Context;
 import android.util.AttributeSet;

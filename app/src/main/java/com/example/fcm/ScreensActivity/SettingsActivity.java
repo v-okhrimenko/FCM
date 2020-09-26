@@ -1,4 +1,4 @@
-package com.example.fcm;
+package com.example.fcm.ScreensActivity;
 
 import android.Manifest;
 import android.app.Activity;
@@ -47,9 +47,11 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.fcm.R;
 import com.example.fcm.helper.Helper;
-import com.example.fcm.models.UserInfoToFirestore;
 import com.example.fcm.models.MainWork;
+import com.example.fcm.models.UserInfoToFirestore;
+import com.github.mmin18.widget.RealtimeBlurView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -66,6 +68,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.Source;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -95,6 +98,9 @@ public class SettingsActivity extends AppCompatActivity {
     private Uri mImageUri;
     private Uri mMelodyUri;
     private String sMelodyUri;
+
+    private RealtimeBlurView bw;
+    private ImageButton showDrawer;
 
 
 
@@ -154,6 +160,14 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_settings );
+
+        View decorView = getWindow().getDecorView();
+        Helper.hideSystemUI( decorView );
+
+        showDrawer = findViewById( R.id.ib_showDrawer4 );
+
+        bw = findViewById( R.id.blurview_all );
+
         melody = (Button) findViewById( R.id.btn_melody ) ;
         alarmName = findViewById( R.id.tv_alarmName );
         btnPlay = findViewById( R.id.ib_play );
@@ -188,7 +202,6 @@ public class SettingsActivity extends AppCompatActivity {
                 LayoutInflater inflater = LayoutInflater.from( SettingsActivity.this);
                 final View regiserWindow = inflater.inflate(R.layout.delete_account, null);
                 builder.setView(regiserWindow);
-
                 final Button cancel = regiserWindow.findViewById( R.id.btn_cancel_delete_account );
                 final Button delete = regiserWindow.findViewById( R.id.btn_delete_account );
                 final ConstraintLayout constraintLayout = regiserWindow.findViewById( R.id.cl_error_chek_delete );
@@ -200,6 +213,8 @@ public class SettingsActivity extends AppCompatActivity {
                 final AlertDialog dialog = builder.create();
                 dialog.setCancelable( false );
                 dialog.getWindow().setBackgroundDrawable( new ColorDrawable( Color.TRANSPARENT ) );
+                //dialog.getWindow().setDimAmount(0.0f);
+                //setBlurBgOn();
                 dialog.show();
 
                 chb_igree.setOnCheckedChangeListener( new CompoundButton.OnCheckedChangeListener() {
@@ -220,11 +235,9 @@ public class SettingsActivity extends AppCompatActivity {
                 delete.setOnClickListener( new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
-
                         if(chb_igree.isChecked()){
 
-                            noteRef_tempalte.get().addOnSuccessListener( new OnSuccessListener<QuerySnapshot>() {
+                            noteRef_tempalte.get( Source.CACHE).addOnSuccessListener( new OnSuccessListener<QuerySnapshot>() {
                                 @Override
                                 public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 
@@ -234,7 +247,7 @@ public class SettingsActivity extends AppCompatActivity {
 
                                     }
 
-                                    noteRef_addWork_Full.get().addOnSuccessListener( new OnSuccessListener<QuerySnapshot>() {
+                                    noteRef_addWork_Full.get( Source.CACHE).addOnSuccessListener( new OnSuccessListener<QuerySnapshot>() {
                                         @Override
                                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 
@@ -245,6 +258,7 @@ public class SettingsActivity extends AppCompatActivity {
                                             }
                                             dialog.dismiss();
                                             byby();
+                                            setBlurBgOff();
 
                                             LayoutInflater inflater = getLayoutInflater();
                                             View layout = inflater.inflate(R.layout.custom_toast,
@@ -280,7 +294,8 @@ public class SettingsActivity extends AppCompatActivity {
                         }
                     }
                 } );
-                cancel.setOnClickListener( v1-> {dialog.dismiss();} );
+                cancel.setOnClickListener( v1-> {dialog.dismiss();
+                setBlurBgOff();} );
 
 
 
@@ -491,9 +506,13 @@ public class SettingsActivity extends AppCompatActivity {
                 final AlertDialog dialog = builder.create();
                 dialog.setCancelable( false );
                 dialog.getWindow().setBackgroundDrawable( new ColorDrawable( Color.TRANSPARENT ) );
+                //dialog.getWindow().setDimAmount(0.0f);
+                //setBlurBgOn();
                 dialog.show();
 
-                cancel.setOnClickListener( v1-> {dialog.dismiss();} );
+                cancel.setOnClickListener( v1-> {dialog.dismiss();
+                setBlurBgOff();
+                } );
 
                 change.setOnClickListener( v2-> {
                     if (pass1.getText().toString().isEmpty()) {
@@ -529,14 +548,13 @@ public class SettingsActivity extends AppCompatActivity {
 
                         System.out.println( "OK" );
 
-
-
                         //СКрыть клаву в диалоговом окне
                         hideKeyboardFrom( getApplicationContext(), regiserWindow );
 
                         String newPassword  = pass1.getText().toString().trim();
                         String oldPass = pass_old.getText().toString().trim();
                         chagePasswordinFB(newPassword, oldPass);
+                        setBlurBgOff();
                         dialog.dismiss();
 
 
@@ -568,8 +586,10 @@ public class SettingsActivity extends AppCompatActivity {
                 final AlertDialog dialog = builder.create();
                 dialog.setCancelable( false );
                 dialog.getWindow().setBackgroundDrawable( new ColorDrawable( Color.TRANSPARENT ) );
+                //dialog.getWindow().setDimAmount(0.0f);
+                //setBlurBgOn();
 
-                noteRef_data.get()
+                noteRef_data.get( Source.CACHE)
                         .addOnSuccessListener( new OnSuccessListener<DocumentSnapshot>() {
                             @Override
 
@@ -595,7 +615,9 @@ public class SettingsActivity extends AppCompatActivity {
                             noteRef_data.update("nickname",name.getText().toString().trim());
                             customAvatarName.setText( name.getText().toString().trim() );
                             navUsername.setText( name.getText().toString().trim() );
+                            setBlurBgOff();
                             dialog.dismiss();
+
                         }
 
 
@@ -605,6 +627,7 @@ public class SettingsActivity extends AppCompatActivity {
                 cancel.setOnClickListener( new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        setBlurBgOff();
                         dialog.dismiss();
                     }
                 } );
@@ -653,16 +676,17 @@ public class SettingsActivity extends AppCompatActivity {
 
         } );
 
-
         checkAvatar();
 
-
-
-
-//        checkPerm();
-
-
         drawerLayout = findViewById(R.id.Drawer_layo);
+
+        showDrawer.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.openDrawer( Gravity.LEFT );
+            }
+        } );
+
         navigationView = findViewById(R.id.navigationView);
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -743,9 +767,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         mStorageref = FirebaseStorage.getInstance().getReference("Avatar");
 //        mDataBaseRef = FirebaseDatabase.getInstance().getReference("Avatar");
-
         avatar_image = findViewById( R.id.profile_image_nastroiki );
-
         avatar_select = findViewById( R.id.textView_change_avatar );
         avatar_select.setOnClickListener( new View.OnClickListener() {
             @Override
@@ -790,10 +812,7 @@ public class SettingsActivity extends AppCompatActivity {
 
 //                                LinearLayout ln = layout.findViewById( R.id.custom_toast_container );
                                 ImageView iv = layout.findViewById( R.id.iv );
-
                                 iv.setVisibility( View.INVISIBLE );
-
-
 
                                 TextView text = (TextView) layout.findViewById(R.id.text);
                                 text.setText(getString( R.string.somsing_wrong ));
@@ -918,7 +937,7 @@ public class SettingsActivity extends AppCompatActivity {
         Date date_ok_ = Helper.stringToData( d1_ );
 
         noteRef_addWork_Full.whereLessThan("date", date_ok_ ).whereEqualTo( "needFinish", true )
-                .whereEqualTo( "end",null ).orderBy( "date", Query.Direction.ASCENDING ).get()
+                .whereEqualTo( "end",null ).orderBy( "date", Query.Direction.ASCENDING ).get( Source.CACHE)
                 .addOnSuccessListener( new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -955,7 +974,7 @@ public class SettingsActivity extends AppCompatActivity {
                 });
 
 
-        noteRef_addWork_Full.whereEqualTo( "status", false ).whereLessThan("date", date_ok).orderBy( "date", Query.Direction.DESCENDING ).get()
+        noteRef_addWork_Full.whereEqualTo( "status", false ).whereLessThan("date", date_ok).orderBy( "date", Query.Direction.DESCENDING ).get( Source.CACHE)
                 .addOnFailureListener( new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
@@ -1014,7 +1033,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         avatarname = auth.getCurrentUser().getUid();
         avatarName_in_app.setText( auth.getCurrentUser().getEmail());
-        noteRef_data.get()
+        noteRef_data.get( Source.CACHE)
                 .addOnSuccessListener( new OnSuccessListener<DocumentSnapshot>() {
                     @Override
 
@@ -1273,6 +1292,15 @@ public class SettingsActivity extends AppCompatActivity {
         new Thread(upd).start();
 
     }
+
+    private void setBlurBgOn(){
+        bw.setVisibility( View.VISIBLE );
+    }
+
+    private void setBlurBgOff(){
+        bw.setVisibility( View.INVISIBLE );
+    }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK ) {

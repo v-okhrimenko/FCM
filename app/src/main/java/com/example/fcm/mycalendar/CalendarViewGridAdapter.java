@@ -12,7 +12,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.fcm.CalendarMainActivity;
 import com.example.fcm.R;
 
 import java.text.ParseException;
@@ -27,7 +26,6 @@ public class CalendarViewGridAdapter extends ArrayAdapter {
 
 
 
-    private final ArrayList<String> test;
     ArrayList<String> datesAdd = new ArrayList<>();
     ArrayList<String> checkEvents = new ArrayList<String>();
 
@@ -44,17 +42,13 @@ public class CalendarViewGridAdapter extends ArrayAdapter {
 
 
 
-    public CalendarViewGridAdapter(@NonNull Context context, List<Date> dates, Calendar currentDate, List<CalendarViewEvents> events, ArrayList<String> test) {
+    public CalendarViewGridAdapter(@NonNull Context context, List<Date> dates, Calendar currentDate, ArrayList<CalendarViewEvents> events) {
         super( context,  R.layout.calendarview_singl_day );
-        this.test = test;
+//        this.test = test;
         this.dates=dates;
         this.currentDate=currentDate;
         this.events=events;
         inflater=LayoutInflater.from(context);
-
-
-
-
 
     }
 
@@ -64,9 +58,6 @@ public class CalendarViewGridAdapter extends ArrayAdapter {
 
 //        Potok2 potok2 = new Potok2();
 //        potok2.run();
-
-
-
 
 
         Date monthDate = dates.get( position );
@@ -107,6 +98,7 @@ public class CalendarViewGridAdapter extends ArrayAdapter {
 //            }
 //        }
 
+
         if(view == null) {
             view = inflater.inflate( R.layout.calendarview_singl_day, parent,false );
 
@@ -116,14 +108,16 @@ public class CalendarViewGridAdapter extends ArrayAdapter {
         TextView Day_Number = view.findViewById( R.id.main_caledar_day );
         Day_Number.setText( String.valueOf( DayNo ) );
         Calendar eventCalendar = Calendar.getInstance();
-        ArrayList<String> arrayList = new ArrayList<>();
+
+        //ArrayList<String> arrayList = new ArrayList<>();
 
         if (dispalyMonth == today.get( Calendar.MONTH ) && dispalyYear == today.get( Calendar.YEAR ) && displayDay == today.get( Calendar.DAY_OF_MONTH ) ) {
 
-            view.setBackgroundColor( getContext().getResources().getColor( R.color.white ) );
+            view.setBackgroundColor( getContext().getResources().getColor( R.color.clear ) );
             TextView Dd = view.findViewById( R.id.main_caledar_day );
             Dd.setTextColor(getContext().getResources().getColor( R.color.white ));
-            view.setBackground( getContext().getDrawable( R.drawable.today_calendar ) );
+            //view.setBackground( getContext().getDrawable( R.drawable.today_calendar ) );
+            view.setBackground( getContext().getDrawable( R.drawable.todaybgclear ) );
         }
 
         if (dispalyMonth == currentMonth && dispalyYear == currentYear && displayDay != today.get( Calendar.DAY_OF_MONTH )) {
@@ -133,7 +127,7 @@ public class CalendarViewGridAdapter extends ArrayAdapter {
         }
 
         else if (dispalyMonth!= currentMonth) {
-            view.setBackgroundColor( getContext().getResources().getColor( R.color.white ) );
+            view.setBackgroundColor( getContext().getResources().getColor( R.color.clear ) );
             TextView Dd = view.findViewById( R.id.main_caledar_day );
             Dd.setTextColor(getContext().getResources().getColor( R.color.grey ));
             Dd.setTextSize( 10 );
@@ -200,19 +194,21 @@ public class CalendarViewGridAdapter extends ArrayAdapter {
 
 
         View finalView = view;
-        if (CalendarMainActivity.two_or_more_event.size()<1){
+        if (CalendarView.two_or_more_event.size()<1){
             LinearLayout two_or_more_event = finalView.findViewById(R.id.calendar_if_many_dots );
             two_or_more_event.setVisibility( View.INVISIBLE );
 
         } else {
 
+
+
             // two or more events show dots
-            for (int two = 0; two< CalendarMainActivity.two_or_more_event.size(); two++){
+            for (int two = 0; two< CalendarView.two_or_more_event.size(); two++){
                 Calendar calpovtor = Calendar.getInstance();
-                Date twoDate = ConvertStringToDate( CalendarMainActivity.two_or_more_event.get( two ) );
+                Date twoDate = ConvertStringToDate( CalendarView.two_or_more_event.get( two ) );
                 calpovtor.set( Calendar.DAY_OF_MONTH, twoDate.getDate() );
-                calpovtor.set( Calendar.MONTH, ConvertStringToDate( CalendarMainActivity.two_or_more_event.get( two ) ).getMonth() );
-                calpovtor.set( Calendar.YEAR, ConvertStringToDate( CalendarMainActivity.two_or_more_event.get( two ) ).getYear()+1900 );
+                calpovtor.set( Calendar.MONTH, ConvertStringToDate( CalendarView.two_or_more_event.get( two ) ).getMonth() );
+                calpovtor.set( Calendar.YEAR, ConvertStringToDate( CalendarView.two_or_more_event.get( two ) ).getYear()+1900 );
 
 
                 if (calpovtor.get( Calendar.YEAR )==dispalyYear &&calpovtor.get( Calendar.MONTH ) == dispalyMonth && calpovtor.get( Calendar.DAY_OF_MONTH ) == displayDay  ){
@@ -224,7 +220,6 @@ public class CalendarViewGridAdapter extends ArrayAdapter {
         }
         //
         Calendar cal = Calendar.getInstance();
-
         Calendar calLast = cal.getInstance();
         calLast.set( Calendar.DAY_OF_MONTH, cal.get( Calendar.DAY_OF_MONTH-1 ) );
         calLast.set(Calendar.MONTH, cal.get( Calendar.MONTH ) );
@@ -232,9 +227,9 @@ public class CalendarViewGridAdapter extends ArrayAdapter {
 //
         eventCalendar.clear();
         for (int i = 0;  i< events.size(); i++){
+
+
             eventCalendar.setTime(ConvertStringToDate( events.get( i ).getDate() ));
-//
-//
             Calendar calCur = Calendar.getInstance();
             calCur.set( Calendar.DAY_OF_MONTH, (ConvertStringToDate( events.get( i ).date ).getDay()) );
             calCur.set( Calendar.MONTH, (ConvertStringToDate( events.get( i ).date ).getMonth()) );
@@ -244,8 +239,6 @@ public class CalendarViewGridAdapter extends ArrayAdapter {
             if (eventCalendar.get( Calendar.YEAR )==dispalyYear && eventCalendar.get( Calendar.MONTH ) == dispalyMonth && eventCalendar.get( Calendar.DAY_OF_MONTH ) == displayDay){
                 checkEvents.add(events.get( i ).getDate() );
 
-
-
                 if(ConvertStringToDate(events.get( i ).date).after(cal.getTime())){
                     if (events.get( i ).status==false){
                         TextView ev = finalView.findViewById( R.id.main_event_set );
@@ -253,18 +246,19 @@ public class CalendarViewGridAdapter extends ArrayAdapter {
                         ev.setBackground( getContext().getDrawable( R.drawable.event_bg_future_no_pay ) );
                         ev.setTextColor( Color.WHITE );
 
-                        finalView.setBackground( getContext().getDrawable( R.color.white ) );
+                        finalView.setBackground( getContext().getDrawable( R.color.clear ) );
 
                     }
 
 
                     if (events.get( i ).status==true){
                         TextView ev = finalView.findViewById( R.id.main_event_set );
+
                         ev.setText( events.get(i).event );
                         ev.setBackground( getContext().getDrawable( R.drawable.event_bg_pay ) );
                         ev.setTextColor( Color.WHITE );
 
-                        finalView.setBackground( getContext().getDrawable( R.color.white ) );
+                        finalView.setBackground( getContext().getDrawable( R.color.clear ) );
 
                     }
 
@@ -279,7 +273,7 @@ public class CalendarViewGridAdapter extends ArrayAdapter {
                         ev.setBackground( getContext().getDrawable( R.drawable.event_bg_pay ) );
                         ev.setTextColor( Color.WHITE );
 
-                        finalView.setBackground( getContext().getDrawable( R.color.white ) );
+                        finalView.setBackground( getContext().getDrawable( R.color.clear ) );
                     }
                     if (events.get( i ).status==false && calCur.before( calLast )){
                         TextView ev = finalView.findViewById( R.id.main_event_set );
@@ -287,13 +281,10 @@ public class CalendarViewGridAdapter extends ArrayAdapter {
                         ev.setText( events.get(i).event );
                         ev.setBackground( getContext().getDrawable( R.drawable.event_bg ) );
                         ev.setTextColor( Color.WHITE );
-
-                        finalView.setBackground( getContext().getDrawable( R.color.white ) );
+                        finalView.setBackground( getContext().getDrawable( R.color.clear ) );
 
                     }
-
                 }
-
             }
 //
             if (eventCalendar.get( Calendar.YEAR )==dispalyYear && eventCalendar.get( Calendar.MONTH ) == dispalyMonth && eventCalendar.get( Calendar.DAY_OF_MONTH ) == displayDay && dispalyMonth == today.get( Calendar.MONTH ) && dispalyYear == today.get( Calendar.YEAR ) && displayDay == today.get( Calendar.DAY_OF_MONTH )  )
@@ -301,7 +292,7 @@ public class CalendarViewGridAdapter extends ArrayAdapter {
                 if(events.get( i ).status==true){
                     TextView ev = finalView.findViewById( R.id.main_event_set );
 
-                    finalView.setBackground( getContext().getDrawable( R.drawable.today_calendar ) );
+                    finalView.setBackground( getContext().getDrawable( R.drawable.todaybgclear ) );
                     ev.setText( events.get(i).event );
                     ev.setBackground( getContext().getDrawable( R.drawable.event_bg_pay ) );
                     ev.setTextColor( Color.WHITE );
@@ -310,143 +301,14 @@ public class CalendarViewGridAdapter extends ArrayAdapter {
                 if (events.get( i ).status==false){
                     TextView ev = finalView.findViewById( R.id.main_event_set );
 
-                    finalView.setBackground( getContext().getDrawable( R.drawable.today_calendar ) );
+                    finalView.setBackground( getContext().getDrawable( R.drawable.todaybgclear ) );
                     ev.setText( events.get(i).event );
                     ev.setBackground( getContext().getDrawable( R.drawable.event_bg ) );
                     ev.setTextColor( Color.WHITE );
                 }
 //
             }
-
-
         }
-//        Runnable run = new Runnable() {
-//            public void run() {
-//
-//                if (CalendarMainActivity.two_or_more_event.size()<1){
-//                    LinearLayout two_or_more_event = finalView.findViewById(R.id.calendar_if_many_dots );
-//                    two_or_more_event.setVisibility( View.INVISIBLE );
-//
-//                } else {
-//
-//                    // two or more events show dots
-//                    for (int two = 0; two< CalendarMainActivity.two_or_more_event.size(); two++){
-//                        Calendar calpovtor = Calendar.getInstance();
-//                        Date twoDate = ConvertStringToDate( CalendarMainActivity.two_or_more_event.get( two ) );
-//                        calpovtor.set( Calendar.DAY_OF_MONTH, twoDate.getDate() );
-//                        calpovtor.set( Calendar.MONTH, ConvertStringToDate( CalendarMainActivity.two_or_more_event.get( two ) ).getMonth() );
-//                        calpovtor.set( Calendar.YEAR, ConvertStringToDate( CalendarMainActivity.two_or_more_event.get( two ) ).getYear()+1900 );
-//
-//
-//                        if (calpovtor.get( Calendar.YEAR )==dispalyYear &&calpovtor.get( Calendar.MONTH ) == dispalyMonth && calpovtor.get( Calendar.DAY_OF_MONTH ) == displayDay  ){
-//                            LinearLayout two_or_more_event = finalView.findViewById(R.id.calendar_if_many_dots );
-//                            two_or_more_event.setVisibility( View.VISIBLE );
-//                        }
-//                    }
-//
-//                }
-//        //
-//                Calendar cal = Calendar.getInstance();
-//
-//                Calendar calLast = cal.getInstance();
-//                calLast.set( Calendar.DAY_OF_MONTH, cal.get( Calendar.DAY_OF_MONTH-1 ) );
-//                calLast.set(Calendar.MONTH, cal.get( Calendar.MONTH ) );
-//                calLast.set( Calendar.YEAR, cal.get( Calendar.YEAR ) );
-////
-//                eventCalendar.clear();
-//                for (int i = 0;  i< events.size(); i++){
-//                    eventCalendar.setTime(ConvertStringToDate( events.get( i ).getDate() ));
-////
-////
-//                    Calendar calCur = Calendar.getInstance();
-//                    calCur.set( Calendar.DAY_OF_MONTH, (ConvertStringToDate( events.get( i ).date ).getDay()) );
-//                    calCur.set( Calendar.MONTH, (ConvertStringToDate( events.get( i ).date ).getMonth()) );
-//                    calCur.set( Calendar.YEAR, (ConvertStringToDate( events.get( i ).date ).getYear()) );
-////
-////
-//                    if (eventCalendar.get( Calendar.YEAR )==dispalyYear && eventCalendar.get( Calendar.MONTH ) == dispalyMonth && eventCalendar.get( Calendar.DAY_OF_MONTH ) == displayDay){
-//                        checkEvents.add(events.get( i ).getDate() );
-//
-//
-//
-//                        if(ConvertStringToDate(events.get( i ).date).after(cal.getTime())){
-//                            if (events.get( i ).status==false){
-//                                TextView ev = finalView.findViewById( R.id.main_event_set );
-//                                ev.setText( events.get(i).event );
-//                                ev.setBackground( getContext().getDrawable( R.drawable.event_bg_future_no_pay ) );
-//                                ev.setTextColor( Color.WHITE );
-//
-//                                finalView.setBackground( getContext().getDrawable( R.color.white ) );
-//
-//                            }
-//
-//
-//                            if (events.get( i ).status==true){
-//                                TextView ev = finalView.findViewById( R.id.main_event_set );
-//                                ev.setText( events.get(i).event );
-//                                ev.setBackground( getContext().getDrawable( R.drawable.event_bg_pay ) );
-//                                ev.setTextColor( Color.WHITE );
-//
-//                                finalView.setBackground( getContext().getDrawable( R.color.white ) );
-//
-//                            }
-//
-//                        }
-//
-//                        if(ConvertStringToDate(events.get( i ).date).before(cal.getTime())){
-//
-//                            if (events.get( i ).status==true){
-//                                TextView ev = finalView.findViewById( R.id.main_event_set );
-//
-//                                ev.setText( events.get(i).event );
-//                                ev.setBackground( getContext().getDrawable( R.drawable.event_bg_pay ) );
-//                                ev.setTextColor( Color.WHITE );
-//
-//                                finalView.setBackground( getContext().getDrawable( R.color.white ) );
-//                            }
-//                            if (events.get( i ).status==false && calCur.before( calLast )){
-//                                TextView ev = finalView.findViewById( R.id.main_event_set );
-//
-//                                ev.setText( events.get(i).event );
-//                                ev.setBackground( getContext().getDrawable( R.drawable.event_bg ) );
-//                                ev.setTextColor( Color.WHITE );
-//
-//                                finalView.setBackground( getContext().getDrawable( R.color.white ) );
-//
-//                            }
-//
-//                        }
-//
-//                    }
-////
-//                    if (eventCalendar.get( Calendar.YEAR )==dispalyYear && eventCalendar.get( Calendar.MONTH ) == dispalyMonth && eventCalendar.get( Calendar.DAY_OF_MONTH ) == displayDay && dispalyMonth == today.get( Calendar.MONTH ) && dispalyYear == today.get( Calendar.YEAR ) && displayDay == today.get( Calendar.DAY_OF_MONTH )  )
-//                    {   checkEvents.add(events.get( i ).getDate() );
-//                        if(events.get( i ).status==true){
-//                            TextView ev = finalView.findViewById( R.id.main_event_set );
-//
-//                            finalView.setBackground( getContext().getDrawable( R.drawable.today_calendar ) );
-//                            ev.setText( events.get(i).event );
-//                            ev.setBackground( getContext().getDrawable( R.drawable.event_bg_pay ) );
-//                            ev.setTextColor( Color.WHITE );
-//                        }
-//
-//                        if (events.get( i ).status==false){
-//                            TextView ev = finalView.findViewById( R.id.main_event_set );
-//
-//                            finalView.setBackground( getContext().getDrawable( R.drawable.today_calendar ) );
-//                            ev.setText( events.get(i).event );
-//                            ev.setBackground( getContext().getDrawable( R.drawable.event_bg ) );
-//                            ev.setTextColor( Color.WHITE );
-//                        }
-////
-//                    }
-//
-//
-//                }
-//
-//            }
-//        };
-//        new Thread(run).start();
 
         return view;
     }

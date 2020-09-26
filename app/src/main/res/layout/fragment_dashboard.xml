@@ -4,229 +4,341 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="@color/gray_bg">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView4"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/neomorphFrameLayout4"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="10dp"
-        app:cardCornerRadius="25dp"
-        app:cardElevation="10dp"
+
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_view_year_stat_select_id">
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout8">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:background="#FFFFFF">
+            android:id="@+id/constraintLayout13"
+            android:layout_width="0dp"
+            android:layout_height="507dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/textView34"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constLay_zarabotano"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="@string/Earned_for_the_year"
+                android:alpha="0"
+                app:layout_constraintBottom_toBottomOf="@+id/piechart"
+                app:layout_constraintEnd_toEndOf="@+id/piechart"
+                app:layout_constraintStart_toStartOf="@+id/piechart"
+                app:layout_constraintTop_toTopOf="@+id/piechart">
+
+                <TextView
+                    android:id="@+id/textView18"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/zarabotano"
+                    android:textAllCaps="true"
+                    android:textColor="#5F5C5C"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.29000002" />
+
+                <TextView
+                    android:id="@+id/textViewZarabotano_in_circle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="#1B7C1B"
+                    android:textSize="23sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@+id/textView18"
+                    app:layout_constraintStart_toStartOf="@+id/textView18"
+                    app:layout_constraintTop_toBottomOf="@+id/textView18" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/piechart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/tvZarabotanoZaGod"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="0"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView34"
-                app:layout_constraintStart_toEndOf="@+id/textView34" />
-
-            <TextView
-                android:id="@+id/textView35"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/Payout"
-                app:layout_constraintStart_toStartOf="@+id/textView34"
-                app:layout_constraintTop_toBottomOf="@+id/textView34" />
-
-            <TextView
-                android:id="@+id/tvViplachenoZaGod"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView35"
-                app:layout_constraintStart_toStartOf="@+id/tvZarabotanoZaGod" />
-
-            <TextView
-                android:id="@+id/textView36"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/Not_paid"
-                app:layout_constraintStart_toStartOf="@+id/textView35"
-                app:layout_constraintTop_toBottomOf="@+id/textView35" />
-
-            <TextView
-                android:id="@+id/tvNeViplachenoZaGod"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:textColor="#B4E53935"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView36"
-                app:layout_constraintStart_toStartOf="@+id/tvViplachenoZaGod" />
-
-            <TextView
-                android:id="@+id/textView37"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/Days_worked"
-                app:layout_constraintStart_toStartOf="@+id/textView36"
-                app:layout_constraintTop_toBottomOf="@+id/textView36" />
-
-            <TextView
-                android:id="@+id/tvDneyOtrabotanoZaGod"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView37"
-                app:layout_constraintStart_toStartOf="@+id/tvNeViplachenoZaGod" />
-
-            <TextView
-                android:id="@+id/textView38"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/Maximum_days"
-
-                app:layout_constraintStart_toStartOf="@+id/textView37"
-                app:layout_constraintTop_toBottomOf="@+id/textView37" />
-
-            <TextView
-                android:id="@+id/tvMaxDneyOtrabotanoZaGod"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView38"
-                app:layout_constraintStart_toStartOf="@+id/tvDneyOtrabotanoZaGod" />
-
-            <TextView
-                android:id="@+id/textView39"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="("
-                app:layout_constraintBaseline_toBaselineOf="@+id/tvMaxDneyOtrabotanoZaGod"
-                app:layout_constraintStart_toEndOf="@+id/tvMaxDneyOtrabotanoZaGod" />
-
-            <TextView
-                android:id="@+id/tvMaxMonthName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView38"
-                app:layout_constraintStart_toEndOf="@+id/textView39" />
-
-            <TextView
-                android:id="@+id/textView40"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="1dp"
-                android:text=")"
-                app:layout_constraintBaseline_toBaselineOf="@+id/tvMaxMonthName"
-                app:layout_constraintStart_toEndOf="@+id/tvMaxMonthName" />
-
-            <TextView
-                android:id="@+id/textView43"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=")"
-                app:layout_constraintBaseline_toBaselineOf="@+id/tvMinMonthName"
-                app:layout_constraintStart_toEndOf="@+id/tvMinMonthName" />
-
-            <TextView
-                android:id="@+id/textView41"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/Minimum_days"
-                app:layout_constraintStart_toStartOf="@+id/textView38"
-                app:layout_constraintTop_toBottomOf="@+id/textView38" />
-
-            <TextView
-                android:id="@+id/tvMinDneyOtrabotanoZaGod"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView41"
-                app:layout_constraintStart_toStartOf="@+id/tvMaxDneyOtrabotanoZaGod" />
-
-            <TextView
-                android:id="@+id/textView42"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="("
-                app:layout_constraintBaseline_toBaselineOf="@+id/tvMinDneyOtrabotanoZaGod"
-                app:layout_constraintStart_toStartOf="@+id/textView39" />
-
-            <TextView
-                android:id="@+id/tvMinMonthName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView42"
-                app:layout_constraintStart_toEndOf="@+id/textView42" />
-
-            <ImageButton
-                android:id="@+id/ibNoPAyaAlert"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_centerInParent="false"
-                android:layout_centerHorizontal="false"
-                android:layout_centerVertical="false"
-                android:layout_marginStart="16dp"
-                android:layout_marginBottom="2dp"
-                android:background="@color/clear"
-                android:src="@drawable/ic_infoalert"
-                app:layout_constraintBottom_toBottomOf="@+id/tvNeViplachenoZaGod"
-                app:layout_constraintStart_toEndOf="@+id/tvNeViplachenoZaGod"
-                app:layout_constraintTop_toBottomOf="@+id/tvViplachenoZaGod"
-                tools:src="@drawable/ic_infoalert" />
-
+            </com.github.mikephil.charting.charts.PieChart>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.cardview.widget.CardView>
 
-    <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/piechart"
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout8"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView4">
-
-    </com.github.mikephil.charting.charts.PieChart>
-
-    <TextView
-        android:id="@+id/text_view_year_stat_select_id"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:textSize="35sp"
-        android:textStyle="bold"
+        android:layout_margin="10dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@color/gray_bg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.chinodev.androidneomorphframelayout.NeomorphFrameLayout
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:neomorph_corner_radius="15dp"
+            app:neomorph_elevation="2dp"
+            app:neomorph_highlight_color="@color/neomorph_highlight_color"
+            app:neomorph_shadow_color="@color/neomorph_shadow_color"
+            app:neomorph_shadow_type="outer"
+            app:neomorph_view_type="circular">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/button_yearSelect"
+                    android:layout_width="25dp"
+                    android:layout_height="30dp"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/timecheck_month"
+                    tools:srcCompat="@drawable/timecheck_month" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </com.chinodev.androidneomorphframelayout.NeomorphFrameLayout>
+
+        <TextView
+            android:id="@+id/text_view_year_stat_select_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="2098"
+            android:textColor="@color/text_gray"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView34"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="@string/Earned_for_the_year"
+            android:textColor="@color/text_gray"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvZarabotanoZaGod"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="0"
+            android:textColor="#1E88E5"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@+id/textView34"
+            app:layout_constraintStart_toEndOf="@+id/textView34" />
+
+        <TextView
+            android:id="@+id/textView35"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Payout"
+            android:textColor="@color/text_gray"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/textView34"
+            app:layout_constraintTop_toBottomOf="@+id/textView34" />
+
+        <TextView
+            android:id="@+id/tvViplachenoZaGod"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textColor="#1E88E5"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@+id/textView35"
+            app:layout_constraintStart_toStartOf="@+id/tvZarabotanoZaGod" />
+
+        <TextView
+            android:id="@+id/textView36"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Not_paid"
+            android:textColor="@color/text_gray"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/textView35"
+            app:layout_constraintTop_toBottomOf="@+id/textView35" />
+
+        <TextView
+            android:id="@+id/tvNeViplachenoZaGod"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textColor="#B4E53935"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@+id/textView36"
+            app:layout_constraintStart_toStartOf="@+id/tvViplachenoZaGod" />
+
+        <TextView
+            android:id="@+id/textView37"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Days_worked"
+            android:textColor="@color/text_gray"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/textView36"
+            app:layout_constraintTop_toBottomOf="@+id/textView36" />
+
+        <TextView
+            android:id="@+id/tvDneyOtrabotanoZaGod"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textColor="#1E88E5"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@+id/textView37"
+            app:layout_constraintStart_toStartOf="@+id/tvNeViplachenoZaGod" />
+
+        <TextView
+            android:id="@+id/textView38"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Maximum_days"
+
+            android:textColor="@color/text_gray"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/textView37"
+            app:layout_constraintTop_toBottomOf="@+id/textView37" />
+
+        <TextView
+            android:id="@+id/tvMaxDneyOtrabotanoZaGod"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textColor="#1E88E5"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@+id/textView38"
+            app:layout_constraintStart_toStartOf="@+id/tvDneyOtrabotanoZaGod" />
+
+        <TextView
+            android:id="@+id/textView39"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="("
+            app:layout_constraintBaseline_toBaselineOf="@+id/tvMaxDneyOtrabotanoZaGod"
+            app:layout_constraintStart_toEndOf="@+id/tvMaxDneyOtrabotanoZaGod" />
+
+        <TextView
+            android:id="@+id/tvMaxMonthName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBaseline_toBaselineOf="@+id/textView38"
+            app:layout_constraintStart_toEndOf="@+id/textView39" />
+
+        <TextView
+            android:id="@+id/textView40"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:text=")"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tvMaxMonthName"
+            app:layout_constraintStart_toEndOf="@+id/tvMaxMonthName" />
+
+        <TextView
+            android:id="@+id/textView43"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=")"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tvMinMonthName"
+            app:layout_constraintStart_toEndOf="@+id/tvMinMonthName" />
+
+        <TextView
+            android:id="@+id/textView41"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Minimum_days"
+            android:textColor="@color/text_gray"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/textView38"
+            app:layout_constraintTop_toBottomOf="@+id/textView38" />
+
+        <TextView
+            android:id="@+id/tvMinDneyOtrabotanoZaGod"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textColor="#1E88E5"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@+id/textView41"
+            app:layout_constraintStart_toStartOf="@+id/tvMaxDneyOtrabotanoZaGod" />
+
+        <TextView
+            android:id="@+id/textView42"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="("
+            app:layout_constraintBaseline_toBaselineOf="@+id/tvMinDneyOtrabotanoZaGod"
+            app:layout_constraintStart_toStartOf="@+id/textView39" />
+
+        <TextView
+            android:id="@+id/tvMinMonthName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBaseline_toBaselineOf="@+id/textView42"
+            app:layout_constraintStart_toEndOf="@+id/textView42" />
+
+        <ImageButton
+            android:id="@+id/ibNoPAyaAlert"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_centerInParent="false"
+            android:layout_centerHorizontal="false"
+            android:layout_centerVertical="false"
+            android:layout_marginStart="5dp"
+            android:layout_marginBottom="2dp"
+            android:background="@drawable/ic_infoalert"
+            android:backgroundTint="#1E88E5"
+            app:layout_constraintBottom_toBottomOf="@+id/tvNeViplachenoZaGod"
+            app:layout_constraintStart_toEndOf="@+id/tvNeViplachenoZaGod"
+            app:layout_constraintTop_toBottomOf="@+id/tvViplachenoZaGod" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/tvContent"
@@ -252,6 +364,7 @@
         android:clickable="true"
         android:gravity="center"
         android:text="НЕОПЛАЧЕНО"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/textView_tvAllZarabotano"
         app:layout_constraintEnd_toEndOf="@+id/textView_tvAllZarabotano"
         app:layout_constraintStart_toStartOf="@+id/textView_tvAllZarabotano"
@@ -263,7 +376,7 @@
         android:layout_height="100dp"
         android:gravity="center"
         android:text="ВСЕГО ЗАРАБОТАНО"
-        android:visibility="invisible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/piechart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -277,6 +390,7 @@
         android:clickable="true"
         android:gravity="center"
         android:text="ОПЛАЧЕНО"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/textView_tvAllZarabotano"
         app:layout_constraintEnd_toEndOf="@+id/textView_tvAllZarabotano"
         app:layout_constraintStart_toStartOf="@+id/textView_tvAllZarabotano"
@@ -288,6 +402,7 @@
         android:layout_height="115dp"
         android:alpha="0"
         android:background="#00FFFFFF"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/textView_tvneoplacheno"
         app:layout_constraintEnd_toEndOf="@+id/textView_tvneoplacheno"
         app:layout_constraintStart_toStartOf="@+id/textView_tvneoplacheno"
@@ -324,50 +439,11 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constLay_zarabotano"
-        android:layout_width="115dp"
-        android:layout_height="115dp"
-        android:alpha="0"
-        app:layout_constraintBottom_toBottomOf="@+id/textView_tvneoplacheno"
-        app:layout_constraintEnd_toEndOf="@+id/textView_tvneoplacheno"
-        app:layout_constraintStart_toStartOf="@+id/textView_tvneoplacheno"
-        app:layout_constraintTop_toTopOf="@+id/textView_tvneoplacheno">
-
-        <TextView
-            android:id="@+id/textView18"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/zarabotano"
-            android:textAllCaps="true"
-            android:textColor="#5F5C5C"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.29000002" />
-
-        <TextView
-            android:id="@+id/textViewZarabotano_in_circle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="0"
-            android:textColor="#1B7C1B"
-            android:textSize="23sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/textView18"
-            app:layout_constraintStart_toStartOf="@+id/textView18"
-            app:layout_constraintTop_toBottomOf="@+id/textView18" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constLay_oplacheno"
         android:layout_width="115dp"
         android:layout_height="115dp"
         android:alpha="0"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/textView_tvneoplacheno"
         app:layout_constraintEnd_toEndOf="@+id/textView_tvneoplacheno"
         app:layout_constraintStart_toStartOf="@+id/textView_tvneoplacheno"
@@ -402,19 +478,6 @@
             app:layout_constraintStart_toStartOf="@+id/textView12"
             app:layout_constraintTop_toBottomOf="@+id/textView12" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/button_yearSelect"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:elevation="0dp"
-        android:src="@drawable/calendarchoose2"
-        app:backgroundTint="#1E88E5"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:maxImageSize="25dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

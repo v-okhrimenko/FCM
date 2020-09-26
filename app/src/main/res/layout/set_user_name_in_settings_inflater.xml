@@ -2,14 +2,22 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bg_rv"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="25dp">
+    android:orientation="vertical"
+    app:cardCornerRadius="@dimen/alert_corner_radius"
+    app:cardElevation="0dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toEndOf="@+id/constraintLayout3"
+    app:layout_constraintTop_toBottomOf="@+id/ib_play">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp">
+        android:background="@color/clear"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
 
         <TextView
             android:id="@+id/textView15"
@@ -17,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:text="@string/enter_a_nickname"
-            android:textColor="@color/black"
+            android:textColor="#1E88E5"
             android:textSize="25dp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -28,18 +36,16 @@
             android:id="@+id/settings_et_name"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginLeft="6dp"
-            android:layout_marginTop="26dp"
-            android:layout_marginRight="6dp"
+            android:layout_marginTop="15dp"
             android:background="@drawable/button_cancel_gray"
-            android:backgroundTint="#CDDBE7"
+            android:backgroundTint="@color/gray_bg"
             android:ems="10"
             android:inputType="textPersonName"
             android:maxLength="15"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:textAlignment="center"
-            android:textColor="#626262"
+            android:textColor="@color/black"
             android:textSize="19dp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -48,33 +54,37 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
             android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
+            android:weightSum="2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/settings_et_name"
+            app:layout_constraintStart_toStartOf="@+id/settings_et_name"
             app:layout_constraintTop_toBottomOf="@+id/settings_et_name">
 
             <Button
                 android:id="@+id/settings_btn_select"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_heighy"
                 android:layout_weight="1"
                 android:background="@drawable/button_ok_blue_ripple"
                 android:text="@string/select"
-                android:textColor="#FFFFFF"
-                android:textStyle="normal" />
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
 
             <Button
                 android:id="@+id/settings_btn_cencel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_heighy"
+                android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/button_cancel_white_ripple"
                 android:text="@string/cancel"
-                android:textColor="#626262"
-                android:textStyle="normal" />
+                android:textColor="@color/black"
+                android:textStyle="bold" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

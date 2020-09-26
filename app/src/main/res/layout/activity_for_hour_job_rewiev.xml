@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".jobreview.ForHourJobReview">
+    tools:context=".rateHour.ForHourJobReview"
+    android:background="@color/gray_bg">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,217 +16,211 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.cardview.widget.CardView
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:elevation="8dp"
-            app:cardCornerRadius="25dp"
-            app:cardElevation="8dp">
+            android:layout_margin="5dp">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <TextView
+                android:id="@+id/textView70"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:text="@string/Rounding_minutes"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/btn_info2"
+                app:layout_constraintTop_toTopOf="@+id/textView51" />
+
+            <Button
+                android:id="@+id/btn_info2"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/ic_infoalert"
+                android:backgroundTint="#FF0A4477"
+                android:clickable="true"
+                app:fabSize="mini"
+                app:layout_constraintBottom_toBottomOf="@+id/textView70"
+                app:layout_constraintEnd_toEndOf="@+id/tv_name_jrFixed"
+                app:layout_constraintTop_toTopOf="@+id/textView70"
+                app:maxImageSize="24dp"
+                app:srcCompat="@drawable/alert" />
+
+            <EditText
+                android:id="@+id/et_okruglenie_minut"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="number"
+                android:maxLength="2"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:singleLine="true"
+                android:textColor="#5E5E5E"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/btn_info2"
+                app:layout_constraintTop_toBottomOf="@+id/textView70" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="9dp"
+                android:text="@string/description"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_description_jrFixed" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_alarmSet_jrFixed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="9dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:clickable="true"
+                app:fabSize="mini"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView8"
+                app:srcCompat="@drawable/alarmsetico" />
+
+            <Spinner
+                android:id="@+id/spinner_valuta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:entries="@array/currency"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="@+id/et_price_jrFixed"
+                app:layout_constraintStart_toEndOf="@+id/et_price_jrFixed"
+                app:layout_constraintTop_toTopOf="@+id/et_price_jrFixed" />
+
+            <TextView
+                android:id="@+id/tv_name_jrFixed"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginStart="9dp"
+                android:layout_marginEnd="9dp"
+                android:background="@drawable/button_ok_blue_ripple"
+                android:gravity="center|center_horizontal"
+                android:text="M1 MUSIC AWARDS"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_date_jrFixed" />
+
+            <Switch
+                android:id="@+id/sw_paid2"
+                android:layout_width="145dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="@string/payd_ChBox"
+                android:textColor="#706E6E"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/spinner_valuta"
+                app:layout_constraintStart_toStartOf="@+id/textView51"
+                app:layout_constraintTop_toBottomOf="@+id/et_price_jrFixed" />
+
+            <TextView
+                android:id="@+id/tv_date_jrFixed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:text="00-00-0000"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/tv_name_jrFixed"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/et_price_jrFixed"
+                android:layout_width="145dp"
+                android:layout_height="40dp"
+                android:background="@drawable/text_edit_light_blue"
+                android:backgroundTint="#FFA5C1E3"
+                android:ems="10"
+                android:inputType="number"
+                android:maxLength="5"
+                android:paddingLeft="10dp"
+                android:paddingTop="3dp"
+                android:paddingEnd="10dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="3dp"
+                android:singleLine="true"
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/tv_name_jrFixed"
+                app:layout_constraintTop_toBottomOf="@+id/textView51" />
+
+            <EditText
+                android:id="@+id/et_description_jrFixed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp">
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="9dp"
+                android:maxLines="3"
+                android:text="Lorem Часть 1 Коллекции (Collections) в Java. Set Коллекции (Collections) в Java. Введение Как сгенерировать hashCode в Java "
+                android:textColor="#5E5E5E"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sw_paid2" />
 
-                <TextView
-                    android:id="@+id/textView70"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="5dp"
-                    android:text="@string/Rounding_minutes"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toStartOf="@+id/btn_info2"
-                    app:layout_constraintTop_toTopOf="@+id/textView51" />
+            <TextView
+                android:id="@+id/tv_alarm_jrFixed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="@string/AlarmNoSet"
+                android:textColor="#000000"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/fab_alarmSet_jrFixed"
+                app:layout_constraintStart_toEndOf="@+id/fab_alarmSet_jrFixed"
+                app:layout_constraintTop_toTopOf="@+id/fab_alarmSet_jrFixed" />
 
-                <Button
-                    android:id="@+id/btn_info2"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:background="@drawable/ic_infoalert"
-                    android:backgroundTint="#FF0A4477"
-                    android:clickable="true"
-                    app:fabSize="mini"
-                    app:layout_constraintBottom_toBottomOf="@+id/textView70"
-                    app:layout_constraintEnd_toEndOf="@+id/tv_name_jrFixed"
-                    app:layout_constraintTop_toTopOf="@+id/textView49"
-                    app:maxImageSize="24dp"
-                    app:srcCompat="@drawable/alert" />
+            <TextView
+                android:id="@+id/textView50"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/job_name_string"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/tv_name_jrFixed"
+                app:layout_constraintStart_toStartOf="parent" />
 
-                <EditText
-                    android:id="@+id/et_okruglenie_minut"
-                    android:layout_width="40dp"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="number"
-                    android:maxLength="2"
-                    android:singleLine="true"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:textColor="#5E5E5E"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="@+id/btn_info2"
-                    app:layout_constraintTop_toBottomOf="@+id/textView70" />
+            <TextView
+                android:id="@+id/textView51"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/hour_stoimost"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/textView50"
+                app:layout_constraintTop_toBottomOf="@+id/tv_name_jrFixed" />
 
-                <TextView
-                    android:id="@+id/textView8"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="9dp"
-                    android:text="@string/description"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/et_description_jrFixed" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline19"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="20dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/fab_alarmSet_jrFixed"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="9dp"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginBottom="6dp"
-                    android:clickable="true"
-                    app:fabSize="mini"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView8"
-                    app:srcCompat="@drawable/alarmsetico" />
-
-                <Spinner
-                    android:id="@+id/spinner_valuta"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:entries="@array/currency"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    app:layout_constraintBottom_toBottomOf="@+id/et_price_jrFixed"
-                    app:layout_constraintStart_toEndOf="@+id/et_price_jrFixed"
-                    app:layout_constraintTop_toTopOf="@+id/et_price_jrFixed" />
-
-                <TextView
-                    android:id="@+id/tv_name_jrFixed"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="9dp"
-                    android:layout_marginEnd="9dp"
-                    android:background="@drawable/button_ok_blue_ripple"
-                    android:gravity="center|center_horizontal"
-                    android:text="M1 MUSIC AWARDS"
-                    android:textAlignment="center"
-                    android:textColor="#FFFFFF"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_date_jrFixed" />
-
-                <Switch
-                    android:id="@+id/sw_paid2"
-                    android:layout_width="145dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:text="@string/payd_ChBox"
-                    android:textColor="#706E6E"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toStartOf="@+id/spinner_valuta"
-                    app:layout_constraintStart_toStartOf="@+id/textView51"
-                    app:layout_constraintTop_toBottomOf="@+id/et_price_jrFixed" />
-
-                <TextView
-                    android:id="@+id/tv_date_jrFixed"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="15dp"
-                    android:text="00-00-0000"
-                    android:textSize="17sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="@+id/tv_name_jrFixed"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <EditText
-                    android:id="@+id/et_price_jrFixed"
-                    android:layout_width="145dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/text_edit_light_blue"
-                    android:ems="10"
-                    android:inputType="number"
-                    android:maxLength="5"
-                    android:singleLine="true"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="3dp"
-                    android:paddingEnd="10dp"
-                    android:paddingRight="10dp"
-                    android:paddingBottom="3dp"
-                    android:textAlignment="center"
-                    android:textColor="#000000"
-                    android:textSize="25sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="@+id/tv_name_jrFixed"
-                    app:layout_constraintTop_toBottomOf="@+id/textView51" />
-
-                <EditText
-                    android:id="@+id/et_description_jrFixed"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:layout_marginEnd="9dp"
-                    android:maxLines="3"
-                    android:text="Lorem Часть 1 Коллекции (Collections) в Java. Set Коллекции (Collections) в Java. Введение Как сгенерировать hashCode в Java "
-                    android:textColor="#5E5E5E"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/sw_paid2" />
-
-                <TextView
-                    android:id="@+id/tv_alarm_jrFixed"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:text="@string/AlarmNoSet"
-                    android:textColor="#000000"
-                    android:textSize="17sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@+id/fab_alarmSet_jrFixed"
-                    app:layout_constraintStart_toEndOf="@+id/fab_alarmSet_jrFixed"
-                    app:layout_constraintTop_toTopOf="@+id/fab_alarmSet_jrFixed" />
-
-                <TextView
-                    android:id="@+id/textView50"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="@string/job_name_string"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@+id/tv_name_jrFixed"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-                <TextView
-                    android:id="@+id/textView51"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:text="@string/hour_stoimost"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="@+id/textView50"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_name_jrFixed" />
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guideline19"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintGuide_begin="20dp" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -237,6 +232,7 @@
                 android:layout_height="40dp"
                 android:layout_marginStart="16dp"
                 android:background="@drawable/event_bg_pay"
+                android:backgroundTint="@color/button_ok"
                 android:text="00:00"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView52" />
@@ -387,42 +383,67 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <LinearLayout
-            android:id="@+id/linearLayout12"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="bottom"
-            android:gravity="bottom|center"
-            android:orientation="horizontal"
-            android:weightSum="2">
+            android:layout_height="match_parent">
 
-            <Button
-                android:id="@+id/button_ok_edit"
+            <LinearLayout
+                android:id="@+id/linearLayout12"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="9dp"
-                android:layout_marginRight="5dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
                 android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/button_ok_blue_ripple"
-                android:text="@android:string/ok"
-                android:textColor="#FFFFFF"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
 
-            <Button
-                android:id="@+id/btn_cancel"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="9dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/button_cancel_white_ripple"
-                android:text="@string/cancel"
-                android:textColor="@color/text_gray" />
-        </LinearLayout>
+                <Button
+                    android:id="@+id/button_ok_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_heighy"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_ok_blue_ripple"
+
+                    android:elevation="15dp"
+                    android:text="@android:string/ok"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+                <Button
+                    android:id="@+id/btn_cancel"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_heighy"
+
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_cancel_white_ripple"
+                    android:text="@string/cancel"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
 
     </LinearLayout>
+
+    <com.github.mmin18.widget.RealtimeBlurView
+        android:id="@+id/blurview_all"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:visibility="invisible"
+        app:realtimeBlurRadius="5dp"
+        app:realtimeOverlayColor="#90E0E5EC" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -26,7 +26,22 @@
     <color name="prozrachniy">#6BFFFFFF</color>
     <color name="clear">#00FFFFFF</color>
     <color name="text_gray">#646464</color>
+    <color name="button_ok">@color/green_lite</color>
+    <color name="nawdrawer_color">#FFFFFF</color>
 
+
+<!--    <color name="gray_bg">#E0E5EC</color>-->
+    <color name="gray_bg">#CCD0D6</color>
+    <color name="gray_bg_black">#E6EBF2</color>
+
+    <color name="neomorph_background_color">@color/gray_bg</color>
+    <color name="neomorph_shadow_color">#A3B1C6</color>
+    <color name="neomorph_highlight_colorr">#E6FFFFFF</color>
+
+
+    <color name="neomorph_background_color_bl">#AEAEAE</color>
+    <color name="neomorph_shadow_color_bl">#9B9999</color>
+    <color name="neomorph_highlight_color_bl">#BCBCBC</color>
 
     <color name="today">#4b82ff</color>
     <color name="greyed_out">#c7c7c7</color>
@@ -41,6 +56,8 @@
     <color name="blue_lite">#1E88E5</color>
     <color name="blue">#14419B</color>
     <color name="grey">#777777</color>
+
+    <color name="black_clear_bg">#D9000000</color>
 
 
     <color name="alert_bottom">#DD7D7A</color>

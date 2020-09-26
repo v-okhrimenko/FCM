@@ -15,6 +15,7 @@ import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chinodev.androidneomorphframelayout.NeomorphFrameLayout;
 import com.example.fcm.R;
 import com.example.fcm.models.MainWork;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -66,8 +67,6 @@ public class CalendarWorkRv extends FirestoreRecyclerAdapter<MainWork, CalendarW
 
 
         holder.name.setText( model.getName());
-
-
         java.text.SimpleDateFormat d = new java.text.SimpleDateFormat("MM");
         java.text.SimpleDateFormat m = new java.text.SimpleDateFormat("dd");
         java.text.SimpleDateFormat y = new java.text.SimpleDateFormat("yyyy");
@@ -102,8 +101,13 @@ public class CalendarWorkRv extends FirestoreRecyclerAdapter<MainWork, CalendarW
         sobitie.setTime(d_);
 
         if(today.getTime().equals( sobitie.getTime() )){
-            System.out.println("YEAHH");
             holder.cl.setBackgroundTintList(context.getResources().getColorStateList(R.color.green_olive));
+//            holder.cl.setBackgroundTintList(context.getResources().getColorStateList(R.color.green_olive));
+//            holder.day.setTextColor(context.getResources().getColorStateList(R.color.green_lite));
+//            holder.month.setTextColor(context.getResources().getColorStateList(R.color.green_lite));
+//            holder.day_week.setTextColor(context.getResources().getColorStateList(R.color.green_lite));
+
+
 
         } else {
             System.out.println("NO SORRY");
@@ -186,6 +190,7 @@ public class CalendarWorkRv extends FirestoreRecyclerAdapter<MainWork, CalendarW
         ImageView pay_ico;
         ImageView alarm;
         ConstraintLayout cl;
+        NeomorphFrameLayout bg_rv;
 
         public CalendarHolder(@NonNull View itemView) {
             super( itemView );
@@ -196,6 +201,7 @@ public class CalendarWorkRv extends FirestoreRecyclerAdapter<MainWork, CalendarW
             pay_ico = itemView.findViewById( R.id.pay_icon_visible_id );
             alarm = itemView.findViewById( R.id.alarmOk );
             cl = itemView.findViewById( R.id.cl_000 );
+            bg_rv = itemView.findViewById( R.id.bg_rv );
 
 
             itemView.setOnClickListener( new View.OnClickListener() {

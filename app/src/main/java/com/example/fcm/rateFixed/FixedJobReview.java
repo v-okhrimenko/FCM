@@ -1,4 +1,4 @@
-package com.example.fcm.fixedrate;
+package com.example.fcm.rateFixed;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -22,8 +22,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.fcm.AlarmResiver;
-import com.example.fcm.NumberPicker;
+import com.example.fcm.other.AlarmResiver;
+import com.example.fcm.other.NumberPicker;
 import com.example.fcm.R;
 import com.example.fcm.helper.Helper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -68,6 +68,9 @@ public class FixedJobReview extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_fixed_job_rewiev );
+
+        View decorView = getWindow().getDecorView();
+        Helper.hideSystemUI( decorView );
 
         tv_name = (TextView) findViewById( R.id.tv_name_jrFixed );
         et_price = (EditText) findViewById( R.id.et_price_jrFixed );
@@ -301,8 +304,10 @@ public class FixedJobReview extends AppCompatActivity {
         setReminder.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Calendar calendarNow = Calendar.getInstance();
 
                 Calendar c1 = Calendar.getInstance();
+
                 c1.set( Calendar.YEAR, numbYear.getValue() );
                 c1.set( Calendar.MONTH, numbMonth.getValue() );
                 c1.set( Calendar.DAY_OF_MONTH, numbDay.getValue() );
@@ -313,15 +318,22 @@ public class FixedJobReview extends AppCompatActivity {
 
                 noteRef_addWork_Full.document( docName ).update( "alarm1", alarm1DataToFB );
 
-                alarmManager = (AlarmManager) getBaseContext().getSystemService( ALARM_SERVICE );
-                Intent my_intent = new Intent( FixedJobReview.this, AlarmResiver.class );
-                my_intent.putExtra( "jobId", docName );
-                pendingIntent = pendingIntent.getBroadcast( FixedJobReview.this, Integer.valueOf( uid ), my_intent, PendingIntent.FLAG_UPDATE_CURRENT );
-                alarmManager.set( AlarmManager.RTC_WAKEUP, c1.getTimeInMillis(), pendingIntent );
-                alarm = String.valueOf(alarm1DataToFB);
+                if(c1.before( calendarNow )){
+                    Toast.makeText( getBaseContext(), getResources().getString( R.string.wrong_time_alarm ), Toast.LENGTH_SHORT ).show();
+                }
+                else {
+                    alarmManager = (AlarmManager) getBaseContext().getSystemService( ALARM_SERVICE );
+                    Intent my_intent = new Intent( FixedJobReview.this, AlarmResiver.class );
+                    my_intent.putExtra( "jobId", docName );
+                    pendingIntent = pendingIntent.getBroadcast( FixedJobReview.this, Integer.valueOf( uid ), my_intent, PendingIntent.FLAG_UPDATE_CURRENT );
+                    alarmManager.set( AlarmManager.RTC_WAKEUP, c1.getTimeInMillis(), pendingIntent );
+                    alarm = String.valueOf(alarm1DataToFB);
 
-                alarmCheck(alarm);
-                dialog.dismiss();
+                    alarmCheck(alarm);
+                    dialog.dismiss();
+                }
+
+
             }
         } );
 
@@ -346,10 +358,10 @@ public class FixedJobReview extends AppCompatActivity {
     });
     }
     private void cancel(){
-//        startActivity(new Intent( FixedJobReview.this, CalendarMainActivity.class));
-//        //customType(CalendarMainActivity.this,"fadein-to-fadeout");
-//        overridePendingTransition(0, 0);
+
         finish();
+        overridePendingTransition(0, 0);
+
     }
     private void setNubmerPicker(NumberPicker nubmerPicker,String [] numbers ){
         nubmerPicker.setMaxValue(numbers.length-1);

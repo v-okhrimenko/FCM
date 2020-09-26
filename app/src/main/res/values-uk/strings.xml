@@ -214,4 +214,7 @@
     <string name="No_templates_txt">На даний момент ви не додали жодного шаблону. Додати шаблон можна в меню - Шаблони, або при створенні події вказати \"Зберегти як шаблон\"</string>
     <string name="Incomplete_events">Незавершені події</string>
     <string name="Incompleate_events_txt">На даний момент у Вас відсутні незавершені події</string>
+    <string name="days">Днів</string>
+    <string name="wrong_time_alarm">Час нагадування не може бути раніше ніж зараз!</string>
+    <string name="Templates_lower">шаблони</string>
 </resources>

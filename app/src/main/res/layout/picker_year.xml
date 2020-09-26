@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#00000000"
-    android:backgroundTint="#00000000"
-    app:cardCornerRadius="15dp">
+    android:background="@drawable/bg_popup"
+    android:backgroundTint="@color/gray_bg"
+    app:cardCornerRadius="@dimen/alert_corner_radius"
+    app:cardElevation="0dp">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/bg_popup"
-        android:backgroundTint="#FFFFFF">
+        android:background="@color/clear"
+        android:backgroundTint="@color/gray_bg">
 
 
-        <com.example.fcm.NumberPicker
+        <com.example.fcm.other.NumberPicker
             android:id="@+id/year_picker2"
             android:layout_width="80dp"
             android:layout_height="150dp"
@@ -38,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="@string/сhoose_year"
-            android:textColor="@color/black"
+            android:textColor="@color/text_gray"
 
             android:textSize="25sp"
             android:textStyle="bold"
@@ -60,20 +61,22 @@
             <Button
                 android:id="@+id/button_picker_year_ok"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="@dimen/button_heighy"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginBottom="16dp"
                 android:layout_weight="1"
                 android:background="@drawable/button_ok_blue_ripple"
+                android:backgroundTint="@color/button_ok"
                 android:text="ОК"
-                android:textColor="#ffffff" />
+                android:textColor="#ffffff"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/button_picker_year_cencel"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="@dimen/button_heighy"
 
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="16dp"
@@ -82,11 +85,12 @@
                 android:layout_weight="1"
                 android:background="@drawable/button_cancel_white_ripple"
                 android:text="@string/cancel"
-                android:textColor="@color/text_gray" />
+                android:textColor="@color/black"
+                android:textStyle="normal|bold" />
 
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

@@ -1,4 +1,4 @@
-package com.example.fcm.jobreview;
+package com.example.fcm.rateHour;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -25,10 +25,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import com.example.fcm.AlarmResiver;
-import com.example.fcm.NumberPicker;
+import com.example.fcm.other.AlarmResiver;
+import com.example.fcm.other.NumberPicker;
 import com.example.fcm.R;
 import com.example.fcm.helper.Helper;
+import com.github.mmin18.widget.RealtimeBlurView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -68,6 +69,8 @@ public class ForHourJobReview extends AppCompatActivity {
 
     private Context context;
 
+    private RealtimeBlurView bv;
+
 
     // COUNTER
     private Handler handler = new Handler();
@@ -83,6 +86,7 @@ public class ForHourJobReview extends AppCompatActivity {
 
     private final static Date EMPTYDATE = Helper.emptyDate();
     private Calendar today;
+    private String fromJobReviewFrafment;
 
     //
 
@@ -91,7 +95,10 @@ public class ForHourJobReview extends AppCompatActivity {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_for_hour_job_rewiev );
 
+        View decorView = getWindow().getDecorView();
+        Helper.hideSystemUI( decorView );
 
+        bv = findViewById( R.id.blurview_all );
 
         tv_sec = findViewById(R.id.tv_counter_seconds);
         tv_min = findViewById(R.id.tv_counter_minutes);
@@ -116,6 +123,7 @@ public class ForHourJobReview extends AppCompatActivity {
         context = ForHourJobReview.this;
 
         Intent intent = getIntent();
+
         docName = intent.getStringExtra("documentName");
         uid = intent.getStringExtra("uid");
         name = intent.getStringExtra("name");
@@ -188,23 +196,18 @@ public class ForHourJobReview extends AppCompatActivity {
                         mnt = "0"+date_start_check.get( Calendar.MINUTE);
                     }
                     start.setText( hr+ ":" +  mnt);
-
                     stop.setEnabled( true );
-
 
                 } else {
                     setStartTimerTimeCorrect();
                 }
-
-
             }
-
-
         }
 
         btn_info.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Helper.showInfoRounded( context );
             }
         } );
@@ -217,6 +220,7 @@ public class ForHourJobReview extends AppCompatActivity {
                 LayoutInflater inflater = LayoutInflater.from( ForHourJobReview.this);
                 final View regiserWindow = inflater.inflate(R.layout.set_stop_time_inflater, null);
                 builder.setView(regiserWindow);
+
 
                 final NumberPicker numbHour = regiserWindow.findViewById( R.id.np_HourSelect );
                 final NumberPicker numbMinute = regiserWindow.findViewById( R.id.np_MinutSelect );
@@ -255,12 +259,29 @@ public class ForHourJobReview extends AppCompatActivity {
                 }
                 else {
 
-                    Calendar calendar_end = Calendar.getInstance(); // creates a new calendar instance
-                    Date dateS = new Date(startTime);
-                    calendar_end.setTime( dateS );
-                    datePicker.updateDate( calendar_end.get( Calendar.YEAR ),calendar_end.get( Calendar.MONTH ),calendar_end.get( Calendar.DAY_OF_MONTH ));
-                    numbHour.setValue( calendar_end.get( Calendar.HOUR_OF_DAY ) );
-                    numbMinute.setValue( calendar_end.get( Calendar.MINUTE ) );
+                    Calendar today_now = Calendar.getInstance();
+                    Calendar presentStartTime = Calendar.getInstance();
+                    Date startDate = new Date( startTime );
+                    presentStartTime.setTime(startDate);
+
+                    if(today_now.get( Calendar.DATE ) == presentStartTime.get( Calendar.DATE ) &&
+                            today_now.get( Calendar.MONTH ) == presentStartTime.get( Calendar.MONTH ) &&
+                            today_now.get( Calendar.YEAR ) == presentStartTime.get( Calendar.YEAR )){
+                        if(presentStartTime.get( Calendar.HOUR_OF_DAY ) <today_now.get( Calendar.HOUR_OF_DAY )){
+
+                            datePicker.updateDate( presentStartTime.get( Calendar.YEAR ),presentStartTime.get( Calendar.MONTH ),presentStartTime.get( Calendar.DAY_OF_MONTH ));
+                            numbHour.setValue( today_now.get( Calendar.HOUR_OF_DAY ) );
+                            numbMinute.setValue( today_now.get( Calendar.MINUTE ) );
+                        }
+                    } else {
+                        Calendar calendar_end = Calendar.getInstance(); // creates a new calendar instance
+                        Date dateS = new Date(startTime);
+                        calendar_end.setTime( dateS );
+                        datePicker.updateDate( calendar_end.get( Calendar.YEAR ),calendar_end.get( Calendar.MONTH ),calendar_end.get( Calendar.DAY_OF_MONTH ));
+                        numbHour.setValue( calendar_end.get( Calendar.HOUR_OF_DAY ) );
+                        numbMinute.setValue( calendar_end.get( Calendar.MINUTE ) );
+                    }
+
                 }
 //
                 setDividerColor(numbHour, Color.BLACK);
@@ -271,6 +292,7 @@ public class ForHourJobReview extends AppCompatActivity {
                 final AlertDialog dialog = builder.create();
                 dialog.getWindow().setBackgroundDrawable( new ColorDrawable( Color.TRANSPARENT ) );
                 dialog.setCancelable( false );
+
                 dialog.show();
                 del.setOnClickListener( new View.OnClickListener() {
                     @Override
@@ -1063,6 +1085,9 @@ public class ForHourJobReview extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+
+                Calendar calendarNow = Calendar.getInstance();
+
                 Calendar c1 = Calendar.getInstance();
                 c1.set( Calendar.YEAR, numbYear.getValue() );
                 c1.set( Calendar.MONTH, numbMonth.getValue() );
@@ -1072,17 +1097,24 @@ public class ForHourJobReview extends AppCompatActivity {
                 c1.set( Calendar.SECOND, 1 );
                 Date alarm1DataToFB = c1.getTime();
 
-                noteRef_addWork_Full.document( docName ).update( "alarm1", alarm1DataToFB );
+                if(c1.before( calendarNow )){
+                    Toast.makeText( ForHourJobReview.this, getResources().getString( R.string.wrong_time_alarm ), Toast.LENGTH_SHORT ).show();
+                }
+                else {
+                    noteRef_addWork_Full.document( docName ).update( "alarm1", alarm1DataToFB );
 
-                alarmManager = (AlarmManager) getBaseContext().getSystemService( ALARM_SERVICE );
-                Intent my_intent = new Intent( ForHourJobReview.this, AlarmResiver.class );
-                my_intent.putExtra( "jobId", docName );
-                pendingIntent = pendingIntent.getBroadcast( ForHourJobReview.this, Integer.valueOf( uid ), my_intent, PendingIntent.FLAG_UPDATE_CURRENT );
-                alarmManager.set( AlarmManager.RTC_WAKEUP, c1.getTimeInMillis(), pendingIntent );
-                alarm = String.valueOf(alarm1DataToFB);
+                    alarmManager = (AlarmManager) getBaseContext().getSystemService( ALARM_SERVICE );
+                    Intent my_intent = new Intent( ForHourJobReview.this, AlarmResiver.class );
+                    my_intent.putExtra( "jobId", docName );
+                    pendingIntent = pendingIntent.getBroadcast( ForHourJobReview.this, Integer.valueOf( uid ), my_intent, PendingIntent.FLAG_UPDATE_CURRENT );
+                    alarmManager.set( AlarmManager.RTC_WAKEUP, c1.getTimeInMillis(), pendingIntent );
+                    alarm = String.valueOf(alarm1DataToFB);
 
-                alarmCheck(alarm);
-                dialog.dismiss();
+                    alarmCheck(alarm);
+                    dialog.dismiss();
+                }
+
+
             }
         } );
 
@@ -1107,7 +1139,9 @@ public class ForHourJobReview extends AppCompatActivity {
         });
     }
     private void cancel(){
-        finish();
+        overridePendingTransition(0, 0);
+            finish();
+
     }
     private void setNubmerPicker(NumberPicker nubmerPicker,String [] numbers ){
         nubmerPicker.setMaxValue(numbers.length-1);

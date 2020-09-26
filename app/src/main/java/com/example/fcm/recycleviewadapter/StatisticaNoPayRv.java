@@ -1,5 +1,6 @@
 package com.example.fcm.recycleviewadapter;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.icu.text.SimpleDateFormat;
 import android.os.Build;
@@ -48,7 +49,7 @@ public class StatisticaNoPayRv extends FirestoreRecyclerAdapter<MainWork, Statis
     private CollectionReference noteRef = db_fstore.collection( user.getUid() ).document("My DB").collection("Jobs");
     private CollectionReference noteRef_addWork = db_fstore.collection( user.getUid() ).document("My DB").collection("MyWorks");
     private CollectionReference noteRef_addWork_Full = db_fstore.collection( user.getUid() ).document("My DB").collection("MyWorksFull");
-
+    private Context context;
 
     public StatisticaNoPayRv(@NonNull FirestoreRecyclerOptions<MainWork> options) {
         super( options );
@@ -78,6 +79,15 @@ public class StatisticaNoPayRv extends FirestoreRecyclerAdapter<MainWork, Statis
         holder.month.setText(month1 );
         holder.year.setText( year );
         holder.price.setText( Float.toString(model.getZarabotanoFinal()) );
+//        holder.name.setTextColor( context.getResources().getColorStateList(R.color.red_50) );
+//        holder.price.setTextColor( context.getResources().getColorStateList(R.color.red_50) );
+//        holder.day.setTextColor( context.getResources().getColorStateList(R.color.red_50) );
+//        holder.month.setTextColor( context.getResources().getColorStateList(R.color.red_50) );
+//        holder.year.setTextColor( context.getResources().getColorStateList(R.color.red_50) );
+//        holder.name.setTextColor( context.getResources().getColorStateList(R.color.red_50) );
+//        holder.price.setTextColor( context.getResources().getColorStateList(R.color.red_50) );
+
+
 
 
     }
@@ -86,7 +96,7 @@ public class StatisticaNoPayRv extends FirestoreRecyclerAdapter<MainWork, Statis
     @Override
     public CalendarHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate( R.layout.rv_nopay_work, parent, false );
-
+        context = context = parent.getContext();
         return new CalendarHolder( v );
 
 

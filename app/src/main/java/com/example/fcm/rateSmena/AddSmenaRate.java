@@ -1,4 +1,4 @@
-package com.example.fcm;
+package com.example.fcm.rateSmena;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -30,13 +30,14 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.fcm.models.TemplateJob;
-import com.example.fcm.recycleviewadapter.TemplateAdapter;
-import com.example.fcm.mycalendar.DatePicker;
-import com.example.fcm.mycalendar.DatePickerEvents;
-import com.example.fcm.recycleviewadapter.AddDateInAddJobActivityAdapter;
+import com.example.fcm.ScreensActivity.CalendarMainActivity;
+import com.example.fcm.R;
 import com.example.fcm.helper.Helper;
 import com.example.fcm.models.MainWork;
+import com.example.fcm.models.TemplateJob;
+import com.example.fcm.mycalendar.DatePicker;
+import com.example.fcm.recycleviewadapter.AddDateInAddJobActivityAdapter;
+import com.example.fcm.recycleviewadapter.TemplateAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -47,14 +48,14 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.Source;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
 
-public class AddShiftRate extends AppCompatActivity implements AddDateInAddJobActivityAdapter.ItemClickListener {
+public class AddSmenaRate extends AppCompatActivity implements AddDateInAddJobActivityAdapter.ItemClickListener  {
 
     private EditText et_JobName, et_price_for_smena, et_dlitelnost_smeny, et_procent_overtime, et_half_shift, et_Descritpion, rounded_minutes;
     private Button btn_Ok, btn_Cancel, btn_info, btn_info_overtime;
@@ -86,7 +87,11 @@ public class AddShiftRate extends AppCompatActivity implements AddDateInAddJobAc
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_add_shift_rate );
-        context = AddShiftRate.this;
+
+        View decorView = getWindow().getDecorView();
+        Helper.hideSystemUI( decorView );
+
+        context = AddSmenaRate.this;
 
         tamplate_name = new ArrayList<String>();
         checkTemplateName();
@@ -184,8 +189,8 @@ public class AddShiftRate extends AppCompatActivity implements AddDateInAddJobAc
                 if (x ==0) {
                     x=1;
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder( AddShiftRate.this);
-                    LayoutInflater inflater = LayoutInflater.from( AddShiftRate.this);
+                    AlertDialog.Builder builder = new AlertDialog.Builder( AddSmenaRate.this);
+                    LayoutInflater inflater = LayoutInflater.from( AddSmenaRate.this);
                     final View regiserWindow1 = inflater.inflate(R.layout.datepicker_inflater, null );
                     builder.setView(regiserWindow1);
 
@@ -195,27 +200,29 @@ public class AddShiftRate extends AppCompatActivity implements AddDateInAddJobAc
                     final Button cancel = (Button) regiserWindow1.findViewById( R.id.btn_cancel );
                     final AlertDialog dialog1 = builder.create();
                     dialog1.getWindow().setBackgroundDrawable( new ColorDrawable( Color.TRANSPARENT ) );
-
+                    dialog1.show();
                     ///noteRef_addWork.get().addOnSuccessListener( new OnSuccessListener<QuerySnapshot>() {
-                    noteRef_addWork_Full.get().addOnSuccessListener( new OnSuccessListener<QuerySnapshot>() {
-                        @Override
-                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                            for(QueryDocumentSnapshot ds: queryDocumentSnapshots){
-                                MainWork main_work = ds.toObject( MainWork.class );
-
-                                Calendar c = Calendar.getInstance();
-                                c.setTime(main_work.getDate());
-
-                                String dateEvent = c.get( Calendar.DAY_OF_MONTH )+"-"+(c.get( Calendar.MONTH )+1)+"-"+c.get( Calendar.YEAR );
-//                            //System.out.println( dateEvent );
-
-                                DatePicker.eventsList.add( new DatePickerEvents(main_work.getName(),dateEvent,main_work.getStatus()) );
-                            }dialog1.show();
-
-
-                        }
-
-                    } );
+//                    noteRef_addWork_Full.get( Source.CACHE).addOnSuccessListener( new OnSuccessListener<QuerySnapshot>() {
+//                        @Override
+//                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+//                            for(QueryDocumentSnapshot ds: queryDocumentSnapshots){
+//                                MainWork main_work = ds.toObject( MainWork.class );
+//
+//                                Calendar c = Calendar.getInstance();
+//                                c.setTime(main_work.getDate());
+//
+//                                String dateEvent = c.get( Calendar.DAY_OF_MONTH )+"-"+(c.get( Calendar.MONTH )+1)+"-"+c.get( Calendar.YEAR );
+////                            //System.out.println( dateEvent );
+//
+//                                DatePicker.eventsList.add( new DatePickerEvents(main_work.getName(),dateEvent,main_work.getStatus()) );
+//                            }
+//
+//
+//
+//
+//                        }
+//
+//                    } );
 
                     cancel.setOnClickListener( v1 -> {
                         x = 0;
@@ -270,7 +277,7 @@ public class AddShiftRate extends AppCompatActivity implements AddDateInAddJobAc
         btn_Cancel.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent( AddShiftRate.this, CalendarMainActivity.class));
+                startActivity(new Intent( AddSmenaRate.this, CalendarMainActivity.class));
 //                customType(CalendarMainActivity.this,"fadein-to-fadeout");
                 overridePendingTransition(0, 0);
                 finish();
@@ -286,8 +293,8 @@ public class AddShiftRate extends AppCompatActivity implements AddDateInAddJobAc
                 } else {
                     if (selectDates.isEmpty()) {
 
-                        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder( AddShiftRate.this );
-                        LayoutInflater inflater = LayoutInflater.from( AddShiftRate.this );
+                        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder( AddSmenaRate.this );
+                        LayoutInflater inflater = LayoutInflater.from( AddSmenaRate.this );
                         final View regiserWindow = inflater.inflate( R.layout.show_alert_info_one_button, null );
                         builder.setView( regiserWindow );
                         final TextView shapka_txt = regiserWindow.findViewById( R.id.tv_info_shapka );
@@ -366,8 +373,8 @@ public class AddShiftRate extends AppCompatActivity implements AddDateInAddJobAc
         TemplateJob tmp = new TemplateJob();
         if(tamplate_name.contains( et_JobName.getText().toString().toUpperCase().trim() )){
 
-            AlertDialog.Builder builder = new AlertDialog.Builder( AddShiftRate.this);
-            LayoutInflater inflater = LayoutInflater.from( AddShiftRate.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder( AddSmenaRate.this);
+            LayoutInflater inflater = LayoutInflater.from( AddSmenaRate.this);
             final View regiserWindow = inflater.inflate(R.layout.template_is_present_info_inflater, null);
             builder.setView(regiserWindow);
 
@@ -441,7 +448,7 @@ public class AddShiftRate extends AppCompatActivity implements AddDateInAddJobAc
 
                     }
 
-                    noteRef_full.document(et_JobName.getText().toString().trim().toUpperCase()).get().addOnSuccessListener( new OnSuccessListener<DocumentSnapshot>() {
+                    noteRef_full.document(et_JobName.getText().toString().trim().toUpperCase()).get(Source.CACHE).addOnSuccessListener( new OnSuccessListener<DocumentSnapshot>() {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                             documentSnapshot.getReference().set( tmp );
@@ -568,7 +575,7 @@ public class AddShiftRate extends AppCompatActivity implements AddDateInAddJobAc
 
                             LinearLayout ln = layout.findViewById( R.id.custom_toast_container );
                             ln.setBackground( getResources().getDrawable( R.drawable.event_bg ) );
-                            ln.setBackgroundTintList( ContextCompat.getColorStateList( AddShiftRate.this, R.color.green_lite) );
+                            ln.setBackgroundTintList( ContextCompat.getColorStateList( AddSmenaRate.this, R.color.green_lite) );
 
                             ImageView iv = layout.findViewById( R.id.iv );
                             iv.setBackground( getResources().getDrawable( R.drawable.check_ok_white ) );
@@ -581,9 +588,7 @@ public class AddShiftRate extends AppCompatActivity implements AddDateInAddJobAc
                             toast.setDuration(Toast.LENGTH_LONG);
                             toast.setView(layout);
                             toast.show();
-                            startActivity(new Intent( AddShiftRate.this, CalendarMainActivity.class));
-                            overridePendingTransition(0, 0);
-                            finish();
+
                         }
 
                     } )
@@ -598,7 +603,7 @@ public class AddShiftRate extends AppCompatActivity implements AddDateInAddJobAc
 
                             LinearLayout ln = layout.findViewById( R.id.custom_toast_container );
                             ln.setBackground( getResources().getDrawable( R.drawable.event_bg ) );
-                            ln.setBackgroundTintList( ContextCompat.getColorStateList( AddShiftRate.this, R.color.red ) );
+                            ln.setBackgroundTintList( ContextCompat.getColorStateList( AddSmenaRate.this, R.color.red ) );
 
 
                             ImageView iv = layout.findViewById( R.id.iv );
@@ -615,6 +620,9 @@ public class AddShiftRate extends AppCompatActivity implements AddDateInAddJobAc
 
 
                         }});
+            startActivity(new Intent( AddSmenaRate.this, CalendarMainActivity.class));
+            overridePendingTransition(0, 0);
+            finish();
 
             /// ADD TO FIREBASE HERE
 
@@ -645,7 +653,7 @@ public class AddShiftRate extends AppCompatActivity implements AddDateInAddJobAc
 
     private void checkTemplateName() {
         tamplate_name.clear();
-        noteRef_full.get()
+        noteRef_full.get(Source.CACHE)
                 .addOnFailureListener( new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
@@ -675,7 +683,7 @@ public class AddShiftRate extends AppCompatActivity implements AddDateInAddJobAc
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK ) {
-            startActivity(new Intent( AddShiftRate.this, CalendarMainActivity.class));
+            startActivity(new Intent( AddSmenaRate.this, CalendarMainActivity.class));
             overridePendingTransition(0, 0);
             finish();
             return true;

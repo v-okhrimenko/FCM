@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
     android:background="@drawable/bg_popup"
-    android:backgroundTint="#FFFFFF">
+    android:backgroundTint="@color/gray_bg">
 
 
     <TextView
@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/сhoose_month_and_year"
-        android:textColor="@color/black"
+        android:textColor="@color/text_gray"
         android:textSize="25dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,7 +36,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView22">
 
-        <com.example.fcm.NumberPicker
+        <com.example.fcm.other.NumberPicker
             android:id="@+id/MyNPmonthSelect"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -44,7 +44,7 @@
             android:focusable="true"
             android:focusableInTouchMode="true" />
 
-        <com.example.fcm.NumberPicker
+        <com.example.fcm.other.NumberPicker
             android:id="@+id/MyNPyearSelect"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -72,6 +72,7 @@
             android:layout_marginBottom="16dp"
             android:layout_weight="1"
             android:background="@drawable/button_ok_blue_ripple"
+            android:backgroundTint="@color/button_ok"
             android:text="OK"
             android:textColor="#FFFFFF" />
 
@@ -84,7 +85,8 @@
             android:layout_weight="1"
             android:background="@drawable/button_cancel_white_ripple"
             android:text="@string/cancel"
-            android:textColor="@color/text_gray" />
+            android:textColor="@color/black"
+            android:textStyle="bold" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

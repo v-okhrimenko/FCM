@@ -5,23 +5,51 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddJobActivity"
     android:id="@+id/Drawer_layo"
-    android:background="#FFFFFF"
+    android:background="@color/gray_bg"
     android:fitsSystemWindows="true"
     >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/gray_bg">
+
+        <TextView
+            android:id="@+id/textView47"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="20dp"
+            android:capitalize="none"
+            android:text="@string/job_add_string"
+            android:textColor="@color/text_gray"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/ib_showDrawer7"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/ib_showDrawer7" />
+
+        <ImageButton
+            android:id="@+id/ib_showDrawer7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:backgroundTint="@color/clear"
+            android:scaleX="1.1"
+            android:scaleY="1.3"
+            android:tint="@color/nawdrawer_color"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_menu_black_24dp" />
 
         <Button
             android:id="@+id/but_smena_Add"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="50dp"
+            android:layout_height="@dimen/button_heighy"
+            android:layout_marginLeft="20dp"
             android:layout_marginTop="30dp"
-            android:layout_marginRight="50dp"
+            android:layout_marginRight="20dp"
             android:background="@drawable/button_ok_blue_ripple"
             android:text="@string/posmennyu_rate"
             android:textColor="@color/white"
@@ -35,8 +63,9 @@
         <Button
             android:id="@+id/but_Hour_Add"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_margin="50dp"
+            android:layout_height="@dimen/button_heighy"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:background="@drawable/button_ok_blue_ripple"
             android:text="@string/for_hour"
             android:textColor="@color/white"
@@ -51,9 +80,9 @@
         <Button
             android:id="@+id/but_fixed_Add"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
+            android:layout_height="@dimen/button_heighy"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:background="@drawable/button_ok_blue_ripple"
             android:text="@string/fixed_rate"
             android:textColor="@color/white"

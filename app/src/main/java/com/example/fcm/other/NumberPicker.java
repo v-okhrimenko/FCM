@@ -1,4 +1,4 @@
-package com.example.fcm;
+package com.example.fcm.other;
 
 import android.content.Context;
 import android.graphics.Color;

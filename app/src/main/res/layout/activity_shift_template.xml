@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
-    tools:context=".fixedrate.FixedJobReview">
+    android:background="@color/clear"
+    tools:context=".rateFixed.FixedJobReview">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:backgroundTint="@color/white"
         android:elevation="8dp"
         app:cardCornerRadius="25dp"
         app:cardElevation="8dp"
@@ -22,7 +22,9 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp">
+            android:layout_margin="5dp"
+            android:layout_marginBottom="25dp"
+            android:background="@color/clear">
 
             <TextView
                 android:id="@+id/textView69"
@@ -97,8 +99,9 @@
             <EditText
                 android:id="@+id/et_dlitelnost_smeny"
                 android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/textinput_clear"
+                android:layout_height="25dp"
+                android:background="@drawable/button_cancel_ligt_blue"
+                android:backgroundTint="#FFA5C1E3"
                 android:ems="10"
                 android:inputType="number"
                 android:maxLength="3"
@@ -115,9 +118,10 @@
             <EditText
                 android:id="@+id/et_procent_overtime"
                 android:layout_width="50dp"
-                android:layout_height="wrap_content"
+                android:layout_height="25dp"
                 android:layout_marginStart="5dp"
-                android:background="@drawable/textinput_clear"
+                android:background="@drawable/text_edit_light_blue"
+                android:backgroundTint="#FFA5C1E3"
                 android:ems="10"
                 android:inputType="number"
                 android:maxLength="3"
@@ -136,9 +140,10 @@
             <EditText
                 android:id="@+id/et_half_shift"
                 android:layout_width="50dp"
-                android:layout_height="wrap_content"
+                android:layout_height="25dp"
                 android:layout_marginStart="5dp"
-                android:background="@drawable/textinput_clear"
+                android:background="@drawable/text_edit_light_blue"
+                android:backgroundTint="#FFA5C1E3"
                 android:ems="10"
                 android:inputType="number"
                 android:maxLength="3"
@@ -167,10 +172,11 @@
             <EditText
                 android:id="@+id/et_okruglenie_minut"
                 android:layout_width="50dp"
-                android:layout_height="wrap_content"
+                android:layout_height="25dp"
                 android:layout_marginTop="6dp"
                 android:layout_marginEnd="6dp"
-                android:background="@drawable/textinput_clear"
+                android:background="@drawable/text_edit_light_blue"
+                android:backgroundTint="#FFA5C1E3"
                 android:ems="10"
                 android:inputType="number"
                 android:maxLength="2"
@@ -202,6 +208,7 @@
                 android:layout_marginStart="9dp"
                 android:layout_marginEnd="9dp"
                 android:background="@drawable/text_edit_light_blue"
+                android:backgroundTint="#FFA5C1E3"
                 android:gravity="center|center_horizontal"
                 android:maxLength="18"
                 android:paddingStart="6dp"
@@ -221,6 +228,7 @@
                 android:layout_width="145dp"
                 android:layout_height="35dp"
                 android:background="@drawable/text_edit_light_blue"
+                android:backgroundTint="#FFA5C1E3"
                 android:ems="10"
                 android:inputType="number"
                 android:maxLength="5"
@@ -262,8 +270,8 @@
 
             <Button
                 android:id="@+id/btn_info"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:background="@drawable/ic_infoalert"
                 android:backgroundTint="#0A4477"
                 android:clickable="true"
@@ -276,8 +284,8 @@
 
             <Button
                 android:id="@+id/btn_info_overtime"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_marginStart="3dp"
                 android:background="@drawable/ic_infoalert"
                 android:backgroundTint="#0A4477"
@@ -319,26 +327,29 @@
                 <Button
                     android:id="@+id/btn_ok"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="@dimen/button_heighy"
                     android:layout_marginLeft="9dp"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_ok_blue_ripple"
+                    android:backgroundTint="@color/button_ok"
                     android:text="@android:string/ok"
                     android:textAlignment="center"
                     android:textColor="#FFFFFF"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <Button
                     android:id="@+id/btn_cancel"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="@dimen/button_heighy"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="9dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_cancel_white_ripple"
                     android:text="@string/cancel"
-                    android:textColor="@color/text_gray" />
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

@@ -4,12 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="25dp">
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="@dimen/alert_corner_radius"
+    app:cardElevation="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp">
+        android:background="@color/clear">
 
         <TextView
             android:id="@+id/tv_shapka"
@@ -38,10 +40,12 @@
         <Button
             android:id="@+id/btn_ok"
             android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="5dp"
+            android:layout_height="@dimen/button_heighy"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:layout_weight="1"
             android:background="@drawable/button_ok_blue_ripple"
+            android:backgroundTint="@color/button_ok"
             android:text="@android:string/ok"
             android:textColor="#FFFFFF"
             android:textStyle="normal"

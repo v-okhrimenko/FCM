@@ -6,7 +6,8 @@
     android:layout_height="wrap_content"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    app:cardCornerRadius="25dp">
+    app:cardBackgroundColor="@color/gray_bg"
+    app:cardCornerRadius="@dimen/alert_corner_radius">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout4"
@@ -34,6 +35,7 @@
             android:layout_marginLeft="6dp"
             android:layout_marginRight="6dp"
             android:background="@drawable/text_edit_light_blue"
+            android:backgroundTint="#FFA5C1E3"
             android:ems="10"
             android:inputType="textPersonName"
             android:maxLength="15"
@@ -54,6 +56,7 @@
             android:layout_marginLeft="6dp"
             android:layout_marginRight="6dp"
             android:background="@drawable/text_edit_light_blue"
+            android:backgroundTint="#FFA5C1E3"
             android:ems="10"
             android:inputType="textPersonName"
             android:maxLength="15"
@@ -74,9 +77,10 @@
             android:layout_marginLeft="6dp"
             android:layout_marginRight="6dp"
             android:background="@drawable/text_edit_light_blue"
+            android:backgroundTint="#FFA5C1E3"
             android:ems="10"
-            android:inputType="textEmailAddress"
 
+            android:inputType="textEmailAddress"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:textAlignment="center"
@@ -100,27 +104,27 @@
             <Button
                 android:id="@+id/btn_registr"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="@dimen/button_heighy"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/button_ok_blue_ripple"
-                android:backgroundTint="#43A047"
+                android:backgroundTint="@color/button_ok"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="@android:string/ok"
                 android:textColor="#FFFFFF"
-                android:textStyle="normal" />
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/cencel_registartion"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="@dimen/button_heighy"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/button_cancel_white_ripple"
                 android:text="@string/cancel"
-                android:textColor="#626262"
-                android:textStyle="normal" />
+                android:textColor="@color/black"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -260,8 +264,8 @@
 
         <ImageView
             android:id="@+id/iv_password2_check_ok"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="20dp"
+            android:layout_height="28dp"
             android:layout_marginEnd="16dp"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@+id/et_new_pass2"

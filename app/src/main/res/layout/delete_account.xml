@@ -2,15 +2,19 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bg_rv_5"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="25dp"
-    android:focusableInTouchMode="true"
-    android:focusable="true" >
+    android:orientation="vertical"
+    app:cardCornerRadius="@dimen/alert_corner_radius"
+    app:cardElevation="0dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toEndOf="@+id/constraintLayout3"
+    app:layout_constraintTop_toBottomOf="@+id/ib_play">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_margin="10dp">
 
         <TextView
@@ -19,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:text="@string/delete_account"
-            android:textColor="@color/black"
+            android:textColor="#1E88E5"
             android:textSize="25dp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -31,7 +35,7 @@
             android:id="@+id/textView26"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text="@string/confirm_delete_info"
@@ -45,33 +49,37 @@
         <LinearLayout
             android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
             android:backgroundTint="#1E88E5"
             android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            android:weightSum="2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cl_error_chek_delete">
+
 
             <Button
                 android:id="@+id/btn_delete_account"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_margin="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_heighy"
                 android:layout_weight="1"
                 android:background="@drawable/button_ok_blue_ripple"
-                android:backgroundTint="#E53935"
+                android:backgroundTint="@color/red"
                 android:text="@string/clear"
-                android:textColor="#FFFFFF"
-                android:textStyle="normal" />
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
 
             <Button
                 android:id="@+id/btn_cancel_delete_account"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_margin="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_heighy"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/button_cancel_white_ripple"
                 android:text="@string/cancel"
-                android:textColor="#626262"
+                android:textColor="@color/black"
                 android:textStyle="normal" />
         </LinearLayout>
 
@@ -80,12 +88,9 @@
             android:layout_width="wrap_content"
             android:layout_height="25dp"
             android:layout_marginTop="5dp"
-            android:layout_marginEnd="10dp"
             android:background="@color/clear"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView26"
-            app:layout_constraintVertical_bias="0.0">
+            app:layout_constraintTop_toBottomOf="@+id/textView26">
 
             <TextView
                 android:id="@+id/tv_i_agree"
@@ -93,7 +98,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="@string/I_agree"
-                android:textColor="@color/blue_lite"
+                android:textColor="#1E88E5"
                 android:textSize="12dp"
                 android:textStyle="bold|italic"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -105,7 +110,6 @@
                 android:id="@+id/chb_igree_delete_account"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
                 android:layout_marginBottom="3dp"
                 android:buttonTint="#1E88E5"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -115,3 +119,4 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
+

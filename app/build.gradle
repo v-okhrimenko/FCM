@@ -65,6 +65,9 @@ dependencies {
     implementation "com.android.support:support-compat:28.0.0"
     implementation 'com.github.hajiyevelnur92:intentanimation:1.0'
     implementation 'com.github.droid-it:Flat-Radio-Group:master'
+    implementation 'com.github.4inodev:Neomorphic-FrameLayout-Android:1.03'
+    implementation 'com.github.mmin18:realtimeblurview:1.2.1'
+    implementation 'com.google.android.material:material:1.0.0'
 
 
 }

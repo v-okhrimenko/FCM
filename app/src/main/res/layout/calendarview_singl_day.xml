@@ -2,42 +2,37 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:layout_width="30dp"
+    android:layout_width="45dp"
     android:layout_height="30dp"
-    android:background="@color/white"
+    android:background="@color/clear"
+    android:orientation="vertical"
 
     >
 
     <TextView
         android:id="@+id/main_caledar_day"
-        android:layout_width="30dp"
+        android:layout_width="40dp"
         android:layout_height="30dp"
         android:layout_gravity="center|center_vertical|center_horizontal"
+        android:layout_marginBottom="3dp"
         android:gravity="center|center_vertical|center_horizontal"
-        android:text="0"
 
+        android:text="0"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/main_event_set"
-        android:layout_width="30dp"
+        android:layout_width="40dp"
         android:layout_height="wrap_content"
 
-        android:layout_marginLeft="3dp"
-
-        android:layout_marginRight="3dp"
         android:lines="1"
-        android:paddingLeft="3dp"
-
-
-        android:paddingRight="3dp"
+        android:paddingLeft="1dp"
+        android:paddingRight="1dp"
         android:text=""
 
         android:textColor="@color/black"
@@ -64,7 +59,7 @@
             android:layout_width="5dp"
             android:layout_height="5dp"
             android:layout_gravity="center|center_vertical"
-            app:srcCompat="@drawable/today_calendar" />
+            app:srcCompat="@drawable/todaybgclear" />
 
         <ImageView
             android:id="@+id/imageView4"
@@ -72,7 +67,7 @@
             android:layout_height="5dp"
             android:layout_gravity="center|center_horizontal|center_vertical"
             android:foregroundGravity="center"
-            app:srcCompat="@drawable/today_calendar" />
+            app:srcCompat="@drawable/todaybgclear" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

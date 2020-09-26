@@ -2,6 +2,8 @@ package com.example.fcm.mycalendar;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.util.AttributeSet;
@@ -62,6 +64,7 @@ public class DatePicker extends ConstraintLayout {
     public static ArrayList<String> test  =new ArrayList<>();
     ArrayList<String> dateFromEventsMore2 = new ArrayList<>();
     ArrayAdapter<String> adapter2;
+    Locale locale = getResources().getConfiguration().locale;
 
 
     List<Date> dates = new ArrayList<>();
@@ -77,6 +80,7 @@ public class DatePicker extends ConstraintLayout {
     public DatePicker(final Context context, @Nullable AttributeSet attrs) {
         super( context, attrs );
         this.context = context;
+        localeSet();
         IntializeLayout();
         SetUpCalndar();
 
@@ -147,6 +151,7 @@ public class DatePicker extends ConstraintLayout {
             monthCalendar.add( Calendar.DAY_OF_MONTH, 1 );
         }
 //        CollectEventMonth();
+
         myCalendarGridAdapter = new DatePickerGridAdapter( context, dates, calendar, eventsList, test );
         gridView.setAdapter( myCalendarGridAdapter );
 
@@ -235,6 +240,21 @@ public class DatePicker extends ConstraintLayout {
         gridView = view.findViewById( R.id.gridView );
 
 
+    }
+    private void localeSet() {
+
+        Locale locale = Resources.getSystem().getConfiguration().locale;
+
+//        if(locale.getCountry().equals( "UA" ) || locale.getCountry().equals( "RU" ) ){
+//
+//            Locale locale_new = new Locale("ru");
+//            Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getContext().getResources().
+                updateConfiguration(config, getContext().getResources().getDisplayMetrics());
+
+        //}
     }
 }
 

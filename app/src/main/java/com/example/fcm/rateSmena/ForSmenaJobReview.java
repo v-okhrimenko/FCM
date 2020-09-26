@@ -1,4 +1,4 @@
-package com.example.fcm.jobreview;
+package com.example.fcm.rateSmena;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -27,9 +27,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
-import com.example.fcm.AlarmResiver;
-import com.example.fcm.NumberPicker;
+import com.example.fcm.other.AlarmResiver;
+import com.example.fcm.other.NumberPicker;
 import com.example.fcm.R;
+import com.example.fcm.helper.Helper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -52,7 +53,6 @@ public class ForSmenaJobReview extends AppCompatActivity {
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser user;
     private float overTimeSummaResult;
-
     {
         user = auth.getCurrentUser();
     }
@@ -105,6 +105,9 @@ public class ForSmenaJobReview extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_for_smena_job_rewiew_new );
+
+        View decorView = getWindow().getDecorView();
+        Helper.hideSystemUI( decorView );
 
         tv_name = (TextView) findViewById( R.id.tv_name_jrShift );
         tv_date = (TextView) findViewById( R.id.tv_date_jrShift );
@@ -170,16 +173,6 @@ public class ForSmenaJobReview extends AppCompatActivity {
         checkTimer();
 
 
-        try {
-             //System.out.println( " START  " + startTimeCalendar.getTime() );
-             //System.out.println( " END    " + endTimeCalendar.getTime() );
-        } catch (Exception e) {
-            e.printStackTrace();
-             //System.out.println( " START  " + startTimeCalendar );
-             //System.out.println( " END    " + endTimeCalendar );
-        }
-
-
         sw_half_hour.setOnCheckedChangeListener( new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -236,37 +229,14 @@ public class ForSmenaJobReview extends AppCompatActivity {
         btn_info.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder( ForSmenaJobReview.this );
-                LayoutInflater inflater = LayoutInflater.from( ForSmenaJobReview.this );
-                final View regiserWindow = inflater.inflate( R.layout.info_rounded, null );
-                builder.setView( regiserWindow );
-
-                final Button ok = regiserWindow.findViewById( R.id.btn_ok );
-
-                final androidx.appcompat.app.AlertDialog dialog = builder.create();
-                dialog.getWindow().setBackgroundDrawable( new ColorDrawable( Color.TRANSPARENT ) );
-                dialog.setCancelable( false );
-                dialog.show();
-                ok.setOnClickListener( v1 -> dialog.dismiss() );
+                Helper.showInfoRounded( ForSmenaJobReview.this );
             }
         } );
 
         btn_info_overtime.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder( ForSmenaJobReview.this );
-                LayoutInflater inflater = LayoutInflater.from( ForSmenaJobReview.this );
-                final View regiserWindow = inflater.inflate( R.layout.info_overtime, null );
-                builder.setView( regiserWindow );
-
-                final Button ok = regiserWindow.findViewById( R.id.btn_ok );
-
-                final androidx.appcompat.app.AlertDialog dialog = builder.create();
-                dialog.getWindow().setBackgroundDrawable( new ColorDrawable( Color.TRANSPARENT ) );
-                dialog.setCancelable( false );
-                dialog.show();
-                ok.setOnClickListener( v1 -> dialog.dismiss() );
-
+                Helper.showInfoOvertime( ForSmenaJobReview.this );
             }
         } );
 
@@ -1273,6 +1243,8 @@ public class ForSmenaJobReview extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                Calendar calendarNow = Calendar.getInstance();
+
                 Calendar c1 = Calendar.getInstance();
                 c1.set( Calendar.YEAR, numbYear.getValue() );
                 c1.set( Calendar.MONTH, numbMonth.getValue() );
@@ -1282,17 +1254,24 @@ public class ForSmenaJobReview extends AppCompatActivity {
                 c1.set( Calendar.SECOND, 1 );
                 Date alarm1DataToFB = c1.getTime();
 
-                noteRef_addWork_Full.document( docName ).update( "alarm1", alarm1DataToFB );
+                if(c1.before( calendarNow )){
+                    Toast.makeText( getApplicationContext(), getResources().getString( R.string.wrong_time_alarm ), Toast.LENGTH_SHORT ).show();
+                }
+                else {
+                    noteRef_addWork_Full.document( docName ).update( "alarm1", alarm1DataToFB );
 
-                alarmManager = (AlarmManager) getBaseContext().getSystemService( ALARM_SERVICE );
-                Intent my_intent = new Intent( ForSmenaJobReview.this, AlarmResiver.class );
-                my_intent.putExtra( "jobId", docName );
-                pendingIntent = pendingIntent.getBroadcast( ForSmenaJobReview.this, Integer.valueOf( uid ), my_intent, PendingIntent.FLAG_UPDATE_CURRENT );
-                alarmManager.set( AlarmManager.RTC_WAKEUP, c1.getTimeInMillis(), pendingIntent );
-                alarm = String.valueOf( alarm1DataToFB );
+                    alarmManager = (AlarmManager) getBaseContext().getSystemService( ALARM_SERVICE );
+                    Intent my_intent = new Intent( ForSmenaJobReview.this, AlarmResiver.class );
+                    my_intent.putExtra( "jobId", docName );
+                    pendingIntent = pendingIntent.getBroadcast( ForSmenaJobReview.this, Integer.valueOf( uid ), my_intent, PendingIntent.FLAG_UPDATE_CURRENT );
+                    alarmManager.set( AlarmManager.RTC_WAKEUP, c1.getTimeInMillis(), pendingIntent );
+                    alarm = String.valueOf( alarm1DataToFB );
 
-                alarmCheck( alarm );
-                dialog.dismiss();
+                    alarmCheck( alarm );
+                    dialog.dismiss();
+                }
+
+
             }
         } );
 

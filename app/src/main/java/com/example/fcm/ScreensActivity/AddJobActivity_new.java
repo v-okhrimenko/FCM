@@ -1,4 +1,4 @@
-package com.example.fcm;
+package com.example.fcm.ScreensActivity;
 
 import android.content.Intent;
 import android.content.res.Resources;
@@ -9,27 +9,29 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
+import com.example.fcm.R;
+import com.example.fcm.rateFixed.AddFixedRate;
 import com.example.fcm.helper.Helper;
-import com.example.fcm.models.UserInfoToFirestore;
+import com.example.fcm.rateHour.AddHourRate;
 import com.example.fcm.models.MainWork;
+import com.example.fcm.models.UserInfoToFirestore;
+import com.example.fcm.rateSmena.AddSmenaRate;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -44,21 +46,21 @@ import java.util.Date;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class StatisticActivity extends AppCompatActivity {
+
+public class AddJobActivity_new extends AppCompatActivity {
+
+    private Button add_fixed, add_hour, add_shift;
+
+    private float sum_PayAll;
+    private float sum_noPay;
+    private CircleImageView avatar;
+    private String avatarname;
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
 
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser user;
-    private CircleImageView avatar;
-    private int sum_PayAll;
-    private float sum_noPay;
-    private String avatarname;
-    TextView incompleatEvents;
-    private String emailname;
-    TextView noPayEvents;
-
 
     {
         user = auth.getCurrentUser();
@@ -66,42 +68,79 @@ public class StatisticActivity extends AppCompatActivity {
 
     private FirebaseFirestore db_fstore = FirebaseFirestore.getInstance();
     private CollectionReference noteRef = db_fstore.collection( user.getUid() ).document("My DB").collection("Jobs");
-    public CollectionReference noteRef_addWork = db_fstore.collection( user.getUid() ).document("My DB").collection("MyWorks");
-    private DocumentReference noteRef_data = db_fstore.collection( user.getUid() ).document("Avatar");
+    private CollectionReference noteRef_addWork = db_fstore.collection( user.getUid() ).document("My DB").collection("MyWorks");
     private CollectionReference noteRef_addWork_Full = db_fstore.collection( user.getUid() ).document("My DB").collection("MyWorksFull");
+    private DocumentReference noteRef_data = db_fstore.collection( user.getUid() ).document("Avatar");
+    private CollectionReference noteRef_full = db_fstore.collection( user.getUid() ).document("My DB").collection("Jobs_full");
+
+    TextView incompleatEvents;
+    private String emailname;
+    TextView noPayEvents;
+    private ImageButton showDrawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
-        setContentView( R.layout.activity_statistic );
-        BottomNavigationView navView = findViewById( R.id.nav_view );
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_month, R.id.navigation_year, R.id.navigation_projects )
-                .build();
-        NavController navController = Navigation.findNavController( this, R.id.nav_host_fragment );
-//        NavigationUI.setupActionBarWithNavController( this, navController, appBarConfiguration );
+        setContentView( R.layout.activity_add_job_new );
+        FirebaseDatabase.getInstance().setPersistenceEnabled( true );
 
-        NavigationUI.setupWithNavController( navView, navController );
+//        View decorView = getWindow().getDecorView();
+//        Helper.hideSystemUI( decorView );
+        showDrawer = findViewById( R.id.ib_showDrawer7 );
+        add_fixed = findViewById(R.id.but_fixed_Add);
+        add_hour = findViewById(R.id.but_Hour_Add);
+        add_shift = findViewById(R.id.but_smena_Add);
+        add_fixed.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent( AddJobActivity_new.this, AddFixedRate.class));
+//                customType(CalendarMainActivity.this,"fadein-to-fadeout");
+                overridePendingTransition(0, 0);
+                finish();
+            }
+        } );
+
+        add_hour.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent( AddJobActivity_new.this, AddHourRate.class));
+//                customType(CalendarMainActivity.this,"fadein-to-fadeout");
+                overridePendingTransition(0, 0);
+                finish();
+
+            }
+        } );
+
+        add_shift.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent( AddJobActivity_new.this, AddSmenaRate.class));
+//                customType(CalendarMainActivity.this,"fadein-to-fadeout");
+                overridePendingTransition(0, 0);
+                finish();
+            }
+        } );
 
 
-        drawerLayout = findViewById(R.id.Drawer_layo);
-        navigationView = findViewById(R.id.navigationView);
-
+        dataToDrawer();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
         View headerView = navigationView.getHeaderView(0);
         avatar = (CircleImageView) headerView.findViewById(R.id.profile_image);
+        drawerLayout = findViewById(R.id.Drawer_layo);
+        showDrawer.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.openDrawer( Gravity.LEFT );
+            }
+        } );
+
+        navigationView = findViewById(R.id.navigationView);
         incompleatEvents = (TextView) MenuItemCompat.getActionView(navigationView.getMenu().
                 findItem(R.id.need_finish));
 
         noPayEvents= (TextView) MenuItemCompat.getActionView(navigationView.getMenu().
                 findItem(R.id.not_pay));
-
-        dataToDrawer();
-
-
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -109,30 +148,29 @@ public class StatisticActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
 
                     case  R.id.statistika:
-                        item.setChecked(true);
-                        drawerLayout.closeDrawers();
-                        return true;
-
-
-                    case  R.id.nastroiki:
                         item.setChecked( true );
-                        startActivity(new Intent( StatisticActivity.this, SettingsActivity.class));
-                        //customType(StatisticActivity.this,"fadein-to-fadeout");
+                        startActivity(new Intent( AddJobActivity_new.this, StatisticActivity.class));
                         overridePendingTransition(0, 0);
                         finish();
                         return true;
 
                     case  R.id.need_finish:
                         item.setChecked( true );
-                        startActivity(new Intent( StatisticActivity.this, OldNoFinishActivity.class));
-                        //customType(CalendarMainActivity.this,"fadein-to-fadeout");
+                        startActivity(new Intent( AddJobActivity_new.this, OldNoFinishActivity.class));
                         overridePendingTransition(0, 0);
                         finish();
                         return true;
+
+                    case  R.id.nastroiki:
+                        item.setChecked( true );
+                        startActivity(new Intent( AddJobActivity_new.this, SettingsActivity.class));
+                        overridePendingTransition(0, 0);
+                        finish();
+                        return true;
+
                     case  R.id.not_pay:
                         item.setChecked( true );
-                        startActivity(new Intent( StatisticActivity.this, NoPayActivity.class));
-                        //customType(StatisticActivity.this,"fadein-to-fadeout");
+                        startActivity(new Intent( AddJobActivity_new.this, NoPayActivity.class));
                         overridePendingTransition(0, 0);
                         finish();
                         return true;
@@ -140,26 +178,20 @@ public class StatisticActivity extends AppCompatActivity {
                     case R.id.calendar_work:
 
                         item.setChecked(true);
-                        startActivity(new Intent( StatisticActivity.this, CalendarMainActivity.class));
-                        //customType(StatisticActivity.this,"fadein-to-fadeout");
+                        startActivity(new Intent( AddJobActivity_new.this, CalendarMainActivity.class));
                         overridePendingTransition(0, 0);
                         finish();
-//                        drawerLayout.closeDrawers();
                         return true;
 
 
                     case R.id.new_work:
-                        item.setChecked( true );
-                        startActivity(new Intent( StatisticActivity.this, AddJobActivity_new.class));
-                        //customType(StatisticActivity.this,"fadein-to-fadeout");
-                        overridePendingTransition(0, 0);
-                        finish();
+                        item.setChecked(true);
+                        drawerLayout.closeDrawers();
                         return true;
 
                     case R.id.add_job:
                         item.setChecked(true);
-                        startActivity(new Intent( StatisticActivity.this, AddTemplateActivity.class));
-                        //customType(StatisticActivity.this,"fadein-to-fadeout");
+                        startActivity(new Intent( AddJobActivity_new.this, AddTemplateActivity.class));
                         overridePendingTransition(0, 0);
                         finish();
                         return true;
@@ -167,9 +199,8 @@ public class StatisticActivity extends AppCompatActivity {
                     case R.id.exit_to_login:
                         item.setChecked(true);
                         FirebaseAuth.getInstance().signOut();
-                        startActivity(new Intent( StatisticActivity.this, MainActivity.class));
+                        startActivity(new Intent( AddJobActivity_new.this, MainActivity.class));
                         overridePendingTransition(0, 0);
-                        //customType(StatisticActivity.this,"fadein-to-fadeout");
                         finish();
                 }
 
@@ -177,6 +208,7 @@ public class StatisticActivity extends AppCompatActivity {
             }
         });
     }
+
     private void dataToDrawer() {
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
@@ -193,6 +225,7 @@ public class StatisticActivity extends AppCompatActivity {
         allSumm.clear();
         allSummP.clear();
 
+        sum_PayAll = 0f;
         sum_noPay = 0f;
 
         Date date_ = new Date(System.currentTimeMillis());
@@ -252,7 +285,7 @@ public class StatisticActivity extends AppCompatActivity {
 
                                                    if(userInfoToFirestore.getImg() != null){
                                                        final Uri myUri = Uri.parse( userInfoToFirestore.getImg() );
-                                                       Picasso.with( StatisticActivity.this ).load( myUri ).into( avatar );
+                                                       Picasso.with( AddJobActivity_new.this ).load( myUri ).into( avatar );
 
                                                    } else {
                                                        avatar.setImageResource( R.drawable.ic_account_circle_black_24dp );
@@ -329,19 +362,16 @@ public class StatisticActivity extends AppCompatActivity {
                     }
                 } );
     }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK ) {
-            startActivity(new Intent( StatisticActivity.this, CalendarMainActivity.class));
+            startActivity(new Intent( AddJobActivity_new.this, CalendarMainActivity.class));
             overridePendingTransition(0, 0);
-            //customType(StatisticActivity.this,"fadein-to-fadeout");
             finish();
             return true;
         }
         return super.onKeyDown(keyCode, event);
     }
 
-
-    }
-
-
+}

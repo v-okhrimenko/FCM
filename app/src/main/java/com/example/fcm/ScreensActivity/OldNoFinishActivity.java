@@ -1,4 +1,4 @@
-package com.example.fcm;
+package com.example.fcm.ScreensActivity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,14 +25,16 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.fcm.recycleviewadapter.CalendarWorkRv;
+import com.example.fcm.R;
+import com.example.fcm.rateFixed.FixedJobReview;
 import com.example.fcm.helper.Helper;
-import com.example.fcm.fixedrate.FixedJobReview;
-import com.example.fcm.jobreview.ForHourJobReview;
-import com.example.fcm.jobreview.ForSmenaJobReview;
-import com.example.fcm.models.UserInfoToFirestore;
+import com.example.fcm.rateHour.ForHourJobReview;
+import com.example.fcm.rateSmena.ForSmenaJobReview;
 import com.example.fcm.models.MainWork;
+import com.example.fcm.models.UserInfoToFirestore;
+import com.example.fcm.recycleviewadapter.CalendarWorkRv;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.github.mmin18.widget.RealtimeBlurView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
@@ -44,6 +47,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.Source;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -93,6 +97,9 @@ public class OldNoFinishActivity extends AppCompatActivity {
 
     TextView incompleatEvents;
     TextView noPayEvents;
+    private RealtimeBlurView blurView;
+    private ImageButton showDrawer;
+
 
 
     @Override
@@ -100,17 +107,28 @@ public class OldNoFinishActivity extends AppCompatActivity {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_old_no_finish );
 
+        View decorView = getWindow().getDecorView();
+        Helper.hideSystemUI( decorView );
+
         //updateList();
 
         context = OldNoFinishActivity.this;
-
         recyclerView = findViewById( R.id.main_work_rv );
+        showDrawer = findViewById( R.id.ib_showDrawer3 );
+
+         blurView = findViewById( R.id.blurview );
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
         View headerView = navigationView.getHeaderView(0);
         avatar = (CircleImageView) headerView.findViewById(R.id.profile_image);
 
         drawerLayout = findViewById(R.id.Drawer_layo);
+        showDrawer.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.openDrawer( Gravity.LEFT );
+            }
+        } );
         navigationView = findViewById(R.id.navigationView);
 
         incompleatEvents = (TextView) MenuItemCompat.getActionView(navigationView.getMenu().
@@ -204,7 +222,7 @@ public class OldNoFinishActivity extends AppCompatActivity {
                 Date date_ok = Helper.stringToData( d1 );
 
                 noteRef_addWork_Full.whereLessThan("date", date_ok ).whereEqualTo( "needFinish", true )
-                        .whereEqualTo( "end",null ).orderBy( "date", Query.Direction.ASCENDING ).get()
+                        .whereEqualTo( "end",null ).orderBy( "date", Query.Direction.ASCENDING ).get( Source.CACHE)
                         .addOnSuccessListener( new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -215,6 +233,7 @@ public class OldNoFinishActivity extends AppCompatActivity {
 
                         } else {
                             showTemplateInFloatActionButtonMenu = false;
+                            //blurView.setVisibility( View.VISIBLE );
                             androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder( context );
                             LayoutInflater inflater = LayoutInflater.from( context );
                             final View regiserWindow = inflater.inflate( R.layout.show_alert_info_one_button, null );
@@ -226,15 +245,19 @@ public class OldNoFinishActivity extends AppCompatActivity {
                             final Button ok = regiserWindow.findViewById( R.id.btn_info_ok );
                             final androidx.appcompat.app.AlertDialog dialog = builder.create();
                             dialog.getWindow().setBackgroundDrawable( new ColorDrawable( Color.TRANSPARENT ) );
+                            dialog.getWindow().setBackgroundDrawable( new ColorDrawable( Color.TRANSPARENT ) );
+                            //dialog.getWindow().setDimAmount(0.0f);
+
                             dialog.setCancelable( false );
                             dialog.show();
+
                             ok.setOnClickListener( new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     dialog.dismiss();
                                     startActivity(new Intent( OldNoFinishActivity.this, CalendarMainActivity.class));
                                     overridePendingTransition(0, 0);
-                                    finish();
+                                    //finish();
 
                                 } });
                         }
@@ -268,7 +291,7 @@ public class OldNoFinishActivity extends AppCompatActivity {
         Date date_ok_ = Helper.stringToData( d1_ );
 
         noteRef_addWork_Full.whereLessThan("date", date_ok_ ).whereEqualTo( "needFinish", true )
-                .whereEqualTo( "end",null ).orderBy( "date", Query.Direction.ASCENDING ).get()
+                .whereEqualTo( "end",null ).orderBy( "date", Query.Direction.ASCENDING ).get( Source.CACHE)
                 .addOnSuccessListener( new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -304,7 +327,7 @@ public class OldNoFinishActivity extends AppCompatActivity {
                     }
                 });
 
-        noteRef_data.get()
+        noteRef_data.get( Source.CACHE)
                 .addOnSuccessListener( new OnSuccessListener<DocumentSnapshot>() {
                                            @Override
                                            public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -337,7 +360,7 @@ public class OldNoFinishActivity extends AppCompatActivity {
                                        }
                 );
 
-        noteRef_addWork_Full.whereEqualTo( "status", false ).whereLessThan("date", date_ok).orderBy( "date", Query.Direction.DESCENDING ).get()
+        noteRef_addWork_Full.whereEqualTo( "status", false ).whereLessThan("date", date_ok).orderBy( "date", Query.Direction.DESCENDING ).get( Source.CACHE)
                 .addOnFailureListener( new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
@@ -436,12 +459,8 @@ public class OldNoFinishActivity extends AppCompatActivity {
                 MainWork main_work = documentSnapshot.toObject( MainWork.class );
                 System.out.println(main_work.getUniqId());
 //todo
-
                 String priceFix = String.valueOf(main_work.getPrice_fixed());
-
                 String priceHour = String.valueOf(main_work.getPrice_hour());
-
-
 
 
                 String priceSm = String.valueOf(main_work.getPrice_smena());

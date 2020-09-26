@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
-    android:background="#D6D6D6"
-    tools:context=".fixedrate.FixedJobReview">
+    android:background="@color/gray_bg"
+    tools:context=".rateFixed.FixedJobReview">
 
     <LinearLayout
         android:id="@+id/linearLayout12"
@@ -22,27 +21,30 @@
         <Button
             android:id="@+id/btn_ok"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/button_heighy"
             android:layout_marginLeft="9dp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:background="@drawable/button_ok_blue_ripple"
+            android:backgroundTint="@color/button_ok"
             android:text="@android:string/ok"
             android:textAlignment="center"
             android:textColor="#FFFFFF"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
             android:id="@+id/btn_cancel"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/button_heighy"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="9dp"
             android:layout_weight="1"
             android:background="@drawable/button_cancel_white_ripple"
             android:text="@string/cancel"
             android:textAlignment="center"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
@@ -66,146 +68,136 @@
             android:text="@string/fixed_rate"
             android:textAlignment="textEnd"
             android:textAllCaps="true"
-            android:textColor="#1E88E5"
+            android:textColor="@color/text_gray"
             android:textSize="14sp"
             android:textStyle="bold" />
 
-        <androidx.cardview.widget.CardView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="3dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="15dp"
-            android:elevation="8dp"
-            app:cardCornerRadius="25dp"
-            app:cardElevation="8dp">
+            android:layout_margin="5dp"
+            android:background="@color/clear">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="9dp"
+                android:layout_marginBottom="10dp"
+                android:text="@string/description"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_description_jrFixed" />
+
+            <Spinner
+                android:id="@+id/spinner_valuta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:entries="@array/currency"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="@+id/et_price_jrFixed"
+                app:layout_constraintStart_toEndOf="@+id/et_price_jrFixed"
+                app:layout_constraintTop_toTopOf="@+id/et_price_jrFixed" />
+
+            <EditText
+                android:id="@+id/tv_name_jrFixed"
+                android:layout_width="match_parent"
+                android:layout_height="35sp"
+                android:layout_marginStart="9dp"
+                android:layout_marginEnd="9dp"
+                android:background="@drawable/text_edit_light_blue"
+                android:backgroundTint="#FFA5C1E3"
+                android:gravity="center|center_horizontal"
+                android:maxLines="1"
+                android:paddingStart="6dp"
+                android:paddingEnd="6dp"
+                android:singleLine="true"
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView50" />
+
+            <Switch
+                android:id="@+id/sw_paid2"
+                android:layout_width="145dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="@string/payd_ChBox"
+                android:textColor="#706E6E"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/spinner_valuta"
+                app:layout_constraintStart_toStartOf="@+id/textView51"
+                app:layout_constraintTop_toBottomOf="@+id/et_price_jrFixed" />
+
+            <EditText
+                android:id="@+id/et_price_jrFixed"
+                android:layout_width="145dp"
+                android:layout_height="35sp"
+                android:background="@drawable/text_edit_light_blue"
+                android:backgroundTint="#FFA5C1E3"
+                android:ems="10"
+                android:inputType="number"
+                android:maxLength="5"
+                android:paddingLeft="10dp"
+                android:paddingTop="3dp"
+                android:paddingEnd="10dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="3dp"
+                android:singleLine="true"
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/tv_name_jrFixed"
+                app:layout_constraintTop_toBottomOf="@+id/textView51" />
+
+            <EditText
+                android:id="@+id/et_description_jrFixed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:background="#FFFFFF">
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:maxLines="3"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:textColor="#5E5E5E"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sw_paid2" />
 
-                <TextView
-                    android:id="@+id/textView8"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="9dp"
-                    android:layout_marginBottom="10dp"
-                    android:text="@string/description"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/et_description_jrFixed" />
+            <TextView
+                android:id="@+id/textView50"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="5dp"
+                android:text="@string/job_name_string"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <Spinner
-                    android:id="@+id/spinner_valuta"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:entries="@array/currency"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    app:layout_constraintBottom_toBottomOf="@+id/et_price_jrFixed"
-                    app:layout_constraintStart_toEndOf="@+id/et_price_jrFixed"
-                    app:layout_constraintTop_toTopOf="@+id/et_price_jrFixed" />
-
-                <EditText
-                    android:id="@+id/tv_name_jrFixed"
-                    android:layout_width="match_parent"
-                    android:layout_height="35sp"
-                    android:layout_marginStart="9dp"
-                    android:layout_marginEnd="9dp"
-                    android:background="@drawable/text_edit_light_blue"
-                    android:gravity="center|center_horizontal"
-                    android:maxLines="1"
-                    android:paddingStart="6dp"
-                    android:paddingEnd="6dp"
-                    android:singleLine="true"
-                    android:textAlignment="center"
-                    android:textColor="#000000"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView50" />
-
-                <Switch
-                    android:id="@+id/sw_paid2"
-                    android:layout_width="145dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:text="@string/payd_ChBox"
-                    android:textColor="#706E6E"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toStartOf="@+id/spinner_valuta"
-                    app:layout_constraintStart_toStartOf="@+id/textView51"
-                    app:layout_constraintTop_toBottomOf="@+id/et_price_jrFixed" />
-
-                <EditText
-                    android:id="@+id/et_price_jrFixed"
-                    android:layout_width="145dp"
-                    android:layout_height="35sp"
-                    android:background="@drawable/text_edit_light_blue"
-                    android:ems="10"
-                    android:inputType="number"
-                    android:maxLength="5"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="3dp"
-                    android:paddingEnd="10dp"
-                    android:paddingRight="10dp"
-                    android:paddingBottom="3dp"
-                    android:singleLine="true"
-                    android:textAlignment="center"
-                    android:textColor="#000000"
-                    android:textSize="25sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="@+id/tv_name_jrFixed"
-                    app:layout_constraintTop_toBottomOf="@+id/textView51" />
-
-                <EditText
-                    android:id="@+id/et_description_jrFixed"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginEnd="12dp"
-                    android:maxLines="3"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:textColor="#5E5E5E"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/sw_paid2" />
-
-                <TextView
-                    android:id="@+id/textView50"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="5dp"
-                    android:text="@string/job_name_string"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/textView51"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:text="@string/job_price_string"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="@+id/textView50"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_name_jrFixed" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
+            <TextView
+                android:id="@+id/textView51"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="@string/job_price_string"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/textView50"
+                app:layout_constraintTop_toBottomOf="@+id/tv_name_jrFixed" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 
@@ -213,7 +205,7 @@
         android:id="@+id/rv_calendarDaysSelected"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="15dp"
+        android:layout_marginStart="10dp"
         android:layout_marginEnd="15dp"
         app:layout_constraintBottom_toTopOf="@+id/sw_save_as_template"
         app:layout_constraintEnd_toEndOf="parent"
@@ -242,6 +234,5 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/fab_add_to_calendar"
         app:layout_constraintStart_toStartOf="@+id/rv_calendarDaysSelected" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

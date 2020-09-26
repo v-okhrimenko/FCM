@@ -250,6 +250,9 @@
     <string name="No_templates_txt">You have not added any templates at this time. You can add a template in the menu - Templates, or when creating an event, specify \"Save as template\"</string>
     <string name="Incomplete_events">Incomplete events</string>
     <string name="Incompleate_events_txt">You currently do not have any unfinished events</string>
+    <string name="days">Days</string>
+    <string name="wrong_time_alarm">The reminder time cannot be earlier than now!</string>
+    <string name="Templates_lower">templates</string>
 
 
 </resources>

@@ -2,28 +2,32 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bg_rv"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="25dp"
-    android:focusableInTouchMode="true"
-    android:focusable="true" >
+    android:orientation="vertical"
+    app:cardCornerRadius="@dimen/alert_corner_radius"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toEndOf="@+id/constraintLayout3"
+    app:layout_constraintTop_toBottomOf="@+id/ib_play">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp">
+        android:layout_margin="10dp"
+        android:background="@color/clear">
 
         <TextView
             android:id="@+id/textView15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
+            android:layout_marginEnd="20dp"
             android:text="@string/change_pass"
-            android:textColor="@color/black"
-            android:textSize="25dp"
+            android:textColor="@color/text_gray"
+            android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
@@ -33,6 +37,7 @@
             android:layout_marginLeft="6dp"
             android:layout_marginRight="6dp"
             android:background="@drawable/text_edit_light_blue"
+            android:backgroundTint="#FFA5C1E3"
             android:ems="10"
             android:inputType="textPersonName"
             android:maxLength="15"
@@ -53,6 +58,7 @@
             android:layout_marginLeft="6dp"
             android:layout_marginRight="6dp"
             android:background="@drawable/text_edit_light_blue"
+            android:backgroundTint="#FFA5C1E3"
             android:ems="10"
             android:inputType="textPersonName"
             android:maxLength="15"
@@ -73,6 +79,7 @@
             android:layout_marginLeft="6dp"
             android:layout_marginRight="6dp"
             android:background="@drawable/text_edit_light_blue"
+            android:backgroundTint="#FFA5C1E3"
             android:ems="10"
             android:inputType="textPersonName"
             android:maxLength="15"
@@ -89,33 +96,33 @@
         <LinearLayout
             android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
             android:orientation="horizontal"
+            android:weightSum="2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/et_new_pass2">
 
             <Button
                 android:id="@+id/btn_change_pass"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_margin="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_heighy"
                 android:layout_weight="1"
                 android:background="@drawable/button_ok_blue_ripple"
-                android:backgroundTint="#43A047"
                 android:text="@string/change_pass"
-                android:textColor="#FFFFFF"
-                android:textStyle="normal" />
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
 
             <Button
                 android:id="@+id/btn_cencel_change_pass"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_margin="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_heighy"
+                android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/button_cancel_white_ripple"
                 android:text="@string/cancel"
-                android:textColor="#626262"
+                android:textColor="@color/black"
                 android:textStyle="normal" />
         </LinearLayout>
 
@@ -124,20 +131,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="16dp"
             android:text="@string/new_password"
             android:textColor="#1E88E5"
             android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/et_new_pass1"
-            app:layout_constraintTop_toBottomOf="@+id/et_new_pass" />
+            app:layout_constraintTop_toBottomOf="@+id/no_current_pass" />
 
         <TextView
             android:id="@+id/textView31"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:text="@string/old_pass"
             android:textColor="#1E88E5"
             android:textSize="12sp"
@@ -186,13 +192,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="16dp"
             android:text="@string/new_password_confirm"
             android:textColor="#1E88E5"
             android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/et_new_pass2"
-            app:layout_constraintTop_toBottomOf="@+id/et_new_pass1" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_no_short_as_6_char" />
 
         <ImageView
             android:id="@+id/iv_password_check_ok"
@@ -217,4 +222,7 @@
             app:srcCompat="@drawable/check_ok" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 </androidx.cardview.widget.CardView>
+

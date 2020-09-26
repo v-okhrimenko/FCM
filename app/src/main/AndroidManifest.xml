@@ -9,6 +9,7 @@
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -17,59 +18,86 @@
         android:roundIcon="@mipmap/my_app_ico_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".jobreview.ForSmenaJobReview" />
-        <activity
-            android:name=".AddShiftRate"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
-            android:name=".AddHourRate"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
-            android:name=".fixedrate.AddFixedRate"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity android:name=".OldNoFinishActivity" />
-        <activity android:name=".jobreview.ForHourJobReview" />
-        <activity android:name=".fixedrate.FixedJobReview" />
-        <activity android:name=".AddJobActivity_new" />
-        <activity
-            android:name=".AlarmActivity"
-            android:noHistory="true"
-            android:showOnLockScreen="true"
-            android:turnScreenOn="true" />
-        <activity
-            android:name=".StatisticActivity"
-            android:noHistory="true"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".SettingsActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".NoPayActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".CalendarMainActivity"
-            android:screenOrientation="portrait" />
-
-        <receiver
-            android:name=".AlarmResiver"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".AddTemplateActivity"
+        <activity android:name=".ScreensActivity.HelloScreenActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
-
-        <activity
-            android:name=".MainActivity"
-            android:screenOrientation="portrait">
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".rateSmena.ForSmenaJobReview"
 
-        <receiver android:name=".StartActivityOnBootReciver">
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".rateSmena.AddSmenaRate"
+
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".rateHour.AddHourRate"
+
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".rateFixed.AddFixedRate"
+
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ScreensActivity.OldNoFinishActivity"
+
+            android:screenOrientation="portrait"/>
+        <activity android:name=".rateHour.ForHourJobReview"
+
+            android:screenOrientation="portrait"/>
+        <activity android:name=".rateFixed.FixedJobReview"
+
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ScreensActivity.AddJobActivity_new"
+
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ScreensActivity.AlarmActivity"
+
+            android:noHistory="true"
+            android:showOnLockScreen="true"
+            android:turnScreenOn="true"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ScreensActivity.StatisticActivity"
+
+            android:noHistory="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ScreensActivity.SettingsActivity"
+
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ScreensActivity.NoPayActivity"
+
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ScreensActivity.CalendarMainActivity"
+
+            android:screenOrientation="portrait" />
+
+        <receiver
+            android:name=".other.AlarmResiver"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ScreensActivity.AddTemplateActivity"
+
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".ScreensActivity.MainActivity"
+
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <receiver android:name=".other.StartActivityOnBootReciver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
